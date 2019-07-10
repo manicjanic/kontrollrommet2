@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #added libs and frameworks
     'corsheaders',
-    'rest_framework', 
+    'rest_framework',
     #my apps
     'todo',
 ]
