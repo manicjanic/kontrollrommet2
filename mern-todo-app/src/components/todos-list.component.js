@@ -8,7 +8,7 @@ const Todo = props => (
         <td className={props.todo.todo_completed ? 'completed' : ''}>{props.todo.todo_responsible}</td>
         <td className={props.todo.todo_completed ? 'completed' : ''}>{props.todo.todo_priority}</td>
         <td>
-            <Link to={"/edit/"+props.todo.id}>Edit</Link>
+            <Link to={"/edit/"+props.todo.uuid_field}>Edit</Link>
         </td>
     </tr>
 )
