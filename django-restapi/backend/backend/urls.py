@@ -15,13 +15,21 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework import routers                    # add this
+from rest_framework import routers                    
 
-from todo import views                            # add this
+from todo import views 
+from peppar_base import views as base_views                           
 
-router = routers.DefaultRouter()                      # add this
-router.register(r'todos', views.TodoView, 'todo')     # add this
+router = routers.DefaultRouter()                      
+router.register(r'todos', views.TodoView, 'todo')     
+
+router.register(r'persons', base_views.PersonView, 'person')     
+router.register(r'entitys', base_views.EntityView, 'entity') 
+router.register(r'propertys', base_views.PropertyView, 'property') 
+router.register(r'plans', base_views.PlanView, 'plan')
+router.register(r'actions', base_views.ActionView, 'action')      
+router.register(r'results', base_views.ResultView, 'result')      
 
 urlpatterns = [
-    path('admin/', admin.site.urls), path('api/', include(router.urls))                # add this
+    path('admin/', admin.site.urls), path('api/', include(router.urls))                
 ]

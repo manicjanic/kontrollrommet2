@@ -37,15 +37,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #added libs and frameworks
+    #added libs and frameworks:
     'corsheaders',
-    'rest_framework', 
-    #my apps
+    'rest_framework',
+    #register all active app modules for the project here:
     'todo',
+    'peppar_base',
+    'peppar_relational',
 ]
 
 MIDDLEWARE = [
-     #added libs and frameworks
+    #added libs and frameworks
     'corsheaders.middleware.CorsMiddleware',
     #regular django stuff
     'django.middleware.security.SecurityMiddleware',
