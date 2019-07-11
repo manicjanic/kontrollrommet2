@@ -23,12 +23,7 @@ from peppar_base import views as base_views
 router = routers.DefaultRouter()                      
 router.register(r'todos', views.TodoView, 'todo')     
 
-router.register(r'persons', base_views.PersonView, 'person')     
-router.register(r'entitys', base_views.EntityView, 'entity') 
-router.register(r'propertys', base_views.PropertyView, 'property') 
-router.register(r'plans', base_views.PlanView, 'plan')
-router.register(r'actions', base_views.ActionView, 'action')      
-router.register(r'results', base_views.ResultView, 'result')      
+router.register(r'peppars', base_views.PepparView, 'peppar')     
 
 urlpatterns = [
     path('admin/', admin.site.urls), 

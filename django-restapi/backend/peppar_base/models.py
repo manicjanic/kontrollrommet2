@@ -1,40 +1,25 @@
 import uuid
 from django.db import models
 
-# PEPPAR CORE MODELS
-class Person(models.Model):
+# PEPPAR CORE MODEL
+class Peppar(models.Model):
+    PERSON = 'A'
+    ENTITY = 'B'
+    PROPERTY = 'C'
+    PLAN = 'D'
+    ACTION = 'E'
+    RESULT = 'F'
+    PEPPAR_BREAKDOWN = [
+        (PERSON, 'Person'),
+        (ENTITY, 'Entity'),
+        (PROPERTY, 'Property'),
+        (PLAN, 'Plan'),
+        (ACTION, 'Action'),
+        (RESULT, 'Result'),
+    ]
     name = models.CharField(max_length=120)
+    type = models.CharField(max_length=1, choices=PEPPAR_BREAKDOWN, blank=True)
     uuid_field = models.UUIDField(default=uuid.uuid4, unique=True)
+    
     def _str_(self):
         return self.name
-
-class Entity(models.Model):
-    name = models.CharField(max_length=120)
-    uuid_field = models.UUIDField(default=uuid.uuid4, unique=True)
-    def _str_(self):
-        return self.name
-
-class Property(models.Model):
-    name = models.CharField(max_length=120)
-    uuid_field = models.UUIDField(default=uuid.uuid4, unique=True)
-    def _str_(self):
-        return self.name
-
-class Plan(models.Model):
-    name = models.CharField(max_length=120)
-    uuid_field = models.UUIDField(default=uuid.uuid4, unique=True)
-    def _str_(self):
-        return self.name
-
-class Action(models.Model):
-    name = models.CharField(max_length=120)
-    uuid_field = models.UUIDField(default=uuid.uuid4, unique=True)
-    def _str_(self):
-        return self.name
-
-class Result(models.Model):
-    name = models.CharField(max_length=120)
-    uuid_field = models.UUIDField(default=uuid.uuid4, unique=True)
-    def _str_(self):
-        return self.name
-        
