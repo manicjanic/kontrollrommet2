@@ -18,7 +18,7 @@ from django.urls import path, include
 from rest_framework import routers                    
 
 from todo import views 
-from peppar_base import views as base_views                           
+from peppar_base import views as base_views  
 
 router = routers.DefaultRouter()                      
 router.register(r'todos', views.TodoView, 'todo')     
@@ -31,5 +31,8 @@ router.register(r'actions', base_views.ActionView, 'action')
 router.register(r'results', base_views.ResultView, 'result')      
 
 urlpatterns = [
-    path('admin/', admin.site.urls), path('api/', include(router.urls))                
+    path('admin/', admin.site.urls), 
+    path('api/', include(router.urls)),
+    path('users/', views.UserCreate.as_view(), name='user_create'),
+    path("login/", views.LoginView.as_view(), name="login"),               
 ]
