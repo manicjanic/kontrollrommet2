@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'todo',
     'peppar_base',
     'peppar_relational',
+    'user',
 ]
 
 MIDDLEWARE = [

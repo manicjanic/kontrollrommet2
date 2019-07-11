@@ -17,17 +17,18 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers                    
 
-from todo import views 
+from user import views as user_views 
+from todo import views as todo_views 
 from peppar_base import views as base_views  
 
 router = routers.DefaultRouter()                      
-router.register(r'todos', views.TodoView, 'todo')     
-
+router.register(r'todos', todo_views.TodoView, 'todo')     
 router.register(r'peppars', base_views.PepparView, 'peppar')     
+router.register(r'user', user_views.UserAccessView, 'user')     
 
 urlpatterns = [
     path('admin/', admin.site.urls), 
     path('api/', include(router.urls)),
-    path('users/', views.UserCreate.as_view(), name='user_create'),
-    path("login/", views.LoginView.as_view(), name="login"),               
+    path('users/', user_views.UserCreate.as_view(), name='user_create'),
+    path("login/", user_views.LoginView.as_view(), name="login"),               
 ]
