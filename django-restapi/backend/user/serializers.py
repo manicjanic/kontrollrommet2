@@ -2,13 +2,14 @@ from rest_framework import serializers
 
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
+from peppar_base.serializers import PepparSerializer
+from .models import UserPeppar
 
-from .models import UserAccess
-
-class UserAccessSerializer(serializers.ModelSerializer):
+class UserPepparSerializer(serializers.ModelSerializer):
+    peppar = PepparSerializer(read_only=True)
     class Meta:
-        model = UserAccess
-        fields = ('user', 'peppar', 'uuid_field',)
+        model = UserPeppar
+        fields = ('peppar', 'level',)
         read_only_fields = ('uuid_field',)
         lookup_field = 'uuid_field'
         extra_kwargs = {
@@ -16,6 +17,7 @@ class UserAccessSerializer(serializers.ModelSerializer):
         }
 
 class UserSerializer(serializers.ModelSerializer):
+    
     class Meta:
         model = User
         fields = ('username', 'email', 'password')

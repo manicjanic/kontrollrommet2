@@ -7,20 +7,23 @@ from rest_framework.views import APIView
 from django.contrib.auth import authenticate
 
 from .serializers import UserSerializer      
-from .serializers import UserAccessSerializer
-from .models import UserAccess                 
+from .serializers import UserPepparSerializer
+from .models import UserPeppar                 
 
-class UserAccessView(viewsets.ModelViewSet):       
-    serializer_class = UserAccessSerializer          
-    queryset = UserAccess.objects.all()              
+class UserPepparView(viewsets.ModelViewSet):       
+    serializer_class = UserPepparSerializer                     
     lookup_field = 'uuid_field'
+
+    def get_queryset(self):
+        user = self.request.user
+        return UserPeppar.objects.filter(user=user)
 
 class UserCreate(generics.CreateAPIView):
     authentication_classes = ()
     permission_classes = ()
     serializer_class = UserSerializer
 
-class LoginView(APIView):
+class UserLoginView(APIView):
     permission_classes = ()
     
     def post(self, request,):

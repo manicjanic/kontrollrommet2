@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from peppar_base.models import Peppar
 
 # Create your models here.
-class UserAccess(models.Model):
+class UserPeppar(models.Model):
     ACCESS_LEVELS = [
         ('0', 'Me'),
         ('1', 'Full info'),

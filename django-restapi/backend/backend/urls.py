@@ -19,16 +19,25 @@ from rest_framework import routers
 
 from user import views as user_views 
 from todo import views as todo_views 
-from peppar_base import views as base_views  
+from peppar_base import views as base_views
+from peppar_relational import views as relational_views  
 
-router = routers.DefaultRouter()                      
+user_router = routers.DefaultRouter()                      
+user_router.register(r'peppars', user_views.UserPepparView, 'user_peppars')     
+
+router = routers.DefaultRouter()
 router.register(r'todos', todo_views.TodoView, 'todo')     
 router.register(r'peppars', base_views.PepparView, 'peppar')     
-router.register(r'user', user_views.UserAccessView, 'user')     
+router.register(r'pepparrelations', relational_views.PepparRelationView, 'pepparrelation')     
 
 urlpatterns = [
+    #Django Admin calls
     path('admin/', admin.site.urls), 
+    #API USER calls
+    path('api/user/', include(user_router.urls)),
+    #API calls
     path('api/', include(router.urls)),
-    path('users/', user_views.UserCreate.as_view(), name='user_create'),
-    path("login/", user_views.LoginView.as_view(), name="login"),               
+    #Standalone calls
+    path('usercreate/', user_views.UserCreate.as_view(), name='user_create'),
+    path("userlogin/", user_views.UserLoginView.as_view(), name="user_login"),               
 ]

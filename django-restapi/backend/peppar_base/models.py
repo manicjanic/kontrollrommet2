@@ -17,9 +17,9 @@ class Peppar(models.Model):
         (ACTION, 'Action'),
         (RESULT, 'Result'),
     ]
+    uuid_field = models.UUIDField(default=uuid.uuid4, unique=True)
     name = models.CharField(max_length=120)
     type = models.CharField(max_length=1, choices=PEPPAR_BREAKDOWN, blank=True)
-    uuid_field = models.UUIDField(default=uuid.uuid4, unique=True)
     
     def _str_(self):
         return self.name

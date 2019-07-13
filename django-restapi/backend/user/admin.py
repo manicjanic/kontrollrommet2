@@ -1,9 +1,9 @@
 from django.contrib import admin
 # Register your models here.
-from .models import UserAccess
+from .models import UserPeppar
 
 # Register your models here.
-class UserAccessAdmin(admin.ModelAdmin):
+class UserPepparAdmin(admin.ModelAdmin):
     list_display = ('get_user', 'get_peppar', 'level',)
 
     def get_user(self, obj):
@@ -14,4 +14,4 @@ class UserAccessAdmin(admin.ModelAdmin):
     
     
 # Register your models here.
-admin.site.register(UserAccess, UserAccessAdmin)
+admin.site.register(UserPeppar, UserPepparAdmin)
