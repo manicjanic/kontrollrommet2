@@ -6,7 +6,3 @@ class PepparSerializer(serializers.ModelSerializer):
         model = Peppar
         fields = ('name', 'type', 'uuid_field',)
         read_only_fields = ('uuid_field',)
-        #lookup_field = 'uuid_field'
-        #extra_kwargs = {
-        #    'url': {'lookup_field': 'uuid_field'}
-        #}

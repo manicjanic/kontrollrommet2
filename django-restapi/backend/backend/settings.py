@@ -41,11 +41,11 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'rest_framework.authtoken',
-    #register all active app modules for the project here:
-    'todo',
+    #active project app modules:
     'peppar_base',
     'peppar_relational',
     'user',
+    'todo',
 ]
 
 MIDDLEWARE = [
