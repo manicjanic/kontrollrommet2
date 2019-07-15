@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     #active project app modules:
     'peppar_base',
     'peppar_relational',
+    'user_views',
     'user',
     'todo',
 ]

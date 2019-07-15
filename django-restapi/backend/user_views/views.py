@@ -1,3 +1,34 @@
 from django.shortcuts import render
+from rest_framework import viewsets
+from rest_framework.views import APIView
+
+
+from .serializers import PepparAsUserSerializer
+from .serializers import PepparRelationAsUserSerializer
+from .models import PepparAsUser                 
+from .models import PepparRelationAsUser                 
+
+
+class PepparAsUserView(viewsets.ModelViewSet):       
+    serializer_class = PepparAsUserSerializer                     
+
+    def get_queryset(self):
+        user = self.request.user
+        return PepparAsUser.objects.filter(user=user)
+
+class PepparRelationAsUserView(viewsets.ModelViewSet):       
+    serializer_class = PepparRelationAsUserSerializer                     
+
+    def get_queryset(self):
+        user = self.request.user
+        return PepparRelationAsUser.objects.filter(user=user)
+
+class UserMe(APIView):
+    serializer_class = PepparAsUserSerializer                     
+    
+    def get_queryset(self):
+        user = self.request.user
+        return PepparAsUser.objects.filter(user=user, level='0')
+
 
 # Create your views here.
