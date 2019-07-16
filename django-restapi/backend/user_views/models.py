@@ -8,42 +8,60 @@ from peppar_relational.models import PepparRelation
 
 #Users sight scope into Peppars
 class PepparAsUser(models.Model):
-    ACCESS_LEVELS = [
-        ('0', 'Me'),
-        ('1', 'Full info'),
-        ('2', 'Limited info'),
+    #Defining the different Sight Levels
+    SIGHT_LEVELS = [
+        ('0', 'Myself'),
+        ('1', 'Full sight'),
+        ('2', 'Limited sight'),
         ('3', 'Hidden'),
     ]
+    #Identification fields
+    uuid_field = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
+    name = models.CharField(max_length=120, editable=False, blank=True)
+    #Connection
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     peppar = models.ForeignKey(Peppar, on_delete=models.CASCADE)
-    level = models.CharField(max_length=1, choices=ACCESS_LEVELS, blank=True)
+    #Sight Level into Peppar
+    level = models.CharField(max_length=1, choices=SIGHT_LEVELS)
     #Timestamps
-    timestamp_updated = models.DateTimeField(editable=False)
+    timestamp_created = models.DateTimeField(auto_now_add=True, editable=False)
+    timestamp_updated = models.DateTimeField(auto_now=True, editable=False)
 
+    #Constructing the Name field based on data in other fields
     def save(self):
-        self.timestamp_updated = datetime.now()
+        name = self.peppar.name + ' Level:' + self.level
+        self.name = name
         super(PepparAsUser, self).save()
 
     def _str_(self):
-        return self.peppar + ' ' + self.level
+        return self.name
 
 #Users sight scope into Peppars
 class PepparRelationAsUser(models.Model):
-    ACCESS_LEVELS = [
-        ('0', 'Me'),
-        ('1', 'Full info'),
-        ('2', 'Limited info'),
+    SIGHT_LEVELS = [
+        ('0', 'Myself'),
+        ('1', 'Full sight'),
+        ('2', 'Limited sight'),
         ('3', 'Hidden'),
     ]
+    #Identification fields
+    uuid_field = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
+    name = models.CharField(max_length=120, editable=False, blank=True)
+    #Connection
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     pepparrelation = models.ForeignKey(PepparRelation, on_delete=models.CASCADE)
-    level = models.CharField(max_length=1, choices=ACCESS_LEVELS, blank=True)
+    #Sight Level into PepparRelation
+    level = models.CharField(max_length=1, choices=SIGHT_LEVELS, blank=True)
     #Timestamps
-    timestamp_updated = models.DateTimeField(editable=False)
+    timestamp_created = models.DateTimeField(auto_now_add=True, editable=False)
+    timestamp_updated = models.DateTimeField(auto_now=True, editable=False)
 
+    #Constructing the Name field based on data in other fields
     def save(self):
-        self.timestamp_updated = datetime.now()
+        name = self.pepparrelation.name + ' Level:' + self.level
+        self.name = name
         super(PepparRelationAsUser, self).save()
 
     def _str_(self):
-        return self.peppar + ' ' + self.level
+        return self.name
+

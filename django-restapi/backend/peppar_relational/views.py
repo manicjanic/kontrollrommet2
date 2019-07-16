@@ -5,6 +5,7 @@ from .serializers import PepparRelationSerializer
 from .models import PepparRelation                 
 
 class PepparRelationView(viewsets.ModelViewSet):
+    #NB! For testing purposes!
     permission_classes = ()       
     
     serializer_class = PepparRelationSerializer          

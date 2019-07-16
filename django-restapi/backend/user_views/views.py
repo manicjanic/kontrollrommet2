@@ -11,6 +11,7 @@ from .models import PepparRelationAsUser
 
 class PepparAsUserView(viewsets.ModelViewSet):       
     serializer_class = PepparAsUserSerializer                     
+    lookup_field = 'uuid_field'
 
     def get_queryset(self):
         user = self.request.user
@@ -18,6 +19,7 @@ class PepparAsUserView(viewsets.ModelViewSet):
 
 class PepparRelationAsUserView(viewsets.ModelViewSet):       
     serializer_class = PepparRelationAsUserSerializer                     
+    lookup_field = 'uuid_field'
 
     def get_queryset(self):
         user = self.request.user
