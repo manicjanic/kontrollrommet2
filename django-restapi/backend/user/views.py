@@ -17,7 +17,7 @@ class UserCreate(generics.CreateAPIView):
 #User_login endpoint.
 class UserLoginView(APIView):
     permission_classes = ()
-    
+
     def post(self, request,):
         username = request.data.get("username")
         password = request.data.get("password")
@@ -25,4 +25,5 @@ class UserLoginView(APIView):
         if user:
             return Response({"token": user.auth_token.key})
         else:
+            print("Running wrong credentials")
             return Response({"error": "Wrong Credentials"}, status=status.HTTP_400_BAD_REQUEST)
