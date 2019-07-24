@@ -6,6 +6,8 @@ class LoginForm extends Component {
   
     constructor(props){
         super(props);
+        userService.logout();
+        this.props.LoggedIn(false)
         // Bind the functions
         this.onSubmit = this.onSubmit.bind(this);
         this.onChangeUsername = this.onChangeUsername.bind(this);
@@ -33,16 +35,10 @@ class LoginForm extends Component {
         e.preventDefault();
         console.log("sending password and username to userService.login");
         userService.login(this.state.username, this.state.password)
-        .then(_result => {
-            if (_result === "loggedin") {
+        .then(result => {
                 console.log("Login succeeded")
-                this.props.LoggedIn()
+                this.props.LoggedIn(true)
                 this.props.history.push('/')
-            }
-            else {
-                console.log("Login Failed")
-                this.props.history.push('/login')
-            }
         })
     }
     

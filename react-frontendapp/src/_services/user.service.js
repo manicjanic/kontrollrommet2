@@ -1,4 +1,4 @@
-import {PostalService} from './postal.service'
+import {postalService} from './postal.service'
 
 // import { authHeader } from '../_helpers';
 
@@ -13,23 +13,23 @@ function login(username, password) {
         password: password
     }
 
-    return PostalService(payload, "userlogin")
-    .then((response) => {
-        console.log("Here is response from Postal Service:", response)
-        if (response.data) {
-            localStorage.setItem('token', response.data.token)
-            console.log("stored this token in local storage", response.data.token)
-            return "loggedin"   
+    return postalService.post(payload, "userlogin")
+    .then(data => {
+        // login successful if there's a user in the response
+        if (data.token) {
+            // store user details and basic auth credentials in local storage 
+            // to keep user logged in between page refreshes
+            data.authdata = window.btoa(username + ':' + password);
+            localStorage.setItem('user', JSON.stringify(data));
         }
-        else {
-            console.log("Postal Service responded with an error", response)
-            return "error"
-        }   
-    })
+
+        return data;
+    });
 
 }
 
 function logout() {
     // remove token from local storage
-    localStorage.removeItem('token');
+    localStorage.removeItem('user');
 }
+

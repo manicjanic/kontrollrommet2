@@ -1,17 +1,26 @@
 import axios from 'axios';
 
-export function PostalService(payload, api) {
-    console.log("running postal service...")
-    var apiBaseUrl = "http://localhost:8000/";
+var apiBaseUrl = "http://localhost:8000/";
 
+
+export const postalService = {
+    post,
+    get, 
+};
+
+console.log("running postal service...")
+
+function post(payload, api) {
     return axios.post(apiBaseUrl + api +'/', payload)
-    .then((response) => {
-        console.log("I got this response from server:",response);
-        return response
-    })
-    .catch(function (error) {
-        console.log("Sorry, I Catched an error:", error);
-        return error
-    });
-    
+     .then(handleResponse)
+}
+
+function get(payload, api) {
+    return axios.get(apiBaseUrl + api +'/')
+     .then(handleResponse)
+}
+
+function handleResponse(response) {
+    console.log ("running handle response", response)
+    return response.data
 }
