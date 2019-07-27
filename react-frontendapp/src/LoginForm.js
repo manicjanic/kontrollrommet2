@@ -1,22 +1,19 @@
 import React, { Component } from 'react';
-import {userService} from './_services/user.service'
-import { withRouter } from 'react-router'
 
 class LoginForm extends Component {
   
     constructor(props){
         super(props);
-        userService.logout();
-        this.props.LoggedIn(false)
-        // Bind the functions
-        this.onSubmit = this.onSubmit.bind(this);
-        this.onChangeUsername = this.onChangeUsername.bind(this);
-        this.onChangePassword = this.onChangePassword.bind(this);
-        // Define state
+        // Define local state
         this.state = {
             username : '',
             password : '',
         }
+        // Bind functions to be used in component
+        this.onSubmit = this.onSubmit.bind(this);
+        this.onChangeUsername = this.onChangeUsername.bind(this);
+        this.onChangePassword = this.onChangePassword.bind(this);
+        // Initial operations
     }
 
     onChangeUsername(e){
@@ -33,13 +30,7 @@ class LoginForm extends Component {
 
     onSubmit(e){
         e.preventDefault();
-        console.log("sending password and username to userService.login");
-        userService.login(this.state.username, this.state.password)
-        .then(result => {
-                console.log("Login succeeded")
-                this.props.LoggedIn(true)
-                this.props.history.push('/')
-        })
+        this.props.doLogin(this.state.username, this.state.password)
     }
     
     render() {
@@ -72,4 +63,4 @@ class LoginForm extends Component {
   }
 }
 
-export default withRouter(LoginForm);
+export default LoginForm

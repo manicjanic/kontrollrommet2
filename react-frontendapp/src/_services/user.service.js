@@ -2,12 +2,8 @@ import {postalService} from './postal.service'
 
 // import { authHeader } from '../_helpers';
 
-export const userService = {
-    login,
-    logout,
-};
-
-function login(username, password) {
+const login = (username, password) => {
+    
     const payload = {
         username: username,
         password: password
@@ -22,14 +18,17 @@ function login(username, password) {
             data.authdata = window.btoa(username + ':' + password);
             localStorage.setItem('user', JSON.stringify(data));
         }
-
         return data;
     });
 
 }
 
-function logout() {
+const logout = () => {
     // remove token from local storage
     localStorage.removeItem('user');
 }
 
+export const userService = {
+    login,
+    logout,
+};

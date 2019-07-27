@@ -4,64 +4,59 @@ import { Route } from "react-router";
 import { PrivateRoute } from './_components';
 
 
-// View elements
+// Layout elements
 import NavBar from './NavBar';
-import LoginForm from './LoginForm';
-import PepparList from './PepparList.js';
+import Login from './Login';
+import PepparList from './PepparList';
+// Loader
+import Loader from './Loader';
 
 
 class App extends Component {
     
     constructor(props){
         super(props);
-        // Making functions available
-        this.LoggedIn = this.LoggedIn.bind(this);
-        this.LoadMaincontainer = this.LoadMaincontainer.bind(this);
-        // Central State
+        // Defining Central State
         this.state = {
             isLoggedin: false,
-            peppars: {},
-            pepparrelations: {},
+            peppars: [
+                {
+                name: "Ola Moe",
+                email: "ola@moe.com"
+                },
+            ],
+            pepparrelations:[ {}, ],
             userdata: {
                 firstname: "Janic", 
                 lastname: "Heen"   
             }
         }
+        // Making functions available
+        this.LoggedIn = this.LoggedIn.bind(this);
+        this.ModifyState = this.ModifyState.bind(this);
+
     }
 
+    // Page Layout and distribution of data and callbacks to the children
     LoginSetup = () => (
-        <div>
-            <NavBar
-                userdata={this.state.userdata}
-                isLoggedin={this.state.isLoggedin}
-            />
-            <LoginForm
-                LoggedIn={this.LoggedIn}
-            />
-        </div>
+    <div>
+        <NavBar
+            userdata={this.state.userdata}
+            isLoggedin={this.state.isLoggedin}
+        />
+        <Login
+            LoggedIn={this.LoggedIn}
+            ModifyState={this.ModifyState}
+        />
+    </div>
     );
     
-    // Currently not used
-    LogoutSetup = () => (
-        <div>
-            <NavBar
-                userdata={this.state.userdata}
-                isLoggedin={this.state.isLoggedin}
-            />
-            <LoginForm
-                LoggedIn={this.LoggedIn}
-            />
-        </div>
-    );
-
     HomeSetup = () => (
     <div>
-        <div>
-            <NavBar 
-                userdata={this.state.userdata}
-                isLoggedin={this.state.isLoggedin}
-            />
-        </div>
+        <NavBar 
+            userdata={this.state.userdata}
+            isLoggedin={this.state.isLoggedin}
+        />
         <div className="container">
             This is the Home page of Kontrollrommet. 
             Log in or create new user to take control.
@@ -70,30 +65,45 @@ class App extends Component {
     );
     
     DashboardSetup = () => (
-        <div>
-            <div>
-                <NavBar 
-                    userdata={this.state.userdata}
-                    isLoggedin={this.state.isLoggedin}
-                />
-            </div>
-            <div className="container">
-                This is the Dashboard. Main control mastered from here.
-            </div>
-            <div>
-                <PepparList 
-                    userdata={this.state.userdata}
-                    isLoggedin={this.state.isLoggedin}
-                />
-            </div>
-
+    <div>
+        <NavBar 
+            userdata={this.state.userdata}
+            isLoggedin={this.state.isLoggedin}
+        />
+        <div className="container">
+            This is the Dashboard. Main control mastered from here.
         </div>
-        );
-        
+        <PepparList 
+                peppars={this.state.peppars}
+                ModifyState={this.ModifyState}
+        />
+    </div>
+    );
     
-    LoadMaincontainer(content) {
-        this.setState({Maincontainer : content},)
-        console.log(content)
+    LoaderSetup = () => (
+        <div>
+            <Loader
+                ModifyState={this.ModifyState}
+            />
+        </div>
+    )
+
+    // Currently not used
+    LogoutSetup = () => (
+    <div>
+        <NavBar
+            userdata={this.state.userdata}
+            isLoggedin={this.state.isLoggedin}
+        />
+        <Login
+            LoggedIn={this.LoggedIn}
+        />
+    </div>
+    );
+    
+    // Callback functions to manipulate state
+    ModifyState(statekey, statevalue) {
+        this.setState({[statekey] : statevalue})
     }
 
     LoggedIn(setting) {
@@ -108,8 +118,7 @@ class App extends Component {
                 <Route path="/login" exact = {true} render = {this.LoginSetup}/>
                 <Route path="/logout" exact = {true} render = {this.LoginSetup}/>
                 <PrivateRoute exact path="/dashboard" component={this.DashboardSetup} />
-
-                
+                <PrivateRoute exact path="/loader" component={this.LoaderSetup} />
             </div>
         )
     }

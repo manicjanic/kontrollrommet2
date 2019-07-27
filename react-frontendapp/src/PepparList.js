@@ -1,34 +1,45 @@
-import React from 'react';
-import { NavLink } from "react-router-dom";
+import React, {Component} from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const PepparList = (props) => {
-    // Set function state to use for menu
+const Peppar = props => (  
+    <tr>
+        <td>{props.peppar.name}</td>
+        <td>{props.peppar.email}</td>
+    </tr>
+)
 
-    const Item = (props) => {
-        return (
-            <li>
-                <NavLink className={props.cn} to={props.item.path}>{props.item.text}</NavLink>
-            </li>
-        )    
-    }
+export default class PepparList extends Component {
 
-    const ListMaker = (props) => {
-            
-        return Menu.map(function(_item, i){
-            let _classname = "nav-link"
-            if (_item.disabled) {
-                _classname += " disabled"
-            } 
-            if (_item.hidden) {
-                _classname += " d-none"
-            }
-            return <MenuItem item={_item} cn={_classname} key={i} />;              
-        })
+    constructor(props) {
+        super(props);
+        // Bind functions to be used in component
+        this.PepparLister = this.PepparLister.bind(this);
     }
     
-    return (
-    )   
-};
+    PepparLister() {
+        console.log("props-peppars:", this.props.peppars)
+        return this.props.peppars.map(function(currentPeppar, i){
+            console.log("current peppar", currentPeppar)
+            return <Peppar peppar={currentPeppar} key={i} />;
+        })
+    }
 
-export default PepparList;
+    render() {
+        return (
+            <div className="container">
+                <h3>Peppar List</h3>
+                <table className="table table-striped" style={{ marginTop: 20 }} >
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        { this.PepparLister() }
+                    </tbody>
+                </table>
+            </div>
+        )
+    }
+}
