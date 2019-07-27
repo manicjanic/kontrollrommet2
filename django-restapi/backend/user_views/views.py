@@ -2,6 +2,7 @@ from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.views import APIView
 from rest_framework import generics
+from django.shortcuts import get_object_or_404
 
 
 from .serializers import PepparAsUserSerializer
@@ -29,9 +30,9 @@ class PepparRelationAsUserView(viewsets.ModelViewSet):
 class UserMe(generics.RetrieveAPIView):
     serializer_class = PepparAsUserSerializer                     
     
-    def get_queryset(self):
+    def get_object(self):
         user = self.request.user
-        return PepparAsUser.objects.filter(user=user, level='0')
+        return get_object_or_404(PepparAsUser, user=user, level='0')
 
 
 # Create your views here.
