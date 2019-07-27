@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.views import APIView
+from rest_framework import generics
 
 
 from .serializers import PepparAsUserSerializer
@@ -25,7 +26,7 @@ class PepparRelationAsUserView(viewsets.ModelViewSet):
         user = self.request.user
         return PepparRelationAsUser.objects.filter(user=user)
 
-class UserMe(APIView):
+class UserMe(generics.RetrieveAPIView):
     serializer_class = PepparAsUserSerializer                     
     
     def get_queryset(self):

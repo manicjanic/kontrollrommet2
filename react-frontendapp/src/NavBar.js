@@ -25,8 +25,8 @@ const NavBar = (props) => {
             Menu[0].disabled=false
             Menu[1].disabled=false
             Menu[2].disabled=true
-            Menu[3].disabled=false
             Menu[2].hidden=true
+            Menu[3].disabled=false
             Menu[3].hidden=false
         }
     

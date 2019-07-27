@@ -3,10 +3,11 @@ import {dataService} from './_services/data.service'
 import { withRouter } from 'react-router'
 
 const Loader = (props) => {
-
+    // Upon mounting do this:
     useEffect(() => {
         const fetchData = async () => {
             const result = await dataService.getAllPeppars()
+            
             props.ModifyState('peppars', result)
         };
         fetchData();

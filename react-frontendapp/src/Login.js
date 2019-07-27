@@ -21,9 +21,16 @@ class Login extends Component {
 
     doLogin(username, password) {
         userService.login(username, password)
-        .then(() => {
-            this.props.ModifyState("isLoggedin", true)
-            this.props.history.push('/loader')
+        .then(data => {
+            // login successful if there's a token in the response
+            if (data.token) {
+                // store user details and basic auth credentials in local storage 
+                // to keep user logged in between page refreshes
+                data.authdata = window.btoa(username + ':' + password);
+                localStorage.setItem('user', JSON.stringify(data));
+                this.props.ModifyState("isLoggedin", true)
+                this.props.history.push('/loader')
+            }
         });
     }
     

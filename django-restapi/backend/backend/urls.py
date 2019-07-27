@@ -25,7 +25,7 @@ urlpatterns = [
     path('api/', include(router.urls)),
     #API USER calls
     path('api/user/', include(user_router.urls)),
-    # path('api/user/me', user_views.UserMe(), name='user_me'),
+    path('api/user/me', user_views.UserMe.as_view(), name='user_me'),
 
     #Standalone calls
     path('usercreate/', user.UserCreate.as_view(), name='user_create'),

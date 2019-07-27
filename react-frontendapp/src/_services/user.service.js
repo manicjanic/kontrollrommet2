@@ -10,16 +10,6 @@ const login = (username, password) => {
     }
 
     return postalService.post(payload, "userlogin")
-    .then(data => {
-        // login successful if there's a user in the response
-        if (data.token) {
-            // store user details and basic auth credentials in local storage 
-            // to keep user logged in between page refreshes
-            data.authdata = window.btoa(username + ':' + password);
-            localStorage.setItem('user', JSON.stringify(data));
-        }
-        return data;
-    });
 
 }
 
