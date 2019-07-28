@@ -17,24 +17,18 @@ class PepparInsight(models.Model):
     ]
     #Identification fields
     uuid = models.UUIDField(default=uuid_field.uuid4, unique=True, editable=False)
-    name = models.CharField(max_length=120, editable=False, blank=True)
-    #Connection
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    peppar = models.ForeignKey(Peppar, on_delete=models.CASCADE)
-    #Sight Level into Peppar
+    #Insight Level
     level = models.CharField(max_length=1, choices=LEVEL)
+    #Object
+    peppar = models.ForeignKey(Peppar, on_delete=models.CASCADE)
+    
     #Timestamps
     timestamp_created = models.DateTimeField(auto_now_add=True, editable=False)
     timestamp_updated = models.DateTimeField(auto_now=True, editable=False)
 
-    #Constructing the Name field based on data in other fields
-    def save(self):
-        name = self.peppar.name + ' Level:' + self.level
-        self.name = name
-        super(PepparInsight, self).save()
-
     def _str_(self):
-        return self.name
+        return self.uiid
 
 #Users sight scope into Peppars
 class RelationInsight(models.Model):
@@ -46,22 +40,16 @@ class RelationInsight(models.Model):
     ]
     #Identification fields
     uuid = models.UUIDField(default=uuid_field.uuid4, unique=True, editable=False)
-    name = models.CharField(max_length=120, editable=False, blank=True)
-    #Connection
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    pepparrelation = models.ForeignKey(Relation, on_delete=models.CASCADE)
-    #Sight Level into Relation
+    #Insight Level
     level = models.CharField(max_length=1, choices=LEVEL, blank=True)
+    #Object
+    relation = models.ForeignKey(Relation, on_delete=models.CASCADE)
+    
     #Timestamps
     timestamp_created = models.DateTimeField(auto_now_add=True, editable=False)
     timestamp_updated = models.DateTimeField(auto_now=True, editable=False)
 
-    #Constructing the Name field based on data in other fields
-    def save(self):
-        name = self.pepparrelation.name + ' Level:' + self.level
-        self.name = name
-        super(RelationInsight, self).save()
-
     def _str_(self):
-        return self.name
+        return self.uuid
 

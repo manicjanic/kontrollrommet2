@@ -5,6 +5,7 @@ from peppar_base.models import Peppar
 
 # PEPPAR RELATIONAL MODEL
 class Relation(models.Model):
+    
     RELATION_TYPES = [
         ('Styreleder', 'Styreleder'),
         ('Styremedlem', 'Styremedlem'),
@@ -13,8 +14,8 @@ class Relation(models.Model):
     #Identification fields
     uuid = models.UUIDField(default=uuid_field.uuid4, unique=True, editable=False)
     name = models.CharField(max_length=120, editable=False, blank=True)
-    #Categorization
-    type_name = models.CharField(max_length=120, choices=RELATION_TYPES)
+    # PS! Needs to be refactored into a foreign key field with a related list
+    type = models.CharField(max_length=120, choices=RELATION_TYPES)
     #Peppars connected
     pepparA = models.ForeignKey(Peppar, related_name="pepparA", on_delete=models.CASCADE)
     pepparB = models.ForeignKey(Peppar, related_name="pepparB", on_delete=models.CASCADE)

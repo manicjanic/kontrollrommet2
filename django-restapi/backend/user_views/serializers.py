@@ -80,16 +80,16 @@ class PepparInsightSerializer(serializers.ModelSerializer):
                     #RESULT fields
 
 # Serializer of Relation that identifies user and makes an extra dynamic field, 
-# based on users sight into the specific pepparrelation object    
+# based on users sight into the specific relation object    
 class RelationInsightSerializer(serializers.ModelSerializer):
     # Nested representation of Relation object, limited fields
-    pepparrelation = RelationSerializer(read_only=True, fields=('uuid', 'name', 'pepparA', 'type_name', 'pepparB'))
+    relation = RelationSerializer(read_only=True, fields=('uuid', 'name', 'pepparA', 'type_name', 'pepparB'))
     # Method field that builds other data, dependent on sight level
     checkit = serializers.SerializerMethodField()
     
     class Meta:
         model = RelationInsight
-        fields = ('id', 'pepparrelation', 'level', 'checkit')
+        fields = ('id', 'relation', 'level', 'checkit')
 
     def get_checkit(self, obj):
         if obj.level == '1':
