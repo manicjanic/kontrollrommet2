@@ -8,7 +8,7 @@ class PepparRelationSerializer(serializers.ModelSerializer):
             '__all__'
         )
         read_only_fields = (
-            'uuid_field',
+            'uuid',
         )
 
     def __init__(self, *args, **kwargs):

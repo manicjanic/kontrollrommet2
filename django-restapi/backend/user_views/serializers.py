@@ -13,13 +13,13 @@ from peppar_relational.models import PepparRelation
 # based on users sight into the specific peppar object    
 class PepparAsUserSerializer(serializers.ModelSerializer):
     # Nested representation of Peppar object, limited fields
-    peppar = PepparSerializer(read_only=True, fields=('uuid_field', 'name', 'type'))
+    peppar = PepparSerializer(read_only=True, fields=('uuid', 'name', 'type'))
     # Method field that builds other data, dependent on sight level
     checkit = serializers.SerializerMethodField()
     
     class Meta:
         model = PepparAsUser
-        fields = ('uuid_field','peppar', 'level', 'checkit')
+        fields = ('uuid','peppar', 'level', 'checkit')
 
     def get_checkit(self, obj):
         if obj.peppar.type == "PERSON":
@@ -83,7 +83,7 @@ class PepparAsUserSerializer(serializers.ModelSerializer):
 # based on users sight into the specific pepparrelation object    
 class PepparRelationAsUserSerializer(serializers.ModelSerializer):
     # Nested representation of PepparRelation object, limited fields
-    pepparrelation = PepparRelationSerializer(read_only=True, fields=('uuid_field', 'name', 'pepparA', 'type_name', 'pepparB'))
+    pepparrelation = PepparRelationSerializer(read_only=True, fields=('uuid', 'name', 'pepparA', 'type_name', 'pepparB'))
     # Method field that builds other data, dependent on sight level
     checkit = serializers.SerializerMethodField()
     

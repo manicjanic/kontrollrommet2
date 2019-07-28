@@ -4,7 +4,7 @@ from .models import PepparRelation
 
 # Register your models here.
 class PepparRelationAdmin(admin.ModelAdmin):
-    list_display = ('pepparA', 'name', 'pepparB', 'uuid_field',)
+    list_display = ('pepparA', 'name', 'pepparB', 'uuid',)
     
 # Register your models here.
 admin.site.register(PepparRelation, PepparRelationAdmin)

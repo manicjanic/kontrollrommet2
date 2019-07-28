@@ -10,4 +10,4 @@ class PepparRelationView(viewsets.ModelViewSet):
     
     serializer_class = PepparRelationSerializer          
     queryset = PepparRelation.objects.all()              
-    lookup_field = 'uuid_field'
+    lookup_field = 'uuid'

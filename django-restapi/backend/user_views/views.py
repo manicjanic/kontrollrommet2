@@ -13,7 +13,7 @@ from .models import PepparRelationAsUser
 
 class PepparAsUserView(viewsets.ModelViewSet):       
     serializer_class = PepparAsUserSerializer                     
-    lookup_field = 'uuid_field'
+    lookup_field = 'uuid'
 
     def get_queryset(self):
         user = self.request.user
@@ -21,7 +21,7 @@ class PepparAsUserView(viewsets.ModelViewSet):
 
 class PepparRelationAsUserView(viewsets.ModelViewSet):       
     serializer_class = PepparRelationAsUserSerializer                     
-    lookup_field = 'uuid_field'
+    lookup_field = 'uuid'
 
     def get_queryset(self):
         user = self.request.user
@@ -36,7 +36,7 @@ class Me(generics.RetrieveAPIView):
 
 class MyRelations(generics.ListAPIView):
     serializer_class = PepparRelationAsUserSerializer                     
-    lookup_field = 'uuid_field'
+    lookup_field = 'uuid'
 
     def get_queryset(self):
         user = self.request.user
@@ -45,7 +45,7 @@ class MyRelations(generics.ListAPIView):
 
 class InnerCircle(generics.ListAPIView):
     serializer_class = PepparAsUserSerializer                     
-    lookup_field = 'uuid_field'
+    lookup_field = 'uuid'
     
     def get_queryset(self):
         user = self.request.user
@@ -53,7 +53,7 @@ class InnerCircle(generics.ListAPIView):
 
 class InnerCircleRelations(generics.ListAPIView):
     serializer_class = PepparRelationAsUserSerializer                     
-    lookup_field = 'uuid_field'
+    lookup_field = 'uuid'
 
     def get_queryset(self):
         user = self.request.user

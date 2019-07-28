@@ -1,10 +1,10 @@
-import uuid
+import uuid as uuid_field
 from django.db import models
 
 # PEPPAR CORE MODEL
 class Peppar(models.Model):
     # The six types in the PEPPAR model
-    PEPPAR_TYPE_BREAKDOWN = [
+    PEPPAR = [
         ('PERSON', 'Person'),
         ('ENTITY', 'Entity'),
         ('PROPERTY', 'Property'),
@@ -13,8 +13,8 @@ class Peppar(models.Model):
         ('RESULT', 'Result'),
     ]
     #Identification fields
-    uuid_field = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
-    type = models.CharField(max_length=8, choices=PEPPAR_TYPE_BREAKDOWN)
+    uuid = models.UUIDField(default=uuid_field.uuid4, unique=True, editable=False)
+    type = models.CharField(max_length=8, choices=PEPPAR)
     name = models.CharField(max_length=120, editable=False, blank=True)
 
     #PERSON fields

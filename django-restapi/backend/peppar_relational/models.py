@@ -1,4 +1,4 @@
-import uuid
+import uuid as uuid_field
 from django.db import models
 
 from peppar_base.models import Peppar
@@ -11,7 +11,7 @@ class PepparRelation(models.Model):
     ]
 
     #Identification fields
-    uuid_field = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
+    uuid = models.UUIDField(default=uuid_field.uuid4, unique=True, editable=False)
     name = models.CharField(max_length=120, editable=False, blank=True)
     #Categorization
     type_name = models.CharField(max_length=120, choices=RELATION_TYPES)
