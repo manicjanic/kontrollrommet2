@@ -1,13 +1,13 @@
 from django.shortcuts import render
 from rest_framework import viewsets         
 
-from .serializers import PepparRelationSerializer
-from .models import PepparRelation                 
+from .serializers import RelationSerializer
+from .models import Relation                 
 
-class PepparRelationView(viewsets.ModelViewSet):
+class RelationView(viewsets.ModelViewSet):
     #NB! For testing purposes!
     permission_classes = ()       
     
-    serializer_class = PepparRelationSerializer          
-    queryset = PepparRelation.objects.all()              
+    serializer_class = RelationSerializer          
+    queryset = Relation.objects.all()              
     lookup_field = 'uuid'

@@ -1,10 +1,10 @@
 from django.contrib import admin
 
-from .models import PepparRelation
+from .models import Relation
 
 # Register your models here.
-class PepparRelationAdmin(admin.ModelAdmin):
+class RelationAdmin(admin.ModelAdmin):
     list_display = ('pepparA', 'name', 'pepparB', 'uuid',)
     
 # Register your models here.
-admin.site.register(PepparRelation, PepparRelationAdmin)
+admin.site.register(Relation, RelationAdmin)

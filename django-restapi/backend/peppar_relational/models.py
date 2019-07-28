@@ -4,7 +4,7 @@ from django.db import models
 from peppar_base.models import Peppar
 
 # PEPPAR RELATIONAL MODEL
-class PepparRelation(models.Model):
+class Relation(models.Model):
     RELATION_TYPES = [
         ('Styreleder', 'Styreleder'),
         ('Styremedlem', 'Styremedlem'),
@@ -26,7 +26,7 @@ class PepparRelation(models.Model):
     def save(self):
         name = self.pepparA.name + ' - ' + self.type_name + ' - ' +  self.pepparB.name
         self.name = name
-        super(PepparRelation, self).save()
+        super(Relation, self).save()
 
     def __str__(self):
         return self.name

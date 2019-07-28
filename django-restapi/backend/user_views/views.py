@@ -6,9 +6,9 @@ from django.shortcuts import get_object_or_404
 
 
 from .serializers import PepparInsightSerializer
-from .serializers import PepparRelationAsUserSerializer
+from .serializers import RelationInsightSerializer
 from .models import PepparInsight                 
-from .models import PepparRelationAsUser                 
+from .models import RelationInsight                 
 
 
 class PepparInsightView(viewsets.ModelViewSet):       
@@ -19,13 +19,13 @@ class PepparInsightView(viewsets.ModelViewSet):
         user = self.request.user
         return PepparInsight.objects.filter(user=user)
 
-class PepparRelationAsUserView(viewsets.ModelViewSet):       
-    serializer_class = PepparRelationAsUserSerializer                     
+class RelationInsightView(viewsets.ModelViewSet):       
+    serializer_class = RelationInsightSerializer                     
     lookup_field = 'uuid'
 
     def get_queryset(self):
         user = self.request.user
-        return PepparRelationAsUser.objects.filter(user=user)
+        return RelationInsight.objects.filter(user=user)
 
 class Me(generics.RetrieveAPIView):
     serializer_class = PepparInsightSerializer                     
@@ -35,12 +35,12 @@ class Me(generics.RetrieveAPIView):
         return get_object_or_404(PepparInsight, user=user, level='0')
 
 class MyRelations(generics.ListAPIView):
-    serializer_class = PepparRelationAsUserSerializer                     
+    serializer_class = RelationInsightSerializer                     
     lookup_field = 'uuid'
 
     def get_queryset(self):
         user = self.request.user
-        return PepparRelationAsUser.objects.filter(user=user, level='0')
+        return RelationInsight.objects.filter(user=user, level='0')
 
 
 class InnerCircle(generics.ListAPIView):
@@ -52,12 +52,12 @@ class InnerCircle(generics.ListAPIView):
         return PepparInsight.objects.filter(user=user, level='1')
 
 class InnerCircleRelations(generics.ListAPIView):
-    serializer_class = PepparRelationAsUserSerializer                     
+    serializer_class = RelationInsightSerializer                     
     lookup_field = 'uuid'
 
     def get_queryset(self):
         user = self.request.user
-        return PepparRelationAsUser.objects.filter(user=user, level='1')
+        return RelationInsight.objects.filter(user=user, level='1')
 
 
 # Create your views here.

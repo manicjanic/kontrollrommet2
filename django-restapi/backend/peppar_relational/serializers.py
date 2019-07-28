@@ -1,9 +1,9 @@
 from rest_framework import serializers
-from .models import PepparRelation
+from .models import Relation
 
-class PepparRelationSerializer(serializers.ModelSerializer):
+class RelationSerializer(serializers.ModelSerializer):
     class Meta:
-        model = PepparRelation
+        model = Relation
         fields = (
             '__all__'
         )
@@ -16,7 +16,7 @@ class PepparRelationSerializer(serializers.ModelSerializer):
         fields = kwargs.pop('fields', None)
 
         # Instantiate the superclass normally
-        super(PepparRelationSerializer, self).__init__(*args, **kwargs)
+        super(RelationSerializer, self).__init__(*args, **kwargs)
 
         if fields is not None:
             # Drop any fields that are not specified in the `fields` argument.

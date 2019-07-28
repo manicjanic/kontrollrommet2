@@ -4,7 +4,7 @@ import uuid as uuid_field
 
 from django.contrib.auth.models import User
 from peppar_base.models import Peppar
-from peppar_relational.models import PepparRelation
+from peppar_relational.models import Relation
 
 #Users sight scope into Peppars
 class PepparInsight(models.Model):
@@ -37,7 +37,7 @@ class PepparInsight(models.Model):
         return self.name
 
 #Users sight scope into Peppars
-class PepparRelationAsUser(models.Model):
+class RelationInsight(models.Model):
     LEVEL = [
         ('0', 'Me'),
         ('1', 'My'),
@@ -49,8 +49,8 @@ class PepparRelationAsUser(models.Model):
     name = models.CharField(max_length=120, editable=False, blank=True)
     #Connection
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    pepparrelation = models.ForeignKey(PepparRelation, on_delete=models.CASCADE)
-    #Sight Level into PepparRelation
+    pepparrelation = models.ForeignKey(Relation, on_delete=models.CASCADE)
+    #Sight Level into Relation
     level = models.CharField(max_length=1, choices=LEVEL, blank=True)
     #Timestamps
     timestamp_created = models.DateTimeField(auto_now_add=True, editable=False)
@@ -60,7 +60,7 @@ class PepparRelationAsUser(models.Model):
     def save(self):
         name = self.pepparrelation.name + ' Level:' + self.level
         self.name = name
-        super(PepparRelationAsUser, self).save()
+        super(RelationInsight, self).save()
 
     def _str_(self):
         return self.name

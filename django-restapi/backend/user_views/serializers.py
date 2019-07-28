@@ -1,13 +1,13 @@
 from rest_framework import serializers
 
 from peppar_base.serializers import PepparSerializer
-from peppar_relational.serializers import PepparRelationSerializer
+from peppar_relational.serializers import RelationSerializer
 
 from .models import PepparInsight
-from .models import PepparRelationAsUser
+from .models import RelationInsight
 
 from peppar_base.models import Peppar
-from peppar_relational.models import PepparRelation
+from peppar_relational.models import Relation
 
 # Serializer of Peppar that identifies user and makes an extra dynamic field, 
 # based on users sight into the specific peppar object    
@@ -79,16 +79,16 @@ class PepparInsightSerializer(serializers.ModelSerializer):
                     
                     #RESULT fields
 
-# Serializer of PepparRelation that identifies user and makes an extra dynamic field, 
+# Serializer of Relation that identifies user and makes an extra dynamic field, 
 # based on users sight into the specific pepparrelation object    
-class PepparRelationAsUserSerializer(serializers.ModelSerializer):
-    # Nested representation of PepparRelation object, limited fields
-    pepparrelation = PepparRelationSerializer(read_only=True, fields=('uuid', 'name', 'pepparA', 'type_name', 'pepparB'))
+class RelationInsightSerializer(serializers.ModelSerializer):
+    # Nested representation of Relation object, limited fields
+    pepparrelation = RelationSerializer(read_only=True, fields=('uuid', 'name', 'pepparA', 'type_name', 'pepparB'))
     # Method field that builds other data, dependent on sight level
     checkit = serializers.SerializerMethodField()
     
     class Meta:
-        model = PepparRelationAsUser
+        model = RelationInsight
         fields = ('id', 'pepparrelation', 'level', 'checkit')
 
     def get_checkit(self, obj):

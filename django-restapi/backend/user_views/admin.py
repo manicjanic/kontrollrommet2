@@ -1,13 +1,13 @@
 from django.contrib import admin
 
 from .models import PepparInsight
-from .models import PepparRelationAsUser
+from .models import RelationInsight
 
 class PepparInsightAdmin(admin.ModelAdmin):
     list_display = ('user', 'name', 'uuid')
     
-class PepparRelationAsUserAdmin(admin.ModelAdmin):
+class RelationInsightAdmin(admin.ModelAdmin):
     list_display = ('user', 'name', 'uuid')
     
 admin.site.register(PepparInsight, PepparInsightAdmin)
-admin.site.register(PepparRelationAsUser, PepparRelationAsUserAdmin)
+admin.site.register(RelationInsight, RelationInsightAdmin)
