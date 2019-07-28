@@ -25,8 +25,10 @@ urlpatterns = [
     path('api/', include(router.urls)),
     #API USER calls
     path('api/user/', include(user_router.urls)),
-    path('api/user/me', user_views.UserMe.as_view(), name='user_me'),
-
+    path('api/user/me', user_views.Me.as_view(), name='me'),
+    path('api/user/myrelations', user_views.MyRelations.as_view(), name='myrelations'),
+    path('api/user/innercircle', user_views.InnerCircle.as_view(), name='inner_circle'),
+    path('api/user/innercirclerelations', user_views.InnerCircleRelations.as_view(), name='inner_circlerelations'),
     #Standalone calls
     path('usercreate/', user.UserCreate.as_view(), name='user_create'),
     path("userlogin/", user.UserLoginView.as_view(), name="user_login"),               

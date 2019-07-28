@@ -19,22 +19,16 @@ class App extends Component {
         // Defining Central State
         this.state = {
             isLoggedin: false,
-            peppars: [
-                {
-                name: "Ola Moe",
-                email: "ola@moe.com"
-                },
-            ],
-            pepparrelations:[ {}, ],
+            myCloseCircle: [ {}, ],
+            myRelations: [ {}, ],
+            myCloseRelations:[ {}, ],
             userdata: {
-                firstname: "Janic", 
-                lastname: "Heen"   
+                peppar: {name: ""}
             }
         }
         // Making functions available
         this.LoggedIn = this.LoggedIn.bind(this);
         this.ModifyState = this.ModifyState.bind(this);
-
     }
 
     // Page Layout and distribution of data and callbacks to the children

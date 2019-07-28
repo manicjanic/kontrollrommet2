@@ -1,8 +1,8 @@
 from django.db import models
-import uuid
 from datetime import datetime
-from django.contrib.auth.models import User
+import uuid
 
+from django.contrib.auth.models import User
 from peppar_base.models import Peppar
 from peppar_relational.models import PepparRelation
 

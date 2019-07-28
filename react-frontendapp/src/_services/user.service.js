@@ -9,13 +9,13 @@ const login = (username, password) => {
         password: password
     }
 
-    return postalService.post(payload, "userlogin")
+    return postalService.post(payload, "userlogin/")
 
 }
 
 const logout = () => {
     // remove token from local storage
-    localStorage.removeItem('user');
+    localStorage.removeItem('token');
 }
 
 export const userService = {

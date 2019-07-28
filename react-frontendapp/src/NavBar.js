@@ -42,6 +42,12 @@ const NavBar = (props) => {
         })
     }
     
+    const Greeting = (props) => {
+        if (props.userdata.peppar.name !== "") {
+            return "Hello, " + props.userdata.peppar.name
+        }
+        return ""
+    }
     return (
         <div className="container">
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -49,7 +55,7 @@ const NavBar = (props) => {
                 <ul className="navbar-nav mr-auto">
                     <MenuMaker isLoggedin={props.isLoggedin}/>
                 </ul>
-                <span className="navbar-text">Welcome, {props.userdata.firstname}</span>
+                <span className="navbar-text">{Greeting(props)}</span>
             </nav>
         </div>
     )   

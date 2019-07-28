@@ -27,7 +27,7 @@ class Login extends Component {
                 // store user details and basic auth credentials in local storage 
                 // to keep user logged in between page refreshes
                 data.authdata = window.btoa(username + ':' + password);
-                localStorage.setItem('user', JSON.stringify(data));
+                localStorage.setItem('token', JSON.stringify(data));
                 this.props.ModifyState("isLoggedin", true)
                 this.props.history.push('/loader')
             }

@@ -6,13 +6,21 @@ const Loader = (props) => {
     // Upon mounting do this:
     useEffect(() => {
         const fetchData = async () => {
-            const result = await dataService.getAllPeppars()
-            
-            props.ModifyState('peppars', result)
+            const userdata = await dataService.getUserData()
+            const myrelations = await dataService.getMyRelations()
+            const myclosecircle = await dataService.getCloseCircle()
+            const mycloserelations = await dataService.getCloseRelations()           
+            props.ModifyState('userdata', userdata)
+            props.ModifyState('myRelations', myrelations)
+            props.ModifyState('myCloseCircle', myclosecircle)
+            props.ModifyState('myCloseRelations', mycloserelations)
+
         };
         fetchData();
+        
         props.history.push('/')
-    }, []);
+    },
+    []);
 
     return (
         <div>
