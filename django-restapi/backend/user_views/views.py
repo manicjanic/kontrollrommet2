@@ -5,19 +5,19 @@ from rest_framework import generics
 from django.shortcuts import get_object_or_404
 
 
-from .serializers import PepparAsUserSerializer
+from .serializers import PepparInsightSerializer
 from .serializers import PepparRelationAsUserSerializer
-from .models import PepparAsUser                 
+from .models import PepparInsight                 
 from .models import PepparRelationAsUser                 
 
 
-class PepparAsUserView(viewsets.ModelViewSet):       
-    serializer_class = PepparAsUserSerializer                     
+class PepparInsightView(viewsets.ModelViewSet):       
+    serializer_class = PepparInsightSerializer                     
     lookup_field = 'uuid'
 
     def get_queryset(self):
         user = self.request.user
-        return PepparAsUser.objects.filter(user=user)
+        return PepparInsight.objects.filter(user=user)
 
 class PepparRelationAsUserView(viewsets.ModelViewSet):       
     serializer_class = PepparRelationAsUserSerializer                     
@@ -28,11 +28,11 @@ class PepparRelationAsUserView(viewsets.ModelViewSet):
         return PepparRelationAsUser.objects.filter(user=user)
 
 class Me(generics.RetrieveAPIView):
-    serializer_class = PepparAsUserSerializer                     
+    serializer_class = PepparInsightSerializer                     
     
     def get_object(self):
         user = self.request.user
-        return get_object_or_404(PepparAsUser, user=user, level='0')
+        return get_object_or_404(PepparInsight, user=user, level='0')
 
 class MyRelations(generics.ListAPIView):
     serializer_class = PepparRelationAsUserSerializer                     
@@ -44,12 +44,12 @@ class MyRelations(generics.ListAPIView):
 
 
 class InnerCircle(generics.ListAPIView):
-    serializer_class = PepparAsUserSerializer                     
+    serializer_class = PepparInsightSerializer                     
     lookup_field = 'uuid'
     
     def get_queryset(self):
         user = self.request.user
-        return PepparAsUser.objects.filter(user=user, level='1')
+        return PepparInsight.objects.filter(user=user, level='1')
 
 class InnerCircleRelations(generics.ListAPIView):
     serializer_class = PepparRelationAsUserSerializer                     

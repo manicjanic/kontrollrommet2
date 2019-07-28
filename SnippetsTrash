@@ -1,0 +1,106 @@
+        if(response.request.status === 200){
+            console.log("Login successfull", response.data.token );
+            localStorage.setItem('token', response.data.token);
+            this.props.LoggedIn();
+        }
+        else if(response.request.status === 204){
+            console.log("Username password do not match");
+            alert("username password do not match")
+        }
+        else{
+            console.log("Username does not exists");
+            alert("Username does not exist");
+        }
+    })
+
+        {htmlAdder("nav-link", "disabled", !props.isLoggedin)}
+        this.state.todos.map(function(currentTodo, i){
+            return <Todo todo={currentTodo} key={i} />;
+
+    // adds an element (_addon) to an existing html element (_classname), if given the truth (_truth)
+function htmlAdder(_text, _addon, _truth) {
+        let text = _text;
+        if (_truth) {
+            text += (" " + _addon)
+        }
+        return text
+    }
+    // toggles between two elements (_truetext, _falsetext) based on the truth (_truth)
+function htmlSwitcher(_truetext, _falsetext, _truth) {
+        var text
+        if (_truth) {
+            text= _truetext
+        }
+        else text = _falsetext
+        return text
+    }
+
+
+    // Html render for each menu item
+    function MenuItem(item) {
+        var {status, path, text} = item.item
+        if (status == "hidden") {
+            return null
+        }
+        else {
+        var classname = "nav-link"+" " + status
+        }
+        return (
+        <li className="nav-item">
+            <NavLink className={classname} to={path}>{text} </NavLink>
+        </li>
+        )
+    }
+    
+    // Html render for menu
+    function MenuMaker() {
+        return (
+            Menu.map(function(_menuitem, i) {
+                return <MenuItem item={_menuitem} key={i} />;
+            })
+        )
+    } 
+    
+    function Modifier(props) {
+        if (props.isLoggedin) {
+            setMenu
+        }
+
+    }
+
+    .then(text => {
+        const data = text && JSON.parse(text);
+        if (!response.ok) {
+            if (response.status === 401) {
+                // auto logout if 401 response returned from api
+                userService.logout();
+                // Don't know how this one works yet
+                // location.reload(true);
+            }
+
+            const error = (data && data.message) || response.statusText;
+            return Promise.reject(error);
+        }
+
+        return data;
+    });
+
+
+    componentDidMount() {
+        dataService.getAllPeppars()
+        .then(data => { 
+            this.props.ModifyState("peppars", data)
+        })
+    }
+
+
+    .then(data => {
+        // login successful if there's a user in the response
+        if (data.token) {
+            // store user details and basic auth credentials in local storage 
+            // to keep user logged in between page refreshes
+            data.authdata = window.btoa(username + ':' + password);
+            localStorage.setItem('user', JSON.stringify(data));
+        }
+        return data;
+    });

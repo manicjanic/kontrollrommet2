@@ -7,7 +7,7 @@ from peppar_base.models import Peppar
 from peppar_relational.models import PepparRelation
 
 #Users sight scope into Peppars
-class PepparAsUser(models.Model):
+class PepparInsight(models.Model):
     #Defining the different Sight Levels
     LEVEL = [
         ('0', 'Me'),
@@ -31,7 +31,7 @@ class PepparAsUser(models.Model):
     def save(self):
         name = self.peppar.name + ' Level:' + self.level
         self.name = name
-        super(PepparAsUser, self).save()
+        super(PepparInsight, self).save()
 
     def _str_(self):
         return self.name

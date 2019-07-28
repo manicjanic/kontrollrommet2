@@ -15,7 +15,7 @@ router.register(r'peppars', base_views.PepparView, 'peppar')
 router.register(r'pepparrelations', relational_views.PepparRelationView, 'pepparrelation')     
 # USER calls
 user_router = routers.DefaultRouter()                      
-user_router.register(r'peppars', user_views.PepparAsUserView, 'user_peppars')     
+user_router.register(r'peppars', user_views.PepparInsightView, 'user_peppars')     
 user_router.register(r'pepparrelations', user_views.PepparRelationAsUserView, 'user_pepparrelations')     
 
 urlpatterns = [

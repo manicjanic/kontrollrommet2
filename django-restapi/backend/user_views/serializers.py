@@ -3,7 +3,7 @@ from rest_framework import serializers
 from peppar_base.serializers import PepparSerializer
 from peppar_relational.serializers import PepparRelationSerializer
 
-from .models import PepparAsUser
+from .models import PepparInsight
 from .models import PepparRelationAsUser
 
 from peppar_base.models import Peppar
@@ -11,14 +11,14 @@ from peppar_relational.models import PepparRelation
 
 # Serializer of Peppar that identifies user and makes an extra dynamic field, 
 # based on users sight into the specific peppar object    
-class PepparAsUserSerializer(serializers.ModelSerializer):
+class PepparInsightSerializer(serializers.ModelSerializer):
     # Nested representation of Peppar object, limited fields
     peppar = PepparSerializer(read_only=True, fields=('uuid', 'name', 'type'))
     # Method field that builds other data, dependent on sight level
     checkit = serializers.SerializerMethodField()
     
     class Meta:
-        model = PepparAsUser
+        model = PepparInsight
         fields = ('uuid','peppar', 'level', 'checkit')
 
     def get_checkit(self, obj):
