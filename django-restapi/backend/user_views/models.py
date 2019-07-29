@@ -28,7 +28,7 @@ class PepparInsight(models.Model):
     timestamp_updated = models.DateTimeField(auto_now=True, editable=False)
 
     def _str_(self):
-        return self.uiid
+        return self.user.username + " Level " + self.level + " " + self.peppar.name
 
 #Users sight scope into Peppars
 class RelationInsight(models.Model):
@@ -45,11 +45,10 @@ class RelationInsight(models.Model):
     level = models.CharField(max_length=1, choices=LEVEL, blank=True)
     #Object
     relation = models.ForeignKey(Relation, on_delete=models.CASCADE)
-    
     #Timestamps
     timestamp_created = models.DateTimeField(auto_now_add=True, editable=False)
     timestamp_updated = models.DateTimeField(auto_now=True, editable=False)
 
-    def _str_(self):
-        return self.uuid
+    def __str__(self):
+        return self.user.username + " Level " + self.level + " " + self.relation.name
 

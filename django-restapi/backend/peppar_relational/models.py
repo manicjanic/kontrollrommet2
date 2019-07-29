@@ -25,7 +25,7 @@ class Relation(models.Model):
 
     #Constructing the Name field based on data in other fields
     def save(self):
-        name = self.pepparA.name + ' - ' + self.type_name + ' - ' +  self.pepparB.name
+        name = self.pepparA.name + ' - ' + self.type + ' - ' +  self.pepparB.name
         self.name = name
         super(Relation, self).save()
 
