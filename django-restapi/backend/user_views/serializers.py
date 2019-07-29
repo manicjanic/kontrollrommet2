@@ -6,6 +6,7 @@ from peppar_base.models import Peppar
 from peppar_relational.models import Relation
 from .models import PepparInsight
 from .models import RelationInsight
+from peppar_base.serializers import PepparSerializer
 
 class PepparInsightSerializer(serializers.ModelSerializer):
     # Flattened representation of basic data from related Peppar
@@ -134,10 +135,12 @@ class RelationInsightSerializer(serializers.ModelSerializer):
 
     #Reference to the two Peppar Objects in the relation
     def get_pepparA(self, obj):
-        return obj.relation.pepparA.uuid
+        peppar = obj.relation.pepparA
+        return PepparSerializer(peppar, fields=('uuid', 'type', 'name',)).data
         
     def get_pepparB(self, obj):
-        return obj.relation.pepparB.uuid
+        peppar = obj.relation.pepparB
+        return PepparSerializer(peppar, fields=('uuid', 'type', 'name',)).data
 
     #Method for making dynamic object with visible data
     def get_visible_data(self, obj):
