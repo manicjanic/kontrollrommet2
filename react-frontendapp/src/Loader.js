@@ -6,17 +6,25 @@ const Loader = (props) => {
     // Upon mounting do this:
     useEffect(() => {
         const fetchData = async () => {
-            const userdata = await dataService.getUserData()
-            const myrelations = await dataService.getMyRelations()
-            const myclosecircle = await dataService.getCloseCircle()
-            const mycloserelations = await dataService.getCloseRelations()           
-            props.ModifyState('userdata', userdata)
-            props.ModifyState('myRelations', myrelations)
-            props.ModifyState('myCloseCircle', myclosecircle)
-            props.ModifyState('myCloseRelations', mycloserelations)
+            const peppars = await dataService.getPeppars()
+            const relations = await dataService.getRelations()
+ //           const myrelations = relations.filter(relation => {
+ //               return relation
+ //           })
+
+//            })
+//            const userdata = await dataService.getUserData()
+//            const myrelations = await dataService.getMyRelations()
+//            const myclosecircle = await dataService.getCloseCircle()
+//            const mycloserelations = await dataService.getCloseRelations()           
+//            props.ModifyState('userdata', userdata)
+//            props.ModifyState('myRelations', myrelations)
+//            props.ModifyState('myCloseCircle', myclosecircle)
+//            props.ModifyState('myCloseRelations', mycloserelations)
 
         };
         fetchData();
+
         
         props.history.push('/')
     },

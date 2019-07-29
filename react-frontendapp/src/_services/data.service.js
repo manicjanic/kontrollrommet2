@@ -1,11 +1,15 @@
 import {postalService} from './postal.service'
 
-const getAllPeppars = () => {
-    return postalService.get("api/peppars/")    
+const getPeppars = () => {
+    return postalService.get_auth("api/user/peppars/")    
 }
 
-const getUserPeppars = () => {
-    return postalService.get_auth("api/user/peppars/")    
+const getRelations = () => {
+    return postalService.get_auth("api/user/relations/")    
+}
+
+const getAllPeppars = () => {
+    return postalService.get("api/peppars/")    
 }
 
 const getAllPepparRelations = () => {
@@ -29,9 +33,10 @@ const getCloseRelations = () => {
 }
 
 export const dataService = {
+    getPeppars,
+    getRelations,
     getAllPeppars,
     getAllPepparRelations,
-    getUserPeppars,
     getUserData,
     getMyRelations,
     getCloseCircle,
