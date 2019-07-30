@@ -12,8 +12,8 @@ const Loader = (props) => {
             props.ModifyState('myPeppars', peppars)
             props.ModifyState('myRelations', relations)
             props.ModifyState('mePeppar', filterService.get_me(peppars))
+            props.ModifyState('myEntityRelations', filterService.get_my_entity_relations(peppars, relations))
             props.history.push('/')
-            console.log("testing filters", filterService.get_my_entity_relations(peppars, relations))
         }
         fetchData()
     },

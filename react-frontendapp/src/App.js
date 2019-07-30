@@ -18,29 +18,27 @@ class App extends Component {
         super(props);
         // Defining Central State
         this.state = {
+            // App Status
             isLoggedin: false,
+            isLoading: false,
+            // Collected Peppars and Relations viewable to user
             mePeppar: {},
             myPeppars: [ {}, ],
             myRelations: [ {}, ],
+            // Derived collections of Peppars and Relations based on functionality
+            myEntityRelations: [ {} ],
             userdata: {
                 peppar: {name: ""}
             }
         }
         // Making functions available
-        this.LoggedIn = this.LoggedIn.bind(this);
         this.ModifyState = this.ModifyState.bind(this);
     }
 
     // Page Layout and distribution of data and callbacks to the children
     LoginSetup = () => (
     <div>
-        <NavBar
-            userdata={this.state.userdata}
-            mePeppar={this.state.mePeppar}
-            isLoggedin={this.state.isLoggedin}
-        />
         <Login
-            LoggedIn={this.LoggedIn}
             ModifyState={this.ModifyState}
         />
     </div>
@@ -48,12 +46,6 @@ class App extends Component {
     
     HomeSetup = () => (
     <div>
-        <NavBar 
-            userdata={this.state.userdata}
-            isLoggedin={this.state.isLoggedin}
-            mePeppar={this.state.mePeppar}
-
-        />
         <div className="container">
             This is the Home page of Kontrollrommet. 
             Log in or create new user to take control.
@@ -63,17 +55,11 @@ class App extends Component {
     
     DashboardSetup = () => (
     <div>
-        <NavBar 
-            userdata={this.state.userdata}
-            isLoggedin={this.state.isLoggedin}
-            mePeppar={this.state.mePeppar}
-
-        />
         <div className="container">
             This is the Dashboard. Main control mastered from here.
         </div>
         <PepparList 
-                peppars={this.state.peppars}
+                myPeppars={this.state.myPeppars}
                 ModifyState={this.ModifyState}
         />
     </div>
@@ -90,12 +76,6 @@ class App extends Component {
     // Currently not used
     LogoutSetup = () => (
     <div>
-        <NavBar
-            userdata={this.state.userdata}
-            isLoggedin={this.state.isLoggedin}
-            mePeppar={this.state.mePeppar}
-
-        />
         <Login
             LoggedIn={this.LoggedIn}
         />
@@ -106,15 +86,16 @@ class App extends Component {
     ModifyState(statekey, statevalue) {
         this.setState({[statekey] : statevalue})
     }
-
-    LoggedIn(setting) {
-        this.setState({isLoggedin : setting})
-        console.log("ran LoggedIn")
-    }
     
     render() {        
         return (
             <div>
+                <NavBar
+                    userdata={this.state.userdata}
+                    isLoggedin={this.state.isLoggedin}
+                    mePeppar={this.state.mePeppar}
+                    myEntityRelations={this.state.myEntityRelations}
+                />
                 <Route path="/" exact = {true} render = {this.HomeSetup}/>
                 <Route path="/login" exact = {true} render = {this.LoginSetup}/>
                 <Route path="/logout" exact = {true} render = {this.LoginSetup}/>

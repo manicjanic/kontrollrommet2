@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
 
 const LoginForm = (props) => {
-    // Set state
-    const [state, setState] = useState({ username: '', password: ''})
-    // Functions for handling changes
-    const onChangeUsername = e => setState({...state, username: e.target.value })
-    const onChangePassword = e => setState({...state, password: e.target.value })
+    // Set local state
+    const [form_data, setForm_data] = useState({
+        username: '',
+        password: ''
+    })
+    // Functions for handling changes in form
+    const onChangeUsername = e => setForm_data({...form_data, username: e.target.value })
+    const onChangePassword = e => setForm_data({...form_data, password: e.target.value })
     const onSubmit = e => {
         e.preventDefault();
-        props.doLogin(state.username, state.password)
-        setState({username: '', password: ''})
+        props.doLogin(form_data.username, form_data.password)
+        setForm_data({username: '', password: ''})
     }
     
     return (
