@@ -104,3 +104,26 @@ function htmlSwitcher(_truetext, _falsetext, _truth) {
         }
         return data;
     });
+
+
+
+
+        const fetchData = async () => {
+            const peppars = await dataService.getPeppars()
+            return peppars
+ //           const myrelations = relations.filter(relation => {
+ //               return relation
+ //           })
+
+//            })
+//            const userdata = await dataService.getUserData()
+//            const myrelations = await dataService.getMyRelations()
+//            const myclosecircle = await dataService.getCloseCircle()
+//            const mycloserelations = await dataService.getCloseRelations()           
+//            props.ModifyState('userdata', userdata)
+//            props.ModifyState('myRelations', myrelations)
+//            props.ModifyState('myCloseCircle', myclosecircle)
+//            props.ModifyState('myCloseRelations', mycloserelations)
+
+
+&& obj.pepparA.uuid === get_me(peppars).uuid

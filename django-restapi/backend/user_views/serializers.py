@@ -10,7 +10,7 @@ from peppar_base.serializers import PepparSerializer
 
 class PepparInsightSerializer(serializers.ModelSerializer):
     # Flattened representation of basic data from related Peppar
-    peppar_uiid = serializers.SerializerMethodField()
+    peppar_uuid = serializers.SerializerMethodField()
     peppar_type = serializers.SerializerMethodField()
     peppar_name = serializers.SerializerMethodField()
     # Method field that builds and object with visible data, based on type and user's insight level
@@ -18,10 +18,10 @@ class PepparInsightSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = PepparInsight
-        fields = ('uuid', 'level', 'peppar_uiid', 'peppar_type', 'peppar_name', 'visible_data')
+        fields = ('uuid', 'level', 'peppar_uuid', 'peppar_type', 'peppar_name', 'visible_data')
 
     #Methods to get relevant fields from related Peppar
-    def get_peppar_uiid(self, obj):
+    def get_peppar_uuid(self, obj):
         return obj.peppar.uuid
 
     def get_peppar_type(self, obj):
@@ -109,7 +109,7 @@ class PepparInsightSerializer(serializers.ModelSerializer):
 
 class RelationInsightSerializer(serializers.ModelSerializer):
     # Flattened representation of basic data from related Peppar
-    relation_uiid = serializers.SerializerMethodField()
+    relation_uuid = serializers.SerializerMethodField()
     relation_type = serializers.SerializerMethodField()
     relation_name = serializers.SerializerMethodField()
     # Reference to the tho Peppar Objects in the relation
@@ -121,10 +121,10 @@ class RelationInsightSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = RelationInsight
-        fields = ('uuid', 'level', 'relation_uiid', 'relation_type', 'relation_name', 'pepparA', 'pepparB', 'visible_data')
+        fields = ('uuid', 'level', 'relation_uuid', 'relation_type', 'relation_name', 'pepparA', 'pepparB', 'visible_data')
 
     #Methods to get relevant fields from related Relation
-    def get_relation_uiid(self, obj):
+    def get_relation_uuid(self, obj):
         return obj.relation.uuid
 
     def get_relation_type(self, obj):

@@ -43,8 +43,8 @@ const NavBar = (props) => {
     }
     
     const Greeting = (props) => {
-        if (props.userdata.peppar.name !== "") {
-            return "Hello, " + props.userdata.peppar.name
+        if (props.mePeppar.peppar_name) {
+            return "Hello, " + props.mePeppar.peppar_name
         }
         return ""
     }

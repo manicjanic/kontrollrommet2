@@ -1,32 +1,21 @@
 import React, { useEffect } from 'react';
 import {dataService} from './_services/data.service'
+import {filterService} from './_services/filter.service'
 import { withRouter } from 'react-router'
 
 const Loader = (props) => {
     // Upon mounting do this:
+    
     useEffect(() => {
         const fetchData = async () => {
-            const peppars = await dataService.getPeppars()
-            const relations = await dataService.getRelations()
- //           const myrelations = relations.filter(relation => {
- //               return relation
- //           })
-
-//            })
-//            const userdata = await dataService.getUserData()
-//            const myrelations = await dataService.getMyRelations()
-//            const myclosecircle = await dataService.getCloseCircle()
-//            const mycloserelations = await dataService.getCloseRelations()           
-//            props.ModifyState('userdata', userdata)
-//            props.ModifyState('myRelations', myrelations)
-//            props.ModifyState('myCloseCircle', myclosecircle)
-//            props.ModifyState('myCloseRelations', mycloserelations)
-
-        };
-        fetchData();
-
-        
-        props.history.push('/')
+            let [peppars, relations] = await Promise.all([dataService.getPeppars(), dataService.getRelations()]);
+            props.ModifyState('myPeppars', peppars)
+            props.ModifyState('myRelations', relations)
+            props.ModifyState('mePeppar', filterService.get_me(peppars))
+            props.history.push('/')
+            console.log("testing filters", filterService.get_my_entity_relations(peppars, relations))
+        }
+        fetchData()
     },
     []);
 

@@ -19,9 +19,9 @@ class App extends Component {
         // Defining Central State
         this.state = {
             isLoggedin: false,
-            myCloseCircle: [ {}, ],
+            mePeppar: {},
+            myPeppars: [ {}, ],
             myRelations: [ {}, ],
-            myCloseRelations:[ {}, ],
             userdata: {
                 peppar: {name: ""}
             }
@@ -36,6 +36,7 @@ class App extends Component {
     <div>
         <NavBar
             userdata={this.state.userdata}
+            mePeppar={this.state.mePeppar}
             isLoggedin={this.state.isLoggedin}
         />
         <Login
@@ -50,6 +51,8 @@ class App extends Component {
         <NavBar 
             userdata={this.state.userdata}
             isLoggedin={this.state.isLoggedin}
+            mePeppar={this.state.mePeppar}
+
         />
         <div className="container">
             This is the Home page of Kontrollrommet. 
@@ -63,6 +66,8 @@ class App extends Component {
         <NavBar 
             userdata={this.state.userdata}
             isLoggedin={this.state.isLoggedin}
+            mePeppar={this.state.mePeppar}
+
         />
         <div className="container">
             This is the Dashboard. Main control mastered from here.
@@ -88,6 +93,8 @@ class App extends Component {
         <NavBar
             userdata={this.state.userdata}
             isLoggedin={this.state.isLoggedin}
+            mePeppar={this.state.mePeppar}
+
         />
         <Login
             LoggedIn={this.LoggedIn}
