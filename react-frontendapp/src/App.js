@@ -5,11 +5,11 @@ import { PrivateRoute } from './_components';
 
 
 // Layout elements
-import NavBar from './NavBar';
-import Login from './Login';
-import PepparList from './PepparList';
+import NavBar from './Components/NavBar';
+import Login from './Components/Login';
+import PepparList from './Components/PepparList';
 // Loader
-import Loader from './Loader';
+import Loader from './Components/Loader';
 
 
 class App extends Component {

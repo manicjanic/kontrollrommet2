@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import {dataService} from './_services/data.service'
-import {filterService} from './_services/filter.service'
+import {dataService} from '../_services/data.service'
+import {filterService} from '../_services/filter.service'
 import { withRouter } from 'react-router'
 
 const Loader = (props) => {

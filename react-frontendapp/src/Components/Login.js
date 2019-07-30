@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {dataService} from './_services/data.service'
+import {dataService} from '../_services/data.service'
 import { withRouter } from 'react-router'
 
 import LoginForm from './LoginForm';
