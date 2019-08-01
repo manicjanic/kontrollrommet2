@@ -24,6 +24,5 @@ function get_auth(api) {
 }
 
 function handleResponse(response) {
-    console.log ("running handle response", response)
     return response.data
 }

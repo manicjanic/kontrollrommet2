@@ -1,24 +1,30 @@
 
-// Filter to get the Peppar that from user's perspective is Me (level 0)
-const get_me = (peppars) => {
-let result = peppars.find(obj => {
-    return obj.level === '0'
-})
-return result
-} 
-
-const get_my_entity_relations = (peppars, relations) => {
+// Filter to get relations to user's Peppar, by type
+const get_specified_myrelations = (me, relations, type) => {
     let result = relations.filter(obj => {
-        let me = get_me(peppars)
-        console.log(obj.pepparA.uuid, me, me.peppar_uuid)
         return ( 
-            (obj.pepparB.type === 'ENTITY') && (obj.pepparA.uuid === me.peppar_uuid)
+            (obj.pepparA.uuid === me.peppar_uuid) && (obj.pepparB.type === type)
         )
     })
     return result
     } 
-    
+
+const alignrelations = (me, relations) => {
+    console.log("relations input", relations)
+    let new_relations = relations.map(relation => {
+        if (relation.pepparB.uuid == me.peppar_uuid) {
+            let swapperA = relation.pepparB
+            let swapperB = relation.pepparA
+            relation.pepparA = swapperA
+            relation.pepparB = swapperB
+        }
+        return relation
+    })
+    console.log("new relations", new_relations)
+    return new_relations
+}
+
 export const filterService = {
-    get_me,
-    get_my_entity_relations,
+    get_specified_myrelations,
+    alignrelations
 }

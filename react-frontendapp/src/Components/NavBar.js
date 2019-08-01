@@ -1,64 +1,36 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
+import {CSSModifier} from '../_helpers/CSS-modifier'
+
 const NavBar = (props) => {
     
-    // Set function state to use for menu
-    let menu = [
-        {id:1, text: "Dashboard", disabled: true, hidden: false, path: "/dashboard" },
-        {id:2, text: "Meetings", disabled: true, hidden: false, path: "/meetings"},
-        {id:3, text: "Login", disabled: false, hidden: false, path: "/login"},
-        {id:4, text: "Logout", disabled: true, hidden: true, path: "/logout"},   
-    ]
-
-    
-    const Menu = (props) => {
-        
-        if (props.isLoggedin) {
-            menu[0].disabled=false
-            menu[1].disabled=false
-            menu[2].disabled=true
-            menu[2].hidden=true
-            menu[3].disabled=false
-            menu[3].hidden=false
-        }
-    
-        return menu.map(function(_item, i){
-            let _classname = "nav-link"
-            if (_item.disabled) {_classname += " disabled"} 
-            if (_item.hidden) {_classname += " d-none"}
-            return <MenuItem item={_item} cn={_classname} key={i} />;              
-        })
-    }
-    
-    const MenuItem = (props) => {
-        return (
-            <li className="nav-item">
-                <NavLink className={props.cn} to={props.item.path}>{props.item.text}</NavLink>
-            </li>
-        )    
-    }
-
-
     const Greeting = (props) => {
-        if (props.mePeppar.peppar_name !== undefined) {
-            return "Hello, " + props.mePeppar.peppar_name
+        if (props.mePeppar.peppar_name) {
+            return ("Hello, " + props.mePeppar.peppar_name + ". You are currently representing")
         }
         return ""
     }
 
     const RepresentationDropdown = (props) => {
-        if (props.mePeppar.peppar_name !== undefined) {
-            return props.myEntityRelations.map(function(_item, i) {
-                return <RepresentationDropdownItem item={_item} key={i} />
-            })
+        let myEntityRelations = props.myEntityRelations()
+        if (myEntityRelations.length) {
+            return (
+                <span className="navbar-text">         
+                    <select className="custom-select">
+                        {myEntityRelations.map(function(_item, i) {
+                        return <RepresentationDropdownItem item={_item} key={i} />
+                        })}
+                    </select>                                    
+                </span>
+            )
         }
         return ""
     }
 
     const RepresentationDropdownItem = (props) => {
-        return <option>{props.item.relation_name}</option>
+        return <option>{props.item.pepparB.name} as {props.item.relation_type}</option>
     }
 
     return (
@@ -66,19 +38,24 @@ const NavBar = (props) => {
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
                 <NavLink className="navbar-brand" to="/">Kontrollrommet</NavLink>
                 <ul className="navbar-nav mr-auto">
-                    <Menu isLoggedin={props.isLoggedin}/>
                     <li className="nav-item">
-                        <span>Representing
-                        <select className="custom-select">
-                        <RepresentationDropdown 
-                            mePeppar={props.mePeppar}
-                            myEntityRelations={props.myEntityRelations}
-                        />
-                        </select>
-                        </span>                        
+                        <NavLink className={CSSModifier("nav-link", props.menudata[0].status)} to={props.menudata[0].path}>{props.menudata[0].text}</NavLink>
+                    </li>
+                    <li className="nav-item">
+                        <NavLink className={CSSModifier("nav-link", props.menudata[1].status)} to={props.menudata[1].path}>{props.menudata[1].text}</NavLink>
+                    </li>
+                    <li className="nav-item">
+                        <NavLink className={CSSModifier("nav-link", props.menudata[2].status)} to={props.menudata[2].path}>{props.menudata[2].text}</NavLink>
+                    </li>
+                    <li className="nav-item">
+                        <NavLink className={CSSModifier("nav-link", props.menudata[3].status)} to={props.menudata[3].path}>{props.menudata[3].text}</NavLink>
                     </li>
                 </ul>
-                <span className="navbar-text">{Greeting(props)}</span>
+                <span className="navbar-text">
+                    <Greeting mePeppar={props.mePeppar}/>
+                    <br/>
+                    <RepresentationDropdown myEntityRelations={props.myEntityRelations}/>
+                </span>
             </nav>
         </div>
     )   

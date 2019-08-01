@@ -17,9 +17,7 @@ export default class PepparList extends Component {
     }
     
     PepparLister() {
-        console.log("props-peppars:", this.props.peppars)
         return this.props.peppars.map(function(currentPeppar, i){
-            console.log("current peppar", currentPeppar)
             return <Peppar peppar={currentPeppar} key={i} />;
         })
     }

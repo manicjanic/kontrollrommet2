@@ -3,9 +3,11 @@ import React, { Component } from 'react';
 import { Route } from "react-router";
 import { PrivateRoute } from './_components';
 
+import {filterService} from './_services/filter.service'
+
 
 // Layout elements
-import NavBar from './Components/NavBar';
+import Nav from './Components/Nav';
 import Login from './Components/Login';
 import PepparList from './Components/PepparList';
 // Loader
@@ -23,19 +25,25 @@ class App extends Component {
             isLoading: false,
             // Collected Peppars and Relations viewable to user
             mePeppar: {},
-            myPeppars: [ {}, ],
-            myRelations: [ {}, ],
-            // Derived collections of Peppars and Relations based on functionality
-            myEntityRelations: [ {} ],
-            userdata: {
-                peppar: {name: ""}
-            }
+            myPeppars: [ ],
+            myRelations: [ ],
         }
         // Making functions available
         this.ModifyState = this.ModifyState.bind(this);
+        this.myEntityRelations = this.myEntityRelations.bind(this);
     }
 
+    // Callback functions to manipulate state
+    ModifyState(statekey, statevalue) {
+        this.setState({[statekey] : statevalue})
+    }
+    
+    // Callback function to derive Relations for specific use
+    myEntityRelations() {
+        return filterService.get_specified_myrelations(this.state.mePeppar, this.state.myRelations, "ENTITY")
+    }
     // Page Layout and distribution of data and callbacks to the children
+    
     LoginSetup = () => (
     <div>
         <Login
@@ -82,19 +90,13 @@ class App extends Component {
     </div>
     );
     
-    // Callback functions to manipulate state
-    ModifyState(statekey, statevalue) {
-        this.setState({[statekey] : statevalue})
-    }
-    
     render() {        
         return (
             <div>
-                <NavBar
-                    userdata={this.state.userdata}
+                <Nav
                     isLoggedin={this.state.isLoggedin}
                     mePeppar={this.state.mePeppar}
-                    myEntityRelations={this.state.myEntityRelations}
+                    myEntityRelations={this.myEntityRelations}
                 />
                 <Route path="/" exact = {true} render = {this.HomeSetup}/>
                 <Route path="/login" exact = {true} render = {this.LoginSetup}/>

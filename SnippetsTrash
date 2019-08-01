@@ -127,3 +127,42 @@ function htmlSwitcher(_truetext, _falsetext, _truth) {
 
 
 && obj.pepparA.uuid === get_me(peppars).uuid
+
+
+    // Set local state
+    const [menu, setMenu] = useState(
+        [
+            {id:1, text: "Dashboard", status: "disabled", path: "/dashboard" },
+            {id:2, text: "Meetings", status: "disabled", path: "/meetings"},
+            {id:3, text: "Login", status: "enabled", path: "/login"},
+            {id:4, text: "Logout", status: "hidden", path: "/logout"},   
+        ]
+    )
+        
+    const Menu = (props) => {
+        
+        if (props.checkLoginStatus) {
+            menu[0].disabled=false
+            menu[1].disabled=false
+            menu[2].disabled=true
+            menu[2].hidden=true
+            menu[3].disabled=false
+            menu[3].hidden=false
+        }
+    
+        return menu.map(function(_item, i){
+            let _classname = "nav-link"
+            if (_item.disabled) {_classname += " disabled"} 
+            if (_item.hidden) {_classname += " d-none"}
+            return <MenuItem item={_item} cn={_classname} key={i} />;              
+        })
+    }
+    
+    const MenuItem = (props) => {
+        return (
+            <li className="nav-item">
+                <NavLink className={props.cn} to={props.menudata[0].path}>{props.menudata[0].text}</NavLink>
+            </li>
+        )    
+    }
+
