@@ -20,6 +20,9 @@ class App extends Component {
         super(props);
         // Defining Central State
         this.state = {
+            // Catalogs
+            pepparType: [],
+            relationType: [],
             // App Status
             isLoggedin: false,
             isLoading: false,
@@ -27,13 +30,13 @@ class App extends Component {
             mePeppar: {},
             myPeppars: [ ],
             myRelations: [ ],
-            // Catalogs
-            pepparType: [],
-            relationType: []
+            // Derived collections
+            myEntityRelations: [],
+            // Selections
+            selectedEntity : {},
         }
         // Making functions available
         this.ModifyState = this.ModifyState.bind(this);
-        this.myEntityRelations = this.myEntityRelations.bind(this);
     }
 
     // Callback functions to manipulate state
@@ -41,10 +44,6 @@ class App extends Component {
         this.setState({[statekey] : statevalue})
     }
     
-    // Callback function to derive Relations for specific use
-    myEntityRelations() {
-        return filterService.get_specified_myrelations(this.state.mePeppar, this.state.myRelations, "ENTITY")
-    }
     // Page Layout and distribution of data and callbacks to the children
     
     LoginSetup = () => (
@@ -99,7 +98,8 @@ class App extends Component {
                 <Nav
                     isLoggedin={this.state.isLoggedin}
                     mePeppar={this.state.mePeppar}
-                    myEntityRelations={this.myEntityRelations}
+                    myEntityRelations={this.state.myEntityRelations}
+                    ModifyState={this.ModifyState}
                 />
                 <Route path="/" exact = {true} render = {this.HomeSetup}/>
                 <Route path="/login" exact = {true} render = {this.LoginSetup}/>

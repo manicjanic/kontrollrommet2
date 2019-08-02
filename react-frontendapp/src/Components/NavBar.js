@@ -1,11 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import {CSSModifier} from '../_helpers/CSS-modifier'
 
 const NavBar = (props) => {
-    
+    // Defining state. Selected id from dropdown and array of objects
+    const [selected, setSelected] = useState(0)
+    // const [myEntityRelations, setMyEntityRelations] = useState(props.myEntityRelations())
+
+//    useEffect(() => {
+//        console.log("running useeffect")
+//        setMyEntityRelations(props.myEntityRelations());
+//    }, [])
+ 
+    const onChangeSelect = e => {
+        setSelected(+e.target.value)
+        console.log("selected", (selected), props.myEntityRelations, props.myEntityRelations[selected])
+        props.doSelectEntity(props.myEntityRelations[(selected)])
+    }
     const Greeting = (props) => {
         if (props.mePeppar.peppar_name) {
             return ("Hello, " + props.mePeppar.peppar_name + ". You are currently representing")
@@ -14,13 +27,15 @@ const NavBar = (props) => {
     }
 
     const RepresentationDropdown = (props) => {
-        let myEntityRelations = props.myEntityRelations()
-        if (myEntityRelations.length) {
+        console.log("in the dropdown", props.dropdown_content)
+        console.log("state myER", props.myEntityRelations)
+        if (props.dropdown_content.length) {
             return (
                 <span className="navbar-text">         
-                    <select className="custom-select">
-                        {myEntityRelations.map(function(_item, i) {
-                        return <RepresentationDropdownItem item={_item} key={i} />
+                    <select className="custom-select" value={selected} onChange={onChangeSelect}>
+                        {props.dropdown_content.map(function(item, i) {
+                            console.log("inside map", i, item.uiid)
+                        return <RepresentationDropdownItem item={item} id={i} key={item.uuid} />
                         })}
                     </select>                                    
                 </span>
@@ -30,7 +45,7 @@ const NavBar = (props) => {
     }
 
     const RepresentationDropdownItem = (props) => {
-        return <option>{props.item.pepparB.name} as {props.item.typeobj.name}</option>
+        return <option value={props.id}>{props.item.pepparB.name} as {props.item.typeobj.name}</option>
     }
 
     return (
@@ -54,7 +69,7 @@ const NavBar = (props) => {
                 <span className="navbar-text">
                     <Greeting mePeppar={props.mePeppar}/>
                     <br/>
-                    <RepresentationDropdown myEntityRelations={props.myEntityRelations}/>
+                    <RepresentationDropdown dropdown_content={props.myEntityRelations}/>
                 </span>
             </nav>
         </div>

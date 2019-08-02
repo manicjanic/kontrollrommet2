@@ -14,10 +14,12 @@ class Nav extends Component {
                 {text: "Logout", status: "hidden", path: "/logout"},   
             ]
         }
+        // Bind functions so they can access this
+        this.doSelectEntity = this.doSelectEntity.bind(this);
     }
 
-     // If prop changes, rundt this
-     componentWillReceiveProps() {
+    // If prop changes, rundt this
+    componentWillReceiveProps() {
         if (this.props.isLoggedin) {
             this.setState(prevState => {
                 var list = prevState.menudata;
@@ -29,7 +31,11 @@ class Nav extends Component {
             })
         }
     }
-    
+
+    doSelectEntity(selected) {
+        this.props.ModifyState("selectedEntity", selected)
+    }
+
     render() {
         return (
             <NavBar 
@@ -37,6 +43,7 @@ class Nav extends Component {
                 menudata={this.state.menudata}
                 myEntityRelations={this.props.myEntityRelations}
                 mePeppar={this.props.mePeppar}
+                doSelectEntity={this.doSelectEntity}
                 />
         )
     }
