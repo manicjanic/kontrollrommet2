@@ -2,33 +2,10 @@ import uuid as uuid_field
 from django.db import models
 
 from peppar_base.models import Peppar
-
-# Relation Types
-class RelationType(models.Model):
-    
-    RELATION_TYPE = [
-        ('PER-PER', 'PER-PER'),
-        ('PLA-PLA', 'PLA-PLA'),
-        ('PER-ENT', 'PER-ENT'),
-        ('PER-PLA', 'PER-PLA'),
-        ('ENT-PLA', 'ENT-PLA'),
-    ]
-
-    name = models.CharField(max_length=50)
-    type = models.CharField(max_length=7, choices=RELATION_TYPE)
-
-    def __str__(self):
-        return self.name
-
+from catalog.models import RelationType
 
 # PEPPAR RELATIONAL MODEL
 class Relation(models.Model):
-    
-    RELATION_TYPES = [
-        ('Styreleder', 'Styreleder'),
-        ('Styremedlem', 'Styremedlem'),
-    ]
-
     #Identification fields
     uuid = models.UUIDField(default=uuid_field.uuid4, unique=True, editable=False)
     name = models.CharField(max_length=120, editable=False, blank=True)

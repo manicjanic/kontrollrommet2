@@ -13,16 +13,22 @@ class Loader extends Component {
      // Initial operations
     componentDidMount() {
         const fetchData = async () => {
-            let [me, myPeppars, myRelations] = await Promise.all([
+            let [pepparType, relationType, me, myPeppars, myRelations] = await Promise.all([
+                dataService.getPepparType(),
+                dataService.getRelationType(),
                 dataService.getMe(),
                 dataService.getPeppars(), 
-                dataService.getRelations()
+                dataService.getRelations(),
             ]);
-            let alignedrelations = filterService.alignrelations(me, myRelations)
-            console.log("aligned", alignedrelations)
-            this.props.ModifyState('mePeppar', me)
-            this.props.ModifyState('myPeppars', myPeppars)
-            this.props.ModifyState('myRelations', alignedrelations)
+            let alignedrelations_nested = filterService.align_and_addnest_relations(me, myRelations, pepparType, relationType)
+            let me_nested_array = filterService.addNestPeppar([me,], pepparType)
+            let me_nested = me_nested_array[0]
+            let myPeppars_nested = filterService.addNestPeppar(myPeppars, pepparType)
+            this.props.ModifyState('pepparType', pepparType)
+            this.props.ModifyState('relationType', relationType)
+            this.props.ModifyState('mePeppar', me_nested)
+            this.props.ModifyState('myPeppars', myPeppars_nested)
+            this.props.ModifyState('myRelations', alignedrelations_nested)
             
             this.props.history.push('/')
         }

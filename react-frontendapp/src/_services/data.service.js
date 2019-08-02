@@ -20,10 +20,19 @@ const getRelations = () => {
     return postalService.get_auth("api/user/relations/")    
 }
 
+const getPepparType = () => {
+    return postalService.get_auth("api/catalog/peppartype/")    
+}
+
+const getRelationType = () => {
+    return postalService.get_auth("api/catalog/relationtype/")    
+}
 
 export const dataService = {
     sendLogin,
     getMe,
     getPeppars,
     getRelations,
+    getPepparType,
+    getRelationType
 };

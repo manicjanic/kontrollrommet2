@@ -23,10 +23,13 @@ class App extends Component {
             // App Status
             isLoggedin: false,
             isLoading: false,
-            // Collected Peppars and Relations viewable to user
+            // Peppars and Relations
             mePeppar: {},
             myPeppars: [ ],
             myRelations: [ ],
+            // Catalogs
+            pepparType: [],
+            relationType: []
         }
         // Making functions available
         this.ModifyState = this.ModifyState.bind(this);

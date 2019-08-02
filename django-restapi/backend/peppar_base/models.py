@@ -1,36 +1,10 @@
 import uuid as uuid_field
 from django.db import models
 
-# PEPPAR Types
-class PepparType(models.Model):
-    
-    PEPPAR_TYPE = [
-        ('PERSON', 'Person Type'),
-        ('ENTITY', 'Entity Type'),
-        ('PROPERTY', 'Property Type'),
-        ('PLAN', 'Plan Type'),
-        ('ACTION', 'Action Type'),
-        ('RESULT', 'Result Type'),
-    ]
-
-    name = models.CharField(max_length=50)
-    type = models.CharField(max_length=8, choices=PEPPAR_TYPE)
-
-    def __str__(self):
-        return self.name
-
+from catalog.models import PepparType
 
 # PEPPAR CORE MODEL
 class Peppar(models.Model):
-    # The six types in the PEPPAR model
-    PEPPAR = [
-        ('PERSON', 'Person'),
-        ('ENTITY', 'Entity'),
-        ('PROPERTY', 'Property'),
-        ('PLAN', 'Plan'),
-        ('ACTION', 'Action'),
-        ('RESULT', 'Result'),
-    ]
     #Identification fields
     uuid = models.UUIDField(default=uuid_field.uuid4, unique=True, editable=False)
     name = models.CharField(max_length=120, editable=False, blank=True)

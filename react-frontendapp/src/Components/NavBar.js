@@ -30,7 +30,7 @@ const NavBar = (props) => {
     }
 
     const RepresentationDropdownItem = (props) => {
-        return <option>{props.item.pepparB.name} as {props.item.relation_type}</option>
+        return <option>{props.item.pepparB.name} as {props.item.typeobj.name}</option>
     }
 
     return (

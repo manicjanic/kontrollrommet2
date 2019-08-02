@@ -1,0 +1,141 @@
+{
+    "type": "database",
+    "name": "db",
+    "objects": [
+        {
+            "type": "table",
+            "database": null,
+            "name": "catalog_peppartype",
+            "withoutRowId": true,
+            "ddl": "CREATE TABLE \"catalog_peppartype\" (\"id\" integer NOT NULL PRIMARY KEY AUTOINCREMENT, \"name\" varchar(50) NOT NULL, \"type\" varchar(8) NOT NULL)",
+            "columns": [
+                {
+                    "name": "id",
+                    "type": "integer",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL "
+                        },
+                        {
+                            "type": "PRIMARY KEY",
+                            "definition": "PRIMARY KEY AUTOINCREMENT"
+                        }
+                    ]
+                },
+                {
+                    "name": "name",
+                    "type": "varchar",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL"
+                        }
+                    ]
+                },
+                {
+                    "name": "type",
+                    "type": "varchar",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL"
+                        }
+                    ]
+                }
+            ],
+            "rows": [
+                [
+                    1,
+                    "Person",
+                    "PERSON"
+                ],
+                [
+                    2,
+                    "Borettslag",
+                    "ENTITY"
+                ],
+                [
+                    3,
+                    "Sameie",
+                    "ENTITY"
+                ],
+                [
+                    4,
+                    "Møteinnkalling",
+                    "PLAN"
+                ],
+                [
+                    5,
+                    "Møteinnkallings-punkt (Agenda)",
+                    "PLAN"
+                ]
+            ]
+        },
+        {
+            "type": "table",
+            "database": null,
+            "name": "catalog_relationtype",
+            "withoutRowId": true,
+            "ddl": "CREATE TABLE \"catalog_relationtype\" (\"id\" integer NOT NULL PRIMARY KEY AUTOINCREMENT, \"name\" varchar(50) NOT NULL, \"type\" varchar(7) NOT NULL)",
+            "columns": [
+                {
+                    "name": "id",
+                    "type": "integer",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL "
+                        },
+                        {
+                            "type": "PRIMARY KEY",
+                            "definition": "PRIMARY KEY AUTOINCREMENT"
+                        }
+                    ]
+                },
+                {
+                    "name": "name",
+                    "type": "varchar",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL"
+                        }
+                    ]
+                },
+                {
+                    "name": "type",
+                    "type": "varchar",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL"
+                        }
+                    ]
+                }
+            ],
+            "rows": [
+                [
+                    1,
+                    "Styreleder",
+                    "PER-ENT"
+                ],
+                [
+                    2,
+                    "Styremedlem",
+                    "PER-ENT"
+                ],
+                [
+                    3,
+                    "Forfatter av Møteinnkalling",
+                    "PER-PLA"
+                ],
+                [
+                    4,
+                    "Innkalt på Møteinnkalling",
+                    "PER-PLA"
+                ]
+            ]
+        }
+    ]
+}

@@ -2,8 +2,6 @@ from rest_framework import serializers
 from django.shortcuts import get_object_or_404
 
 
-from peppar_base.models import Peppar
-from peppar_relational.models import Relation
 from .models import PepparInsight
 from .models import RelationInsight
 from peppar_base.serializers import PepparSerializer
@@ -25,14 +23,14 @@ class PepparInsightSerializer(serializers.ModelSerializer):
         return obj.peppar.uuid
 
     def get_peppar_type(self, obj):
-        return obj.peppar.type
+        return obj.peppar.type.id
 
     def get_peppar_name(self, obj):
         return obj.peppar.name
 
     #Method for making dynamic object with visible data
     def get_visible_data(self, obj):
-        if obj.peppar.type == "PERSON":
+        if obj.peppar.type.type == "PERSON":
             if obj.level == '0':
                 return {
                     #PERSON fields
@@ -62,7 +60,7 @@ class PepparInsightSerializer(serializers.ModelSerializer):
                     'person_firstname' : obj.peppar.person_firstname,
                     'person_lastname' : obj.peppar.person_lastname,
                 }     
-        if obj.peppar.type == "ENTITY":
+        if obj.peppar.type.type == "ENTITY":
             if obj.level == '1':
                 return {
                     #ENTITY fields
@@ -79,7 +77,7 @@ class PepparInsightSerializer(serializers.ModelSerializer):
                     #ENTITY fields
                     'entity_name' : obj.peppar.entity_name,
                 }
-        if obj.peppar.type == "PROPERTY":
+        if obj.peppar.type.type == "PROPERTY":
             if obj.level == '1':
                 return {
                     #PROPERTY fields
@@ -110,8 +108,8 @@ class PepparInsightSerializer(serializers.ModelSerializer):
 class RelationInsightSerializer(serializers.ModelSerializer):
     # Flattened representation of basic data from related Peppar
     relation_uuid = serializers.SerializerMethodField()
-    relation_type = serializers.SerializerMethodField()
     relation_name = serializers.SerializerMethodField()
+    relation_type = serializers.SerializerMethodField()
     # Reference to the tho Peppar Objects in the relation
     pepparA = serializers.SerializerMethodField()
     pepparB = serializers.SerializerMethodField()
@@ -128,7 +126,7 @@ class RelationInsightSerializer(serializers.ModelSerializer):
         return obj.relation.uuid
 
     def get_relation_type(self, obj):
-        return obj.relation.type
+        return obj.relation.type.id
 
     def get_relation_name(self, obj):
         return obj.relation.name
