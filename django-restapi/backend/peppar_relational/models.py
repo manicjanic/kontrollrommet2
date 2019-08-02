@@ -3,6 +3,24 @@ from django.db import models
 
 from peppar_base.models import Peppar
 
+# Relation Types
+class RelationType(models.Model):
+    
+    RELATION_TYPE = [
+        ('PER-PER', 'PER-PER'),
+        ('PLA-PLA', 'PLA-PLA'),
+        ('PER-ENT', 'PER-ENT'),
+        ('PER-PLA', 'PER-PLA'),
+        ('ENT-PLA', 'ENT-PLA'),
+    ]
+
+    name = models.CharField(max_length=50)
+    type = models.CharField(max_length=7, choices=RELATION_TYPE)
+
+    def __str__(self):
+        return self.name
+
+
 # PEPPAR RELATIONAL MODEL
 class Relation(models.Model):
     
@@ -15,7 +33,7 @@ class Relation(models.Model):
     uuid = models.UUIDField(default=uuid_field.uuid4, unique=True, editable=False)
     name = models.CharField(max_length=120, editable=False, blank=True)
     # PS! Needs to be refactored into a foreign key field with a related list
-    type = models.CharField(max_length=120, choices=RELATION_TYPES)
+    type = models.ForeignKey(RelationType, on_delete=models.CASCADE)
     #Peppars connected
     pepparA = models.ForeignKey(Peppar, related_name="pepparA", on_delete=models.CASCADE)
     pepparB = models.ForeignKey(Peppar, related_name="pepparB", on_delete=models.CASCADE)
@@ -25,7 +43,7 @@ class Relation(models.Model):
 
     #Constructing the Name field based on data in other fields
     def save(self):
-        name = self.pepparA.name + ' - ' + self.type + ' - ' +  self.pepparB.name
+        name = self.pepparA.name + ' - ' + self.type.name + ' - ' +  self.pepparB.name
         self.name = name
         super(Relation, self).save()
 

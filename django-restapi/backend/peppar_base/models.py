@@ -1,6 +1,25 @@
 import uuid as uuid_field
 from django.db import models
 
+# PEPPAR Types
+class PepparType(models.Model):
+    
+    PEPPAR_TYPE = [
+        ('PERSON', 'Person Type'),
+        ('ENTITY', 'Entity Type'),
+        ('PROPERTY', 'Property Type'),
+        ('PLAN', 'Plan Type'),
+        ('ACTION', 'Action Type'),
+        ('RESULT', 'Result Type'),
+    ]
+
+    name = models.CharField(max_length=50)
+    type = models.CharField(max_length=8, choices=PEPPAR_TYPE)
+
+    def __str__(self):
+        return self.name
+
+
 # PEPPAR CORE MODEL
 class Peppar(models.Model):
     # The six types in the PEPPAR model
@@ -14,9 +33,8 @@ class Peppar(models.Model):
     ]
     #Identification fields
     uuid = models.UUIDField(default=uuid_field.uuid4, unique=True, editable=False)
-    type = models.CharField(max_length=8, choices=PEPPAR)
     name = models.CharField(max_length=120, editable=False, blank=True)
-
+    type = models.ForeignKey(PepparType, on_delete=models.CASCADE)
     #PERSON fields
     person_firstname = models.CharField(max_length=50, blank=True)
     person_lastname = models.CharField(max_length=100, blank=True)
@@ -33,6 +51,8 @@ class Peppar(models.Model):
     property_country = models.CharField(max_length=80, blank=True)
 
     #PLAN fields
+    plan_headline = models.CharField(max_length=300, blank=True)
+    plan_description = models.TextField(blank=True)
     
     #ACTION fields
     
@@ -50,6 +70,8 @@ class Peppar(models.Model):
             name = self.entity_name
         elif self.property_streetname:
             name = self.property_streetname + ' ' + self.property_streetnumber
+        elif self.plan_headline:
+            name = self.type.name + ": " + self.plan_headline
 
         self.name = name
         super(Peppar, self).save()
