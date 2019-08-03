@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef  } from 'react';
 import { NavLink } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -6,12 +6,13 @@ import {CSSModifier} from '../_helpers/CSS-modifier'
 
 const NavBar = (props) => {
     // Defining state. Selected = id from selected in selection menu
-    const [selected, setSelected] = useState(0)
-    
+    const [selected, setSelected] = useState()
+    const inputRef = useRef()
+
     // Effect Hook that executes when 'selected' changes
     useEffect(() => {
-        props.doSelectEntity(props.myEntityRelations.find(relation => relation.id == selected))    
-    }, [selected]);
+        props.doSelectEntity(props.myEntityRelations.find(relation => relation.id == selected))
+    }, [inputRef, selected]);
 
     // Set state on changes to selection menu
     const onChangeSelect = e => {
@@ -31,7 +32,7 @@ const NavBar = (props) => {
         if (props.dropdown_content.length) {
             return (
                 <span className="navbar-text">         
-                    <select className="custom-select" value={selected} onChange={onChangeSelect}>
+                    <select ref={inputRef} className="custom-select" value={selected} onChange={onChangeSelect}>
                         {props.dropdown_content.map(function(item, i) {
                         return <RepresentationDropdownItem item={item} key={item.id} />
                         })}
