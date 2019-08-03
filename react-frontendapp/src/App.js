@@ -27,25 +27,30 @@ class App extends Component {
             isLoggedin: false,
             isLoading: false,
             // Peppars and Relations
-            mePeppar: {},
             myPeppars: [ ],
             myRelations: [ ],
-            // Derived collections
+            // Derived Peppars and Relations
+            mePeppar: {},
             myEntityRelations: [],
             // Selections
-            selectedEntity : {},
+            selectedEntityRelation : {},
         }
         // Making functions available
         this.ModifyState = this.ModifyState.bind(this);
+        this.getState = this.getState.bind(this);
     }
 
-    // Callback functions to manipulate state
-    ModifyState(statekey, statevalue) {
-        this.setState({[statekey] : statevalue})
+    // Callback function to manipulate state
+    ModifyState(stateobj) {
+        this.setState(stateobj)
+    }
+
+    // Callback function to get state properties
+    getState(state_prop) {
+        return this.state[state_prop]
     }
     
-    // Page Layout and distribution of data and callbacks to the children
-    
+    // Layouts
     LoginSetup = () => (
     <div>
         <Login
@@ -79,6 +84,7 @@ class App extends Component {
         <div>
             <Loader
                 ModifyState={this.ModifyState}
+                getState={this.getState}
             />
         </div>
     )

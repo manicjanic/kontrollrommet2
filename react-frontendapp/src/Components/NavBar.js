@@ -5,20 +5,20 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import {CSSModifier} from '../_helpers/CSS-modifier'
 
 const NavBar = (props) => {
-    // Defining state. Selected id from dropdown and array of objects
+    // Defining state. Selected = id from selected in selection menu
     const [selected, setSelected] = useState(0)
-    // const [myEntityRelations, setMyEntityRelations] = useState(props.myEntityRelations())
+    
+    // Effect Hook that executes when 'selected' changes
+    useEffect(() => {
+        props.doSelectEntity(props.myEntityRelations.find(relation => relation.id == selected))    
+    }, [selected]);
 
-//    useEffect(() => {
-//        console.log("running useeffect")
-//        setMyEntityRelations(props.myEntityRelations());
-//    }, [])
- 
+    // Set state on changes to selection menu
     const onChangeSelect = e => {
         setSelected(+e.target.value)
-        console.log("selected", (selected), props.myEntityRelations, props.myEntityRelations[selected])
-        props.doSelectEntity(props.myEntityRelations[(selected)])
-    }
+    }        
+    
+    // Greeting element, controlled by mePeppar data  
     const Greeting = (props) => {
         if (props.mePeppar.peppar_name) {
             return ("Hello, " + props.mePeppar.peppar_name + ". You are currently representing")
@@ -26,16 +26,14 @@ const NavBar = (props) => {
         return ""
     }
 
+    // Representation choice element, passing 
     const RepresentationDropdown = (props) => {
-        console.log("in the dropdown", props.dropdown_content)
-        console.log("state myER", props.myEntityRelations)
         if (props.dropdown_content.length) {
             return (
                 <span className="navbar-text">         
                     <select className="custom-select" value={selected} onChange={onChangeSelect}>
                         {props.dropdown_content.map(function(item, i) {
-                            console.log("inside map", i, item.uiid)
-                        return <RepresentationDropdownItem item={item} id={i} key={item.uuid} />
+                        return <RepresentationDropdownItem item={item} key={item.id} />
                         })}
                     </select>                                    
                 </span>
@@ -45,7 +43,7 @@ const NavBar = (props) => {
     }
 
     const RepresentationDropdownItem = (props) => {
-        return <option value={props.id}>{props.item.pepparB.name} as {props.item.typeobj.name}</option>
+        return <option value={props.item.id}>{props.item.pepparB.name} as {props.item.typeobj.name}</option>
     }
 
     return (

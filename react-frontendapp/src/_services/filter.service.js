@@ -62,9 +62,17 @@ const addNestRelation = (relations, type) => {
     return new_relations
 }
 
+const findMe = (peppars) => {
+    let me = peppars.find(peppar => {
+        return peppar.level == "0"
+    })
+    return me
+}
+
 export const filterService = {
     get_specified_myrelations,
     align_and_addnest_relations,
     addNestPeppar,
-    addNestRelation
+    addNestRelation,
+    findMe
 }

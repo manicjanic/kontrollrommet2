@@ -23,7 +23,7 @@ class Login extends Component {
     doLogout() {
         // remove token from local storage
         localStorage.removeItem('token');
-        this.props.ModifyState("isLoggedin", false)
+        this.props.ModifyState({"isLoggedin": false})
     }
     
     doLogin(username, password) {
@@ -34,7 +34,7 @@ class Login extends Component {
                 // store user details and basic auth credentials in local storage 
                 data.authdata = window.btoa(username + ':' + password);
                 localStorage.setItem('token', JSON.stringify(data));
-                this.props.ModifyState("isLoggedin", true)
+                this.props.ModifyState({"isLoggedin": true})
                 this.props.history.push('/loader')
         });
     }

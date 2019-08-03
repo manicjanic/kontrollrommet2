@@ -33,7 +33,7 @@ class Nav extends Component {
     }
 
     doSelectEntity(selected) {
-        this.props.ModifyState("selectedEntity", selected)
+        this.props.ModifyState({"selectedEntityRelation": selected})
     }
 
     render() {
