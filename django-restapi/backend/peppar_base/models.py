@@ -1,36 +1,35 @@
 import uuid as uuid_field
 from django.db import models
+from jsonfield import JSONField
 
 from catalog.models import PepparType
 
 # PEPPAR CORE MODEL
 class Peppar(models.Model):
-    #Identification fields
+    #Unique identification
     uuid = models.UUIDField(default=uuid_field.uuid4, unique=True, editable=False)
-    name = models.CharField(max_length=120, editable=False, blank=True)
+    # Type specification of PEPPAR
     type = models.ForeignKey(PepparType, on_delete=models.CASCADE)
-    #PERSON fields
-    person_firstname = models.CharField(max_length=50, blank=True)
-    person_lastname = models.CharField(max_length=100, blank=True)
-    person_email = models.EmailField(blank=True)
-    person_cellphonenumber = models.CharField(max_length=25, blank=True)
-    #ENTITY fields
-    entity_name = models.CharField(max_length=120, blank=True)
-    entity_orgnr = models.CharField(max_length=25, blank=True)
-    #PROPERTY fields
-    property_streetname = models.CharField(max_length=120, blank=True)
-    property_streetnumber = models.CharField(max_length=10, blank=True)
-    property_zipcode = models.CharField(max_length=20, blank=True)
-    property_city = models.CharField(max_length=80, blank=True)
-    property_country = models.CharField(max_length=80, blank=True)
-
-    #PLAN fields
-    plan_headline = models.CharField(max_length=300, blank=True)
-    plan_description = models.TextField(blank=True)
-    
-    #ACTION fields
-    
-    #RESULT fields
+    # Derived Name
+    name = models.CharField(max_length=300, editable=False, blank=True)
+    # The two Name Elements
+    nameA_meaning = models.CharField(max_length=300, blank=True)
+    nameA = models.CharField(max_length=300, blank=True)
+    nameB_meaning = models.CharField(max_length=300, blank=True)
+    nameB = models.CharField(max_length=300, blank=True)
+    # The two Time Elements
+    dateA_meaning = models.CharField(max_length=300, blank=True)
+    dateA = models.DateTimeField(blank=True, null=True)
+    dateB_meaning = models.CharField(max_length=300, blank=True)
+    dateB = models.DateTimeField(blank=True, null=True)
+    # Unique identifier Element
+    idcode_meaning = models.CharField(max_length=300, blank=True)
+    idcode = models.CharField(max_length=25, blank=True)
+    # A question
+    question_meaning = models.CharField(max_length=300, blank=True)
+    question = models.BooleanField(blank=True, null=True)
+    # All other specifications
+    specific_data = JSONField(null=True, blank=True)
 
     #Timestamps
     timestamp_created = models.DateTimeField(auto_now_add=True, editable=False)
@@ -38,14 +37,8 @@ class Peppar(models.Model):
 
     #Constructing the Name field based on data in other fields
     def save(self):
-        if self.person_firstname or self.person_lastname:
-            name = self.person_firstname + ' ' + self.person_lastname
-        elif self.entity_name:
-            name = self.entity_name
-        elif self.property_streetname:
-            name = self.property_streetname + ' ' + self.property_streetnumber
-        elif self.plan_headline:
-            name = self.type.name + ": " + self.plan_headline
+        if self.nameA or self.nameB:
+            name = self.nameA + ' ' + self.nameB
 
         self.name = name
         super(Peppar, self).save()

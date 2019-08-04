@@ -1,0 +1,223 @@
+let obj = {
+    id: 0,
+    nest: {
+        id: 0,
+        text: "hallo"
+    },
+    array: ["hei", "jå", "nå"]
+}
+
+let Objectlist = [{
+        "uuid": "c972aa0f-b4fb-4123-9448-3a7c6fad8ccd",
+        "level": "1",
+        "relation_uuid": "47543ef4-3b80-4e0f-ab49-785907c3a2bb",
+        "relation_type_id": 1,
+        "relation_name": "Janic Heen - Styreleder - Prompelia Borettslag",
+        "pepparA": {
+            "uuid": "f28ca1f1-1880-4f3d-b656-2bf59d7557fa",
+            "name": "Janic Heen",
+            "type": 1
+        },
+        "pepparB": {
+            "uuid": "e1720166-b255-4be8-8561-20a448aaf538",
+            "name": "Prompelia Borettslag ",
+            "type": 2
+        },
+        "added_data": {
+            "relation_dateA": null,
+            "relation_dateB": null,
+            "relation_idcode": "",
+            "relation_question": null
+        }
+    },
+    {
+        "uuid": "d6e818df-a2fe-4a53-9c8b-a71e934608d1",
+        "level": "1",
+        "relation_uuid": "0bf0f008-028a-4470-b402-01c2fc8fc07b",
+        "relation_type_id": 2,
+        "relation_name": "Janic Heen - Styremedlem - Rævåsen Borettslag ",
+        "pepparA": {
+            "uuid": "f28ca1f1-1880-4f3d-b656-2bf59d7557fa",
+            "name": "Janic Heen",
+            "type": 1
+        },
+        "pepparB": {
+            "uuid": "3de76245-457c-4961-bad1-ededffeea803",
+            "name": "Rævåsen Borettslag ",
+            "type": 2
+        },
+        "added_data": {
+            "relation_dateA": null,
+            "relation_dateB": null,
+            "relation_idcode": "",
+            "relation_question": null
+        }
+    },
+    {
+        "uuid": "e32d279c-d0d5-4182-b9de-316630f0b5a4",
+        "level": "2",
+        "relation_uuid": "a647aa9d-5c66-4556-9119-48b35a3fe85a",
+        "relation_type_id": 2,
+        "relation_name": "John Holmes - Styremedlem - Prompelia Borettslag",
+        "pepparA": {
+            "uuid": "b1802261-f26a-463c-b968-85c9f3973e46",
+            "name": "John Holmes",
+            "type": 1
+        },
+        "pepparB": {
+            "uuid": "e1720166-b255-4be8-8561-20a448aaf538",
+            "name": "Prompelia Borettslag ",
+            "type": 2
+        },
+        "added_data": {}
+    },
+    {
+        "uuid": "5740f784-7b1f-48b7-bcfc-eeb3a86988d0",
+        "level": "1",
+        "relation_uuid": "68ed55c9-20bc-424c-9e0e-86b903ad1e4b",
+        "relation_type_id": 3,
+        "relation_name": "Janic Heen - Møteinnkaller - Innkalling til Styremøte ",
+        "pepparA": {
+            "uuid": "f28ca1f1-1880-4f3d-b656-2bf59d7557fa",
+            "name": "Janic Heen",
+            "type": 1
+        },
+        "pepparB": {
+            "uuid": "48407391-7940-44a8-812b-5d3e448a880f",
+            "name": "Styremøte Prompelia Borettslag",
+            "type": 4
+        },
+        "added_data": {
+            "relation_dateA": null,
+            "relation_dateB": null,
+            "relation_idcode": "",
+            "relation_question": null
+        }
+    },
+    {
+        "uuid": "1695a06e-6fc5-485c-a694-e8d0710c6539",
+        "level": "1",
+        "relation_uuid": "69ca351d-13ca-47ef-890b-f3a1d3b2c92e",
+        "relation_type_id": 5,
+        "relation_name": "Prompelia Borettslag  - Gjeldende entitet - Styremøte Prompelia Borettslag",
+        "pepparA": {
+            "uuid": "e1720166-b255-4be8-8561-20a448aaf538",
+            "name": "Prompelia Borettslag ",
+            "type": 2
+        },
+        "pepparB": {
+            "uuid": "48407391-7940-44a8-812b-5d3e448a880f",
+            "name": "Styremøte Prompelia Borettslag",
+            "type": 4
+        },
+        "added_data": {
+            "relation_dateA": null,
+            "relation_dateB": null,
+            "relation_idcode": "",
+            "relation_question": null
+        }
+    }
+]
+
+let relationtypelist = [{
+        "id": 1,
+        "name": "Styreleder",
+        "type": "PER-ENT"
+    },
+    {
+        "id": 2,
+        "name": "Styremedlem",
+        "type": "PER-ENT"
+    },
+    {
+        "id": 3,
+        "name": "Møteinnkaller",
+        "type": "PER-PLA"
+    },
+    {
+        "id": 4,
+        "name": "Møteinnkalt",
+        "type": "PER-PLA"
+    },
+    {
+        "id": 5,
+        "name": "Gjeldende entitet",
+        "type": "ENT-PLA"
+    }
+]
+
+let peppartypelist = [{
+        "id": 1,
+        "name": "Person",
+        "type": "PERSON"
+    },
+    {
+        "id": 2,
+        "name": "Borettslag",
+        "type": "ENTITY"
+    },
+    {
+        "id": 3,
+        "name": "Sameie",
+        "type": "ENTITY"
+    },
+    {
+        "id": 4,
+        "name": "Møteinnkalling",
+        "type": "PLAN"
+    },
+    {
+        "id": 5,
+        "name": "Møteinnkallings-punkt (Agenda)",
+        "type": "PLAN"
+    }
+]
+
+let lookuplist = [
+    {idkey: 'relation_type_id', referencelist: relationtypelist},
+    {idkey: "type", referencelist: peppartypelist}
+]
+
+let test = add_nesteddata(Objectlist, lookuplist)
+console.log(test)
+
+// Takes and objectlist, Replaces id fields with nested data objects linked to a reference list
+// Objectlist = [{}...]
+// lookuplist = [{idkey: 'akey', referencelist: [{}...]}...]
+const add_nesteddata = (objectlist, lookuplist) => {
+    console.log ("starting with this objectlist", objectlist)
+    console.log ("mapping through objects")
+    let altered_objectlist = objectlist.map((object) => {
+        console.log ("here is the object im working on", object)
+        for (var property in object) {
+            console.log("working on this property:", property)
+            let _property = property
+            let key = lookuplist.find(item => {
+                console.log("idkey", item.idkey)
+                return item.idkey == _property
+            })
+           console.log("key", key)
+            if (key) {
+                console.log("running prop is id routine")
+                let lookup_object = key.referencelist.find(listitem => {
+                    return listitem.id == object[property]
+                })
+                object[property] = lookup_object
+                console.log ("stored a new property on object. Now it looks like this:", object)
+            }
+            else if ((typeof object[property] == 'object') && (Array.isArray(object[property]) === false)) {
+                    console.log("running prop is object routine")
+                    let propertyobject = object[property]
+                    console.log("this is the property that is an object", propertyobject)
+                    let altered_propertyobject = add_nesteddata([propertyobject], lookuplist)
+                    console.log("altered propertyobject", altered_propertyobject)
+                    object[property] = altered_propertyobject[0]
+            }
+            console.log("all checks passed")
+        }
+        console.log("All properties checked. This is the object returned:", object)
+        return object
+    })
+    console.log("altered objectlist", altered_objectlist)
+    return altered_objectlist
+}

@@ -15,22 +15,23 @@ class PepparInsight(models.Model):
         ('2', 'Close'),
         ('3', 'Distant'),
     ]
-    #Identification fields
+    # Uniquie Identification
     uuid = models.UUIDField(default=uuid_field.uuid4, unique=True, editable=False)
+    # Specified User
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    #The Object observed
+    peppar = models.ForeignKey(Peppar, on_delete=models.CASCADE)
     #Insight Level
     level = models.CharField(max_length=1, choices=LEVEL)
-    #Object
-    peppar = models.ForeignKey(Peppar, on_delete=models.CASCADE)
     
     #Timestamps
     timestamp_created = models.DateTimeField(auto_now_add=True, editable=False)
     timestamp_updated = models.DateTimeField(auto_now=True, editable=False)
 
-    def _str_(self):
-        return self.user.username + " Level " + self.level + " " + self.peppar.name
+    def __str__(self):
+        return self.user.username + " - " + self.level + " - " + self.peppar.name
 
-#Users sight scope into Peppars
+#Users sight scope into Relations
 class RelationInsight(models.Model):
     LEVEL = [
         ('0', 'Me'),
@@ -38,13 +39,16 @@ class RelationInsight(models.Model):
         ('2', 'Close'),
         ('3', 'Distant'),
     ]
-    #Identification fields
+
+    # Uniquie Identification
     uuid = models.UUIDField(default=uuid_field.uuid4, unique=True, editable=False)
+    # Specified User
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    #The Object observed
+    relation = models.ForeignKey(Relation, on_delete=models.CASCADE)
     #Insight Level
     level = models.CharField(max_length=1, choices=LEVEL, blank=True)
-    #Object
-    relation = models.ForeignKey(Relation, on_delete=models.CASCADE)
+    
     #Timestamps
     timestamp_created = models.DateTimeField(auto_now_add=True, editable=False)
     timestamp_updated = models.DateTimeField(auto_now=True, editable=False)

@@ -14,20 +14,31 @@ class Loader extends Component {
     componentDidMount() {
         const fetchData = async () => {
             // Get the data
-            let [pepparType, relationType, myPeppars_raw, myRelations_raw] = await Promise.all([
+            let [
+                pepparType, 
+                relationType, 
+                myPeppars_raw, 
+                myRelations_raw
+            ] = await Promise.all([
                 dataService.getPepparType(),
                 dataService.getRelationType(),
                 dataService.getPeppars(), 
                 dataService.getRelations(),
             ]);
+           
             // Manipulate to use in fronend solution
-            const myPeppars = (myPeppars_raw) => {
-                console.log("pep-raw", myPeppars_raw)
+            const add_id = (objectlist) => {
                 // Add ID
-                let firstchurn = myPeppars_raw.map((peppar, i) => {
-                    peppar.id = i
-                    return peppar
+                let result = objectlist.map((object, i) => {
+                    object.id = i
+                    return object
                 })
+            return result
+            }
+            
+            const myPeppars = (myPeppars_raw) => {
+                // Add ID
+                result = add_id(myPeppars_raw)
                 // Add nested data
                 let secondchurn = filterService.addNestPeppar(firstchurn, pepparType)
 

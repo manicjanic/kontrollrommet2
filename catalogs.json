@@ -5,6 +5,799 @@
         {
             "type": "table",
             "database": null,
+            "name": "auth_group",
+            "withoutRowId": true,
+            "ddl": "CREATE TABLE \"auth_group\" (\"id\" integer NOT NULL PRIMARY KEY AUTOINCREMENT, \"name\" varchar(150) NOT NULL UNIQUE)",
+            "columns": [
+                {
+                    "name": "id",
+                    "type": "integer",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL "
+                        },
+                        {
+                            "type": "PRIMARY KEY",
+                            "definition": "PRIMARY KEY AUTOINCREMENT"
+                        }
+                    ]
+                },
+                {
+                    "name": "name",
+                    "type": "varchar",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL "
+                        },
+                        {
+                            "type": "UNIQUE",
+                            "definition": "UNIQUE"
+                        }
+                    ]
+                }
+            ],
+            "rows": [
+            ]
+        },
+        {
+            "type": "table",
+            "database": null,
+            "name": "auth_group_permissions",
+            "withoutRowId": true,
+            "ddl": "CREATE TABLE \"auth_group_permissions\" (\"id\" integer NOT NULL PRIMARY KEY AUTOINCREMENT, \"group_id\" integer NOT NULL REFERENCES \"auth_group\" (\"id\") DEFERRABLE INITIALLY DEFERRED, \"permission_id\" integer NOT NULL REFERENCES \"auth_permission\" (\"id\") DEFERRABLE INITIALLY DEFERRED)",
+            "columns": [
+                {
+                    "name": "id",
+                    "type": "integer",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL "
+                        },
+                        {
+                            "type": "PRIMARY KEY",
+                            "definition": "PRIMARY KEY AUTOINCREMENT"
+                        }
+                    ]
+                },
+                {
+                    "name": "group_id",
+                    "type": "integer",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL "
+                        },
+                        {
+                            "type": "FOREIGN KEY",
+                            "definition": "REFERENCES \"auth_group\" (\"id\") "
+                        }
+                    ]
+                },
+                {
+                    "name": "permission_id",
+                    "type": "integer",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL "
+                        },
+                        {
+                            "type": "FOREIGN KEY",
+                            "definition": "REFERENCES \"auth_permission\" (\"id\") "
+                        }
+                    ]
+                }
+            ],
+            "rows": [
+            ]
+        },
+        {
+            "type": "table",
+            "database": null,
+            "name": "auth_permission",
+            "withoutRowId": true,
+            "ddl": "CREATE TABLE \"auth_permission\" (\"id\" integer NOT NULL PRIMARY KEY AUTOINCREMENT, \"content_type_id\" integer NOT NULL REFERENCES \"django_content_type\" (\"id\") DEFERRABLE INITIALLY DEFERRED, \"codename\" varchar(100) NOT NULL, \"name\" varchar(255) NOT NULL)",
+            "columns": [
+                {
+                    "name": "id",
+                    "type": "integer",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL "
+                        },
+                        {
+                            "type": "PRIMARY KEY",
+                            "definition": "PRIMARY KEY AUTOINCREMENT"
+                        }
+                    ]
+                },
+                {
+                    "name": "content_type_id",
+                    "type": "integer",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL "
+                        },
+                        {
+                            "type": "FOREIGN KEY",
+                            "definition": "REFERENCES \"django_content_type\" (\"id\") "
+                        }
+                    ]
+                },
+                {
+                    "name": "codename",
+                    "type": "varchar",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL"
+                        }
+                    ]
+                },
+                {
+                    "name": "name",
+                    "type": "varchar",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL"
+                        }
+                    ]
+                }
+            ],
+            "rows": [
+                [
+                    1,
+                    1,
+                    "add_logentry",
+                    "Can add log entry"
+                ],
+                [
+                    2,
+                    1,
+                    "change_logentry",
+                    "Can change log entry"
+                ],
+                [
+                    3,
+                    1,
+                    "delete_logentry",
+                    "Can delete log entry"
+                ],
+                [
+                    4,
+                    1,
+                    "view_logentry",
+                    "Can view log entry"
+                ],
+                [
+                    5,
+                    2,
+                    "add_permission",
+                    "Can add permission"
+                ],
+                [
+                    6,
+                    2,
+                    "change_permission",
+                    "Can change permission"
+                ],
+                [
+                    7,
+                    2,
+                    "delete_permission",
+                    "Can delete permission"
+                ],
+                [
+                    8,
+                    2,
+                    "view_permission",
+                    "Can view permission"
+                ],
+                [
+                    9,
+                    3,
+                    "add_group",
+                    "Can add group"
+                ],
+                [
+                    10,
+                    3,
+                    "change_group",
+                    "Can change group"
+                ],
+                [
+                    11,
+                    3,
+                    "delete_group",
+                    "Can delete group"
+                ],
+                [
+                    12,
+                    3,
+                    "view_group",
+                    "Can view group"
+                ],
+                [
+                    13,
+                    4,
+                    "add_user",
+                    "Can add user"
+                ],
+                [
+                    14,
+                    4,
+                    "change_user",
+                    "Can change user"
+                ],
+                [
+                    15,
+                    4,
+                    "delete_user",
+                    "Can delete user"
+                ],
+                [
+                    16,
+                    4,
+                    "view_user",
+                    "Can view user"
+                ],
+                [
+                    17,
+                    5,
+                    "add_contenttype",
+                    "Can add content type"
+                ],
+                [
+                    18,
+                    5,
+                    "change_contenttype",
+                    "Can change content type"
+                ],
+                [
+                    19,
+                    5,
+                    "delete_contenttype",
+                    "Can delete content type"
+                ],
+                [
+                    20,
+                    5,
+                    "view_contenttype",
+                    "Can view content type"
+                ],
+                [
+                    21,
+                    6,
+                    "add_session",
+                    "Can add session"
+                ],
+                [
+                    22,
+                    6,
+                    "change_session",
+                    "Can change session"
+                ],
+                [
+                    23,
+                    6,
+                    "delete_session",
+                    "Can delete session"
+                ],
+                [
+                    24,
+                    6,
+                    "view_session",
+                    "Can view session"
+                ],
+                [
+                    25,
+                    7,
+                    "add_token",
+                    "Can add Token"
+                ],
+                [
+                    26,
+                    7,
+                    "change_token",
+                    "Can change Token"
+                ],
+                [
+                    27,
+                    7,
+                    "delete_token",
+                    "Can delete Token"
+                ],
+                [
+                    28,
+                    7,
+                    "view_token",
+                    "Can view Token"
+                ],
+                [
+                    29,
+                    8,
+                    "add_peppar",
+                    "Can add peppar"
+                ],
+                [
+                    30,
+                    8,
+                    "change_peppar",
+                    "Can change peppar"
+                ],
+                [
+                    31,
+                    8,
+                    "delete_peppar",
+                    "Can delete peppar"
+                ],
+                [
+                    32,
+                    8,
+                    "view_peppar",
+                    "Can view peppar"
+                ],
+                [
+                    33,
+                    9,
+                    "add_relation",
+                    "Can add relation"
+                ],
+                [
+                    34,
+                    9,
+                    "change_relation",
+                    "Can change relation"
+                ],
+                [
+                    35,
+                    9,
+                    "delete_relation",
+                    "Can delete relation"
+                ],
+                [
+                    36,
+                    9,
+                    "view_relation",
+                    "Can view relation"
+                ],
+                [
+                    37,
+                    10,
+                    "add_peppartype",
+                    "Can add peppar type"
+                ],
+                [
+                    38,
+                    10,
+                    "change_peppartype",
+                    "Can change peppar type"
+                ],
+                [
+                    39,
+                    10,
+                    "delete_peppartype",
+                    "Can delete peppar type"
+                ],
+                [
+                    40,
+                    10,
+                    "view_peppartype",
+                    "Can view peppar type"
+                ],
+                [
+                    41,
+                    11,
+                    "add_relationtype",
+                    "Can add relation type"
+                ],
+                [
+                    42,
+                    11,
+                    "change_relationtype",
+                    "Can change relation type"
+                ],
+                [
+                    43,
+                    11,
+                    "delete_relationtype",
+                    "Can delete relation type"
+                ],
+                [
+                    44,
+                    11,
+                    "view_relationtype",
+                    "Can view relation type"
+                ],
+                [
+                    45,
+                    12,
+                    "add_relationinsight",
+                    "Can add relation insight"
+                ],
+                [
+                    46,
+                    12,
+                    "change_relationinsight",
+                    "Can change relation insight"
+                ],
+                [
+                    47,
+                    12,
+                    "delete_relationinsight",
+                    "Can delete relation insight"
+                ],
+                [
+                    48,
+                    12,
+                    "view_relationinsight",
+                    "Can view relation insight"
+                ],
+                [
+                    49,
+                    13,
+                    "add_pepparinsight",
+                    "Can add peppar insight"
+                ],
+                [
+                    50,
+                    13,
+                    "change_pepparinsight",
+                    "Can change peppar insight"
+                ],
+                [
+                    51,
+                    13,
+                    "delete_pepparinsight",
+                    "Can delete peppar insight"
+                ],
+                [
+                    52,
+                    13,
+                    "view_pepparinsight",
+                    "Can view peppar insight"
+                ],
+                [
+                    53,
+                    14,
+                    "add_todo",
+                    "Can add todo"
+                ],
+                [
+                    54,
+                    14,
+                    "change_todo",
+                    "Can change todo"
+                ],
+                [
+                    55,
+                    14,
+                    "delete_todo",
+                    "Can delete todo"
+                ],
+                [
+                    56,
+                    14,
+                    "view_todo",
+                    "Can view todo"
+                ]
+            ]
+        },
+        {
+            "type": "table",
+            "database": null,
+            "name": "auth_user",
+            "withoutRowId": true,
+            "ddl": "CREATE TABLE \"auth_user\" (\"id\" integer NOT NULL PRIMARY KEY AUTOINCREMENT, \"password\" varchar(128) NOT NULL, \"last_login\" datetime NULL, \"is_superuser\" bool NOT NULL, \"username\" varchar(150) NOT NULL UNIQUE, \"first_name\" varchar(30) NOT NULL, \"email\" varchar(254) NOT NULL, \"is_staff\" bool NOT NULL, \"is_active\" bool NOT NULL, \"date_joined\" datetime NOT NULL, \"last_name\" varchar(150) NOT NULL)",
+            "columns": [
+                {
+                    "name": "id",
+                    "type": "integer",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL "
+                        },
+                        {
+                            "type": "PRIMARY KEY",
+                            "definition": "PRIMARY KEY AUTOINCREMENT"
+                        }
+                    ]
+                },
+                {
+                    "name": "password",
+                    "type": "varchar",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL"
+                        }
+                    ]
+                },
+                {
+                    "name": "last_login",
+                    "type": "datetime",
+                    "constraints": [
+                        {
+                            "type": null,
+                            "definition": "NULL"
+                        }
+                    ]
+                },
+                {
+                    "name": "is_superuser",
+                    "type": "bool",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL"
+                        }
+                    ]
+                },
+                {
+                    "name": "username",
+                    "type": "varchar",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL "
+                        },
+                        {
+                            "type": "UNIQUE",
+                            "definition": "UNIQUE"
+                        }
+                    ]
+                },
+                {
+                    "name": "first_name",
+                    "type": "varchar",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL"
+                        }
+                    ]
+                },
+                {
+                    "name": "email",
+                    "type": "varchar",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL"
+                        }
+                    ]
+                },
+                {
+                    "name": "is_staff",
+                    "type": "bool",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL"
+                        }
+                    ]
+                },
+                {
+                    "name": "is_active",
+                    "type": "bool",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL"
+                        }
+                    ]
+                },
+                {
+                    "name": "date_joined",
+                    "type": "datetime",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL"
+                        }
+                    ]
+                },
+                {
+                    "name": "last_name",
+                    "type": "varchar",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL"
+                        }
+                    ]
+                }
+            ],
+            "rows": [
+                [
+                    1,
+                    "pbkdf2_sha256$150000$Yh2Ja63t1iPH$he770G5VjUzkyNCfNM48gMzrArEFninF2m+ccca6p8M=",
+                    "2019-08-02 13:37:55.669141",
+                    1,
+                    "janic",
+                    "",
+                    "janic@online.no",
+                    1,
+                    1,
+                    "2019-08-02 11:24:51.707801",
+                    ""
+                ]
+            ]
+        },
+        {
+            "type": "table",
+            "database": null,
+            "name": "auth_user_groups",
+            "withoutRowId": true,
+            "ddl": "CREATE TABLE \"auth_user_groups\" (\"id\" integer NOT NULL PRIMARY KEY AUTOINCREMENT, \"user_id\" integer NOT NULL REFERENCES \"auth_user\" (\"id\") DEFERRABLE INITIALLY DEFERRED, \"group_id\" integer NOT NULL REFERENCES \"auth_group\" (\"id\") DEFERRABLE INITIALLY DEFERRED)",
+            "columns": [
+                {
+                    "name": "id",
+                    "type": "integer",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL "
+                        },
+                        {
+                            "type": "PRIMARY KEY",
+                            "definition": "PRIMARY KEY AUTOINCREMENT"
+                        }
+                    ]
+                },
+                {
+                    "name": "user_id",
+                    "type": "integer",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL "
+                        },
+                        {
+                            "type": "FOREIGN KEY",
+                            "definition": "REFERENCES \"auth_user\" (\"id\") "
+                        }
+                    ]
+                },
+                {
+                    "name": "group_id",
+                    "type": "integer",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL "
+                        },
+                        {
+                            "type": "FOREIGN KEY",
+                            "definition": "REFERENCES \"auth_group\" (\"id\") "
+                        }
+                    ]
+                }
+            ],
+            "rows": [
+            ]
+        },
+        {
+            "type": "table",
+            "database": null,
+            "name": "auth_user_user_permissions",
+            "withoutRowId": true,
+            "ddl": "CREATE TABLE \"auth_user_user_permissions\" (\"id\" integer NOT NULL PRIMARY KEY AUTOINCREMENT, \"user_id\" integer NOT NULL REFERENCES \"auth_user\" (\"id\") DEFERRABLE INITIALLY DEFERRED, \"permission_id\" integer NOT NULL REFERENCES \"auth_permission\" (\"id\") DEFERRABLE INITIALLY DEFERRED)",
+            "columns": [
+                {
+                    "name": "id",
+                    "type": "integer",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL "
+                        },
+                        {
+                            "type": "PRIMARY KEY",
+                            "definition": "PRIMARY KEY AUTOINCREMENT"
+                        }
+                    ]
+                },
+                {
+                    "name": "user_id",
+                    "type": "integer",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL "
+                        },
+                        {
+                            "type": "FOREIGN KEY",
+                            "definition": "REFERENCES \"auth_user\" (\"id\") "
+                        }
+                    ]
+                },
+                {
+                    "name": "permission_id",
+                    "type": "integer",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL "
+                        },
+                        {
+                            "type": "FOREIGN KEY",
+                            "definition": "REFERENCES \"auth_permission\" (\"id\") "
+                        }
+                    ]
+                }
+            ],
+            "rows": [
+            ]
+        },
+        {
+            "type": "table",
+            "database": null,
+            "name": "authtoken_token",
+            "withoutRowId": true,
+            "ddl": "CREATE TABLE \"authtoken_token\" (\"key\" varchar(40) NOT NULL PRIMARY KEY, \"created\" datetime NOT NULL, \"user_id\" integer NOT NULL UNIQUE REFERENCES \"auth_user\" (\"id\") DEFERRABLE INITIALLY DEFERRED)",
+            "columns": [
+                {
+                    "name": "key",
+                    "type": "varchar",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL "
+                        },
+                        {
+                            "type": "PRIMARY KEY",
+                            "definition": "PRIMARY KEY"
+                        }
+                    ]
+                },
+                {
+                    "name": "created",
+                    "type": "datetime",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL"
+                        }
+                    ]
+                },
+                {
+                    "name": "user_id",
+                    "type": "integer",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL "
+                        },
+                        {
+                            "type": "UNIQUE",
+                            "definition": "UNIQUE "
+                        },
+                        {
+                            "type": "FOREIGN KEY",
+                            "definition": "REFERENCES \"auth_user\" (\"id\") "
+                        }
+                    ]
+                }
+            ],
+            "rows": [
+                [
+                    "5e5d1f7d316699d7773a3697b9f3e8f920fe5ce4",
+                    "2019-08-02 13:38:20.612589",
+                    1
+                ]
+            ]
+        },
+        {
+            "type": "table",
+            "database": null,
             "name": "catalog_peppartype",
             "withoutRowId": true,
             "ddl": "CREATE TABLE \"catalog_peppartype\" (\"id\" integer NOT NULL PRIMARY KEY AUTOINCREMENT, \"name\" varchar(50) NOT NULL, \"type\" varchar(8) NOT NULL)",
@@ -127,15 +920,2210 @@
                 ],
                 [
                     3,
-                    "Forfatter av Møteinnkalling",
+                    "Møteinnkaller",
                     "PER-PLA"
                 ],
                 [
                     4,
-                    "Innkalt på Møteinnkalling",
+                    "Møteinnkalt",
                     "PER-PLA"
+                ],
+                [
+                    5,
+                    "Gjeldende entitet",
+                    "ENT-PLA"
                 ]
             ]
+        },
+        {
+            "type": "table",
+            "database": null,
+            "name": "django_admin_log",
+            "withoutRowId": true,
+            "ddl": "CREATE TABLE \"django_admin_log\" (\"id\" integer NOT NULL PRIMARY KEY AUTOINCREMENT, \"action_time\" datetime NOT NULL, \"object_id\" text NULL, \"object_repr\" varchar(200) NOT NULL, \"change_message\" text NOT NULL, \"content_type_id\" integer NULL REFERENCES \"django_content_type\" (\"id\") DEFERRABLE INITIALLY DEFERRED, \"user_id\" integer NOT NULL REFERENCES \"auth_user\" (\"id\") DEFERRABLE INITIALLY DEFERRED, \"action_flag\" smallint unsigned NOT NULL CHECK (\"action_flag\" >= 0))",
+            "columns": [
+                {
+                    "name": "id",
+                    "type": "integer",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL "
+                        },
+                        {
+                            "type": "PRIMARY KEY",
+                            "definition": "PRIMARY KEY AUTOINCREMENT"
+                        }
+                    ]
+                },
+                {
+                    "name": "action_time",
+                    "type": "datetime",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL"
+                        }
+                    ]
+                },
+                {
+                    "name": "object_id",
+                    "type": "text",
+                    "constraints": [
+                        {
+                            "type": null,
+                            "definition": "NULL"
+                        }
+                    ]
+                },
+                {
+                    "name": "object_repr",
+                    "type": "varchar",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL"
+                        }
+                    ]
+                },
+                {
+                    "name": "change_message",
+                    "type": "text",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL"
+                        }
+                    ]
+                },
+                {
+                    "name": "content_type_id",
+                    "type": "integer",
+                    "constraints": [
+                        {
+                            "type": null,
+                            "definition": "NULL "
+                        },
+                        {
+                            "type": "FOREIGN KEY",
+                            "definition": "REFERENCES \"django_content_type\" (\"id\") "
+                        }
+                    ]
+                },
+                {
+                    "name": "user_id",
+                    "type": "integer",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL "
+                        },
+                        {
+                            "type": "FOREIGN KEY",
+                            "definition": "REFERENCES \"auth_user\" (\"id\") "
+                        }
+                    ]
+                },
+                {
+                    "name": "action_flag",
+                    "type": "smallint unsigned",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL "
+                        },
+                        {
+                            "type": "CHECK",
+                            "definition": "CHECK (\"action_flag\" >= 0)"
+                        }
+                    ]
+                }
+            ],
+            "rows": [
+                [
+                    1,
+                    "2019-08-02 11:25:25.736968",
+                    "1",
+                    "Person",
+                    "[{\"added\": {}}]",
+                    10,
+                    1,
+                    1
+                ],
+                [
+                    2,
+                    "2019-08-02 11:25:49.640124",
+                    "2",
+                    "Borettslag",
+                    "[{\"added\": {}}]",
+                    10,
+                    1,
+                    1
+                ],
+                [
+                    3,
+                    "2019-08-02 11:26:17.476706",
+                    "3",
+                    "Sameie",
+                    "[{\"added\": {}}]",
+                    10,
+                    1,
+                    1
+                ],
+                [
+                    4,
+                    "2019-08-02 11:26:34.290519",
+                    "1",
+                    "Styreleder",
+                    "[{\"added\": {}}]",
+                    11,
+                    1,
+                    1
+                ],
+                [
+                    5,
+                    "2019-08-02 11:26:47.891936",
+                    "2",
+                    "Styremedlem",
+                    "[{\"added\": {}}]",
+                    11,
+                    1,
+                    1
+                ],
+                [
+                    6,
+                    "2019-08-02 11:27:18.025641",
+                    "4",
+                    "Møteinnkalling",
+                    "[{\"added\": {}}]",
+                    10,
+                    1,
+                    1
+                ],
+                [
+                    7,
+                    "2019-08-02 11:28:01.492350",
+                    "5",
+                    "Møteinnkallings-punkt (Agenda)",
+                    "[{\"added\": {}}]",
+                    10,
+                    1,
+                    1
+                ],
+                [
+                    8,
+                    "2019-08-02 11:30:25.771853",
+                    "3",
+                    "Forfatter av Møteinnkalling",
+                    "[{\"added\": {}}]",
+                    11,
+                    1,
+                    1
+                ],
+                [
+                    9,
+                    "2019-08-02 11:31:18.005795",
+                    "4",
+                    "Innkalt på Møteinnkalling",
+                    "[{\"added\": {}}]",
+                    11,
+                    1,
+                    1
+                ],
+                [
+                    10,
+                    "2019-08-02 11:32:26.634605",
+                    "1",
+                    "Janic Heen",
+                    "[{\"added\": {}}]",
+                    8,
+                    1,
+                    1
+                ],
+                [
+                    11,
+                    "2019-08-02 11:32:47.256162",
+                    "1",
+                    "PepparInsight object (1)",
+                    "[{\"added\": {}}]",
+                    13,
+                    1,
+                    1
+                ],
+                [
+                    12,
+                    "2019-08-02 12:50:03.161813",
+                    "2",
+                    "John Holmes",
+                    "[{\"added\": {}}]",
+                    8,
+                    1,
+                    1
+                ],
+                [
+                    13,
+                    "2019-08-02 12:50:24.461519",
+                    "3",
+                    "Prompelia Borettslag",
+                    "[{\"added\": {}}]",
+                    8,
+                    1,
+                    1
+                ],
+                [
+                    14,
+                    "2019-08-02 12:50:39.819581",
+                    "4",
+                    "Generisk Sameie",
+                    "[{\"added\": {}}]",
+                    8,
+                    1,
+                    1
+                ],
+                [
+                    15,
+                    "2019-08-02 12:51:06.685616",
+                    "1",
+                    "Janic Heen - Styreleder - Prompelia Borettslag",
+                    "[{\"added\": {}}]",
+                    9,
+                    1,
+                    1
+                ],
+                [
+                    16,
+                    "2019-08-02 12:51:17.386592",
+                    "2",
+                    "John Holmes - Styremedlem - Prompelia Borettslag",
+                    "[{\"added\": {}}]",
+                    9,
+                    1,
+                    1
+                ],
+                [
+                    17,
+                    "2019-08-02 12:51:37.292827",
+                    "3",
+                    "John Holmes - Styremedlem - Generisk Sameie",
+                    "[{\"added\": {}}]",
+                    9,
+                    1,
+                    1
+                ],
+                [
+                    18,
+                    "2019-08-02 12:52:42.553207",
+                    "2",
+                    "PepparInsight object (2)",
+                    "[{\"added\": {}}]",
+                    13,
+                    1,
+                    1
+                ],
+                [
+                    19,
+                    "2019-08-02 12:53:01.200372",
+                    "1",
+                    "janic Level 1 Janic Heen - Styreleder - Prompelia Borettslag",
+                    "[{\"added\": {}}]",
+                    12,
+                    1,
+                    1
+                ],
+                [
+                    20,
+                    "2019-08-02 12:54:09.005906",
+                    "5",
+                    "Bølleberget Borettslag",
+                    "[{\"added\": {}}]",
+                    8,
+                    1,
+                    1
+                ],
+                [
+                    21,
+                    "2019-08-02 12:54:54.958308",
+                    "4",
+                    "Janic Heen - Styremedlem - Bølleberget Borettslag",
+                    "[{\"added\": {}}]",
+                    9,
+                    1,
+                    1
+                ],
+                [
+                    22,
+                    "2019-08-02 12:55:20.049521",
+                    "2",
+                    "janic Level 1 Janic Heen - Styremedlem - Bølleberget Borettslag",
+                    "[{\"added\": {}}]",
+                    12,
+                    1,
+                    1
+                ],
+                [
+                    23,
+                    "2019-08-02 12:55:59.107833",
+                    "3",
+                    "janic Level 2 John Holmes - Styremedlem - Prompelia Borettslag",
+                    "[{\"added\": {}}]",
+                    12,
+                    1,
+                    1
+                ],
+                [
+                    24,
+                    "2019-08-02 12:57:10.806271",
+                    "3",
+                    "PepparInsight object (3)",
+                    "[{\"added\": {}}]",
+                    13,
+                    1,
+                    1
+                ],
+                [
+                    25,
+                    "2019-08-02 12:57:35.805918",
+                    "4",
+                    "PepparInsight object (4)",
+                    "[{\"added\": {}}]",
+                    13,
+                    1,
+                    1
+                ],
+                [
+                    26,
+                    "2019-08-02 13:38:20.613521",
+                    "5e5d1f7d316699d7773a3697b9f3e8f920fe5ce4",
+                    "5e5d1f7d316699d7773a3697b9f3e8f920fe5ce4",
+                    "[{\"added\": {}}]",
+                    7,
+                    1,
+                    1
+                ],
+                [
+                    27,
+                    "2019-08-03 07:18:46.888004",
+                    "3",
+                    "Har innkalt til Møte",
+                    "[{\"changed\": {\"fields\": [\"name\"]}}]",
+                    11,
+                    1,
+                    2
+                ],
+                [
+                    28,
+                    "2019-08-03 07:19:04.365401",
+                    "4",
+                    "Er Innkalt til Møte",
+                    "[{\"changed\": {\"fields\": [\"name\"]}}]",
+                    11,
+                    1,
+                    2
+                ],
+                [
+                    29,
+                    "2019-08-03 07:19:53.552143",
+                    "4",
+                    "Er innkalt til Møte",
+                    "[{\"changed\": {\"fields\": [\"name\"]}}]",
+                    11,
+                    1,
+                    2
+                ],
+                [
+                    30,
+                    "2019-08-03 08:13:01.629187",
+                    "5",
+                    "Prompelia Borettslag ",
+                    "[{\"changed\": {\"fields\": [\"nameA\"]}}]",
+                    8,
+                    1,
+                    2
+                ],
+                [
+                    31,
+                    "2019-08-03 08:15:11.811096",
+                    "4",
+                    "Det Generiske Sameiet ",
+                    "[{\"changed\": {\"fields\": [\"nameA\"]}}]",
+                    8,
+                    1,
+                    2
+                ],
+                [
+                    32,
+                    "2019-08-03 08:16:36.676611",
+                    "5",
+                    "Rævåsen Borettslag ",
+                    "[{\"changed\": {\"fields\": [\"nameA\"]}}]",
+                    8,
+                    1,
+                    2
+                ],
+                [
+                    33,
+                    "2019-08-03 08:16:51.920062",
+                    "3",
+                    "Pro ",
+                    "[{\"changed\": {\"fields\": [\"nameA\"]}}]",
+                    8,
+                    1,
+                    2
+                ],
+                [
+                    34,
+                    "2019-08-03 08:16:57.937273",
+                    "3",
+                    "Prompelia Borettslag ",
+                    "[{\"changed\": {\"fields\": [\"nameA\"]}}]",
+                    8,
+                    1,
+                    2
+                ],
+                [
+                    35,
+                    "2019-08-03 08:20:57.237675",
+                    "1",
+                    "Janic Heen",
+                    "[{\"changed\": {\"fields\": [\"question\"]}}]",
+                    8,
+                    1,
+                    2
+                ],
+                [
+                    36,
+                    "2019-08-03 08:21:41.515723",
+                    "1",
+                    "Janic Heen",
+                    "[{\"changed\": {\"fields\": [\"question\", \"question_meaning\"]}}]",
+                    8,
+                    1,
+                    2
+                ],
+                [
+                    37,
+                    "2019-08-03 08:31:38.138624",
+                    "4",
+                    "Janic Heen - Styremedlem - Rævåsen Borettslag ",
+                    "[{\"changed\": {\"fields\": [\"dateA_meaning\"]}}]",
+                    9,
+                    1,
+                    2
+                ],
+                [
+                    38,
+                    "2019-08-03 08:34:38.416432",
+                    "5",
+                    "Janic Heen - Har innkalt til Møte - Prompelia Borettslag ",
+                    "[{\"added\": {}}]",
+                    9,
+                    1,
+                    1
+                ],
+                [
+                    39,
+                    "2019-08-03 08:36:39.312684",
+                    "4",
+                    "er innkalt til møte for",
+                    "[{\"changed\": {\"fields\": [\"name\"]}}]",
+                    11,
+                    1,
+                    2
+                ],
+                [
+                    40,
+                    "2019-08-03 08:36:49.590964",
+                    "3",
+                    "har innkalt til møte for",
+                    "[{\"changed\": {\"fields\": [\"name\"]}}]",
+                    11,
+                    1,
+                    2
+                ],
+                [
+                    41,
+                    "2019-08-03 08:37:24.083199",
+                    "2",
+                    "er styremedlem i",
+                    "[{\"changed\": {\"fields\": [\"name\"]}}]",
+                    11,
+                    1,
+                    2
+                ],
+                [
+                    42,
+                    "2019-08-03 08:38:14.911024",
+                    "2",
+                    "Styremedlem",
+                    "[{\"changed\": {\"fields\": [\"name\"]}}]",
+                    11,
+                    1,
+                    2
+                ],
+                [
+                    43,
+                    "2019-08-03 08:38:41.420251",
+                    "3",
+                    "Møteinnkaller",
+                    "[{\"changed\": {\"fields\": [\"name\"]}}]",
+                    11,
+                    1,
+                    2
+                ],
+                [
+                    44,
+                    "2019-08-03 08:38:51.043559",
+                    "4",
+                    "Møteinnkalt",
+                    "[{\"changed\": {\"fields\": [\"name\"]}}]",
+                    11,
+                    1,
+                    2
+                ],
+                [
+                    45,
+                    "2019-08-03 08:39:33.071086",
+                    "5",
+                    "Janic Heen - Møteinnkaller - Prompelia Borettslag ",
+                    "[]",
+                    9,
+                    1,
+                    2
+                ],
+                [
+                    46,
+                    "2019-08-03 08:42:27.084380",
+                    "6",
+                    "Innkalling til Styremøte ",
+                    "[{\"added\": {}}]",
+                    8,
+                    1,
+                    1
+                ],
+                [
+                    47,
+                    "2019-08-03 08:44:20.509089",
+                    "5",
+                    "Janic Heen - Møteinnkaller - Innkalling til Styremøte ",
+                    "[{\"changed\": {\"fields\": [\"pepparB\", \"dateA_meaning\", \"dateB\", \"dateB_meaning\", \"question\", \"question_meaning\"]}}]",
+                    9,
+                    1,
+                    2
+                ],
+                [
+                    48,
+                    "2019-08-03 08:46:31.371990",
+                    "5",
+                    "Gjeldende entitet for møtet",
+                    "[{\"added\": {}}]",
+                    11,
+                    1,
+                    1
+                ],
+                [
+                    49,
+                    "2019-08-03 08:48:12.653868",
+                    "6",
+                    "Prompelia Borettslag  - Gjeldende entitet for møtet - Innkalling til Styremøte ",
+                    "[{\"added\": {}}]",
+                    9,
+                    1,
+                    1
+                ],
+                [
+                    50,
+                    "2019-08-03 08:49:01.662903",
+                    "5",
+                    "Gjeldende entitet",
+                    "[{\"changed\": {\"fields\": [\"name\"]}}]",
+                    11,
+                    1,
+                    2
+                ],
+                [
+                    51,
+                    "2019-08-03 08:51:57.986348",
+                    "6",
+                    "Gjeldende entitet",
+                    "[]",
+                    9,
+                    1,
+                    2
+                ],
+                [
+                    52,
+                    "2019-08-03 08:54:08.095208",
+                    "1",
+                    "Janic Heen",
+                    "[{\"changed\": {\"fields\": [\"nameA_meaning\", \"nameB_meaning\", \"dateA\", \"dateA_meaning\"]}}]",
+                    8,
+                    1,
+                    2
+                ]
+            ]
+        },
+        {
+            "type": "table",
+            "database": null,
+            "name": "django_content_type",
+            "withoutRowId": true,
+            "ddl": "CREATE TABLE \"django_content_type\" (\"id\" integer NOT NULL PRIMARY KEY AUTOINCREMENT, \"app_label\" varchar(100) NOT NULL, \"model\" varchar(100) NOT NULL)",
+            "columns": [
+                {
+                    "name": "id",
+                    "type": "integer",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL "
+                        },
+                        {
+                            "type": "PRIMARY KEY",
+                            "definition": "PRIMARY KEY AUTOINCREMENT"
+                        }
+                    ]
+                },
+                {
+                    "name": "app_label",
+                    "type": "varchar",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL"
+                        }
+                    ]
+                },
+                {
+                    "name": "model",
+                    "type": "varchar",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL"
+                        }
+                    ]
+                }
+            ],
+            "rows": [
+                [
+                    1,
+                    "admin",
+                    "logentry"
+                ],
+                [
+                    2,
+                    "auth",
+                    "permission"
+                ],
+                [
+                    3,
+                    "auth",
+                    "group"
+                ],
+                [
+                    4,
+                    "auth",
+                    "user"
+                ],
+                [
+                    5,
+                    "contenttypes",
+                    "contenttype"
+                ],
+                [
+                    6,
+                    "sessions",
+                    "session"
+                ],
+                [
+                    7,
+                    "authtoken",
+                    "token"
+                ],
+                [
+                    8,
+                    "peppar_base",
+                    "peppar"
+                ],
+                [
+                    9,
+                    "peppar_relational",
+                    "relation"
+                ],
+                [
+                    10,
+                    "catalog",
+                    "peppartype"
+                ],
+                [
+                    11,
+                    "catalog",
+                    "relationtype"
+                ],
+                [
+                    12,
+                    "user_views",
+                    "relationinsight"
+                ],
+                [
+                    13,
+                    "user_views",
+                    "pepparinsight"
+                ],
+                [
+                    14,
+                    "todo",
+                    "todo"
+                ]
+            ]
+        },
+        {
+            "type": "table",
+            "database": null,
+            "name": "django_migrations",
+            "withoutRowId": true,
+            "ddl": "CREATE TABLE \"django_migrations\" (\"id\" integer NOT NULL PRIMARY KEY AUTOINCREMENT, \"app\" varchar(255) NOT NULL, \"name\" varchar(255) NOT NULL, \"applied\" datetime NOT NULL)",
+            "columns": [
+                {
+                    "name": "id",
+                    "type": "integer",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL "
+                        },
+                        {
+                            "type": "PRIMARY KEY",
+                            "definition": "PRIMARY KEY AUTOINCREMENT"
+                        }
+                    ]
+                },
+                {
+                    "name": "app",
+                    "type": "varchar",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL"
+                        }
+                    ]
+                },
+                {
+                    "name": "name",
+                    "type": "varchar",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL"
+                        }
+                    ]
+                },
+                {
+                    "name": "applied",
+                    "type": "datetime",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL"
+                        }
+                    ]
+                }
+            ],
+            "rows": [
+                [
+                    1,
+                    "contenttypes",
+                    "0001_initial",
+                    "2019-08-02 11:24:30.779475"
+                ],
+                [
+                    2,
+                    "auth",
+                    "0001_initial",
+                    "2019-08-02 11:24:30.806322"
+                ],
+                [
+                    3,
+                    "admin",
+                    "0001_initial",
+                    "2019-08-02 11:24:30.829350"
+                ],
+                [
+                    4,
+                    "admin",
+                    "0002_logentry_remove_auto_add",
+                    "2019-08-02 11:24:30.852913"
+                ],
+                [
+                    5,
+                    "admin",
+                    "0003_logentry_add_action_flag_choices",
+                    "2019-08-02 11:24:30.874500"
+                ],
+                [
+                    6,
+                    "contenttypes",
+                    "0002_remove_content_type_name",
+                    "2019-08-02 11:24:30.906618"
+                ],
+                [
+                    7,
+                    "auth",
+                    "0002_alter_permission_name_max_length",
+                    "2019-08-02 11:24:30.921404"
+                ],
+                [
+                    8,
+                    "auth",
+                    "0003_alter_user_email_max_length",
+                    "2019-08-02 11:24:30.941546"
+                ],
+                [
+                    9,
+                    "auth",
+                    "0004_alter_user_username_opts",
+                    "2019-08-02 11:24:30.963978"
+                ],
+                [
+                    10,
+                    "auth",
+                    "0005_alter_user_last_login_null",
+                    "2019-08-02 11:24:30.986265"
+                ],
+                [
+                    11,
+                    "auth",
+                    "0006_require_contenttypes_0002",
+                    "2019-08-02 11:24:30.988152"
+                ],
+                [
+                    12,
+                    "auth",
+                    "0007_alter_validators_add_error_messages",
+                    "2019-08-02 11:24:31.013595"
+                ],
+                [
+                    13,
+                    "auth",
+                    "0008_alter_user_username_max_length",
+                    "2019-08-02 11:24:31.032749"
+                ],
+                [
+                    14,
+                    "auth",
+                    "0009_alter_user_last_name_max_length",
+                    "2019-08-02 11:24:31.051495"
+                ],
+                [
+                    15,
+                    "auth",
+                    "0010_alter_group_name_max_length",
+                    "2019-08-02 11:24:31.069260"
+                ],
+                [
+                    16,
+                    "auth",
+                    "0011_update_proxy_permissions",
+                    "2019-08-02 11:24:31.087238"
+                ],
+                [
+                    17,
+                    "authtoken",
+                    "0001_initial",
+                    "2019-08-02 11:24:31.104138"
+                ],
+                [
+                    18,
+                    "authtoken",
+                    "0002_auto_20160226_1747",
+                    "2019-08-02 11:24:31.156717"
+                ],
+                [
+                    19,
+                    "catalog",
+                    "0001_initial",
+                    "2019-08-02 11:24:31.166225"
+                ],
+                [
+                    20,
+                    "peppar_base",
+                    "0001_initial",
+                    "2019-08-02 11:24:31.181544"
+                ],
+                [
+                    21,
+                    "peppar_relational",
+                    "0001_initial",
+                    "2019-08-02 11:24:31.190091"
+                ],
+                [
+                    22,
+                    "sessions",
+                    "0001_initial",
+                    "2019-08-02 11:24:31.201535"
+                ],
+                [
+                    23,
+                    "todo",
+                    "0001_initial",
+                    "2019-08-02 11:24:31.205974"
+                ],
+                [
+                    24,
+                    "todo",
+                    "0002_auto_20190728_2159",
+                    "2019-08-02 11:24:31.220002"
+                ],
+                [
+                    25,
+                    "user_views",
+                    "0001_initial",
+                    "2019-08-02 11:24:31.262647"
+                ],
+                [
+                    26,
+                    "peppar_base",
+                    "0002_auto_20190803_0736",
+                    "2019-08-03 07:37:06.203963"
+                ],
+                [
+                    27,
+                    "peppar_base",
+                    "0003_auto_20190803_0740",
+                    "2019-08-03 08:04:30.907197"
+                ],
+                [
+                    28,
+                    "peppar_base",
+                    "0004_auto_20190803_0741",
+                    "2019-08-03 08:04:30.944976"
+                ],
+                [
+                    29,
+                    "peppar_base",
+                    "0002_auto_20190803_0810",
+                    "2019-08-03 08:10:18.980644"
+                ],
+                [
+                    30,
+                    "peppar_relational",
+                    "0002_auto_20190803_0824",
+                    "2019-08-03 08:24:54.379967"
+                ],
+                [
+                    31,
+                    "peppar_relational",
+                    "0003_auto_20190803_0826",
+                    "2019-08-03 08:26:28.039201"
+                ],
+                [
+                    32,
+                    "peppar_relational",
+                    "0004_auto_20190803_0829",
+                    "2019-08-03 08:29:30.121300"
+                ]
+            ]
+        },
+        {
+            "type": "table",
+            "database": null,
+            "name": "django_session",
+            "withoutRowId": true,
+            "ddl": "CREATE TABLE \"django_session\" (\"session_key\" varchar(40) NOT NULL PRIMARY KEY, \"session_data\" text NOT NULL, \"expire_date\" datetime NOT NULL)",
+            "columns": [
+                {
+                    "name": "session_key",
+                    "type": "varchar",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL "
+                        },
+                        {
+                            "type": "PRIMARY KEY",
+                            "definition": "PRIMARY KEY"
+                        }
+                    ]
+                },
+                {
+                    "name": "session_data",
+                    "type": "text",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL"
+                        }
+                    ]
+                },
+                {
+                    "name": "expire_date",
+                    "type": "datetime",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL"
+                        }
+                    ]
+                }
+            ],
+            "rows": [
+                [
+                    "9pk2pw4i4g3na2ey3o8iu177s8su6v3b",
+                    "MmQ5MWYxM2UzYWM0M2M1MmI4OGQzN2JkNDMyMzQzNmVhZjg2MGRjODp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI5NzRiYTQxMmNkMzg3ZTNkZDI2YWE1YjQxMDE1ZTNhNmVhYmZmMzE4In0=",
+                    "2019-08-16 13:37:55.671605"
+                ]
+            ]
+        },
+        {
+            "type": "table",
+            "database": null,
+            "name": "peppar_base_peppar",
+            "withoutRowId": true,
+            "ddl": "CREATE TABLE \"peppar_base_peppar\" (\"id\" integer NOT NULL PRIMARY KEY AUTOINCREMENT, \"uuid\" char(32) NOT NULL UNIQUE, \"name\" varchar(300) NOT NULL, \"nameA\" varchar(300) NOT NULL, \"nameB\" varchar(300) NOT NULL, \"dateA\" datetime NULL, \"dateB\" datetime NULL, \"idcode\" varchar(25) NOT NULL, \"question\" bool NULL, \"description\" text NOT NULL, \"nameA_meaning\" varchar(300) NOT NULL, \"nameB_meaning\" varchar(300) NOT NULL, \"dateA_meaning\" varchar(300) NOT NULL, \"dateB_meaning\" varchar(300) NOT NULL, \"idcode_meaning\" varchar(300) NOT NULL, \"question_meaning\" varchar(300) NOT NULL, \"timestamp_created\" datetime NOT NULL, \"timestamp_updated\" datetime NOT NULL, \"type_id\" integer NOT NULL REFERENCES \"catalog_peppartype\" (\"id\") DEFERRABLE INITIALLY DEFERRED)",
+            "columns": [
+                {
+                    "name": "id",
+                    "type": "integer",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL "
+                        },
+                        {
+                            "type": "PRIMARY KEY",
+                            "definition": "PRIMARY KEY AUTOINCREMENT"
+                        }
+                    ]
+                },
+                {
+                    "name": "uuid",
+                    "type": "char",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL "
+                        },
+                        {
+                            "type": "UNIQUE",
+                            "definition": "UNIQUE"
+                        }
+                    ]
+                },
+                {
+                    "name": "name",
+                    "type": "varchar",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL"
+                        }
+                    ]
+                },
+                {
+                    "name": "nameA",
+                    "type": "varchar",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL"
+                        }
+                    ]
+                },
+                {
+                    "name": "nameB",
+                    "type": "varchar",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL"
+                        }
+                    ]
+                },
+                {
+                    "name": "dateA",
+                    "type": "datetime",
+                    "constraints": [
+                        {
+                            "type": null,
+                            "definition": "NULL"
+                        }
+                    ]
+                },
+                {
+                    "name": "dateB",
+                    "type": "datetime",
+                    "constraints": [
+                        {
+                            "type": null,
+                            "definition": "NULL"
+                        }
+                    ]
+                },
+                {
+                    "name": "idcode",
+                    "type": "varchar",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL"
+                        }
+                    ]
+                },
+                {
+                    "name": "question",
+                    "type": "bool",
+                    "constraints": [
+                        {
+                            "type": null,
+                            "definition": "NULL"
+                        }
+                    ]
+                },
+                {
+                    "name": "description",
+                    "type": "text",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL"
+                        }
+                    ]
+                },
+                {
+                    "name": "nameA_meaning",
+                    "type": "varchar",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL"
+                        }
+                    ]
+                },
+                {
+                    "name": "nameB_meaning",
+                    "type": "varchar",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL"
+                        }
+                    ]
+                },
+                {
+                    "name": "dateA_meaning",
+                    "type": "varchar",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL"
+                        }
+                    ]
+                },
+                {
+                    "name": "dateB_meaning",
+                    "type": "varchar",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL"
+                        }
+                    ]
+                },
+                {
+                    "name": "idcode_meaning",
+                    "type": "varchar",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL"
+                        }
+                    ]
+                },
+                {
+                    "name": "question_meaning",
+                    "type": "varchar",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL"
+                        }
+                    ]
+                },
+                {
+                    "name": "timestamp_created",
+                    "type": "datetime",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL"
+                        }
+                    ]
+                },
+                {
+                    "name": "timestamp_updated",
+                    "type": "datetime",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL"
+                        }
+                    ]
+                },
+                {
+                    "name": "type_id",
+                    "type": "integer",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL "
+                        },
+                        {
+                            "type": "FOREIGN KEY",
+                            "definition": "REFERENCES \"catalog_peppartype\" (\"id\") "
+                        }
+                    ]
+                }
+            ],
+            "rows": [
+                [
+                    1,
+                    "f28ca1f118804f3db6562bf59d7557fa",
+                    "Janic Heen",
+                    "Janic",
+                    "Heen",
+                    "1975-11-11 08:00:00",
+                    null,
+                    "",
+                    1,
+                    "description",
+                    "First Name",
+                    "Last Name",
+                    "Date of Birth",
+                    "dateB_meaning",
+                    "idcode_meaning",
+                    "Is Alive?",
+                    "2019-08-02 11:32:26.633414",
+                    "2019-08-03 08:54:08.089054",
+                    1
+                ],
+                [
+                    2,
+                    "b1802261f26a463cb96885c9f3973e46",
+                    "John Holmes",
+                    "John",
+                    "Holmes",
+                    "dateA",
+                    "dateB",
+                    "",
+                    "question",
+                    "description",
+                    "nameA_meaning",
+                    "nameB_meaning",
+                    "dateA_meaning",
+                    "dateB_meaning",
+                    "idcode_meaning",
+                    "question_meaning",
+                    "2019-08-02 12:50:03.160892",
+                    "2019-08-02 12:50:03.160930",
+                    1
+                ],
+                [
+                    3,
+                    "e1720166b2554be8856120a448aaf538",
+                    "Prompelia Borettslag ",
+                    "Prompelia Borettslag",
+                    "",
+                    null,
+                    null,
+                    "",
+                    0,
+                    "description",
+                    "nameA_meaning",
+                    "nameB_meaning",
+                    "dateA_meaning",
+                    "dateB_meaning",
+                    "idcode_meaning",
+                    "question_meaning",
+                    "2019-08-02 12:50:24.460137",
+                    "2019-08-03 08:16:57.935398",
+                    2
+                ],
+                [
+                    4,
+                    "f520c2a1e2a142c9823e0212ccfea2e4",
+                    "Det Generiske Sameiet ",
+                    "Det Generiske Sameiet",
+                    "",
+                    null,
+                    null,
+                    "",
+                    0,
+                    "description",
+                    "nameA_meaning",
+                    "nameB_meaning",
+                    "dateA_meaning",
+                    "dateB_meaning",
+                    "idcode_meaning",
+                    "question_meaning",
+                    "2019-08-02 12:50:39.818065",
+                    "2019-08-03 08:15:11.808163",
+                    3
+                ],
+                [
+                    5,
+                    "3de76245457c4961bad1ededffeea803",
+                    "Rævåsen Borettslag ",
+                    "Rævåsen Borettslag",
+                    "",
+                    null,
+                    null,
+                    "",
+                    0,
+                    "description",
+                    "nameA_meaning",
+                    "nameB_meaning",
+                    "dateA_meaning",
+                    "dateB_meaning",
+                    "idcode_meaning",
+                    "question_meaning",
+                    "2019-08-02 12:54:08.999885",
+                    "2019-08-03 08:16:36.674819",
+                    2
+                ],
+                [
+                    6,
+                    "48407391794044a8812b5d3e448a880f",
+                    "Innkalling til Styremøte ",
+                    "Innkalling til Styremøte",
+                    "",
+                    "2019-08-20 18:00:00",
+                    null,
+                    "",
+                    0,
+                    "",
+                    "Møteoverskrift",
+                    "",
+                    "Foreslått møtetidspunkt",
+                    "",
+                    "",
+                    "Er innkallingen sendt?",
+                    "2019-08-03 08:42:27.083002",
+                    "2019-08-03 08:42:27.083023",
+                    4
+                ]
+            ]
+        },
+        {
+            "type": "table",
+            "database": null,
+            "name": "peppar_relational_relation",
+            "withoutRowId": true,
+            "ddl": "CREATE TABLE \"peppar_relational_relation\" (\"id\" integer NOT NULL PRIMARY KEY AUTOINCREMENT, \"uuid\" char(32) NOT NULL UNIQUE, \"name\" varchar(300) NOT NULL, \"timestamp_created\" datetime NOT NULL, \"timestamp_updated\" datetime NOT NULL, \"pepparA_id\" integer NOT NULL REFERENCES \"peppar_base_peppar\" (\"id\") DEFERRABLE INITIALLY DEFERRED, \"pepparB_id\" integer NOT NULL REFERENCES \"peppar_base_peppar\" (\"id\") DEFERRABLE INITIALLY DEFERRED, \"type_id\" integer NOT NULL REFERENCES \"catalog_relationtype\" (\"id\") DEFERRABLE INITIALLY DEFERRED, \"dateA\" datetime NULL, \"dateA_meaning\" varchar(300) NOT NULL, \"dateB\" datetime NULL, \"dateB_meaning\" varchar(300) NOT NULL, \"description\" text NOT NULL, \"idcode\" varchar(25) NOT NULL, \"idcode_meaning\" varchar(300) NOT NULL, \"question\" bool NULL, \"question_meaning\" varchar(300) NOT NULL)",
+            "columns": [
+                {
+                    "name": "id",
+                    "type": "integer",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL "
+                        },
+                        {
+                            "type": "PRIMARY KEY",
+                            "definition": "PRIMARY KEY AUTOINCREMENT"
+                        }
+                    ]
+                },
+                {
+                    "name": "uuid",
+                    "type": "char",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL "
+                        },
+                        {
+                            "type": "UNIQUE",
+                            "definition": "UNIQUE"
+                        }
+                    ]
+                },
+                {
+                    "name": "name",
+                    "type": "varchar",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL"
+                        }
+                    ]
+                },
+                {
+                    "name": "timestamp_created",
+                    "type": "datetime",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL"
+                        }
+                    ]
+                },
+                {
+                    "name": "timestamp_updated",
+                    "type": "datetime",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL"
+                        }
+                    ]
+                },
+                {
+                    "name": "pepparA_id",
+                    "type": "integer",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL "
+                        },
+                        {
+                            "type": "FOREIGN KEY",
+                            "definition": "REFERENCES \"peppar_base_peppar\" (\"id\") "
+                        }
+                    ]
+                },
+                {
+                    "name": "pepparB_id",
+                    "type": "integer",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL "
+                        },
+                        {
+                            "type": "FOREIGN KEY",
+                            "definition": "REFERENCES \"peppar_base_peppar\" (\"id\") "
+                        }
+                    ]
+                },
+                {
+                    "name": "type_id",
+                    "type": "integer",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL "
+                        },
+                        {
+                            "type": "FOREIGN KEY",
+                            "definition": "REFERENCES \"catalog_relationtype\" (\"id\") "
+                        }
+                    ]
+                },
+                {
+                    "name": "dateA",
+                    "type": "datetime",
+                    "constraints": [
+                        {
+                            "type": null,
+                            "definition": "NULL"
+                        }
+                    ]
+                },
+                {
+                    "name": "dateA_meaning",
+                    "type": "varchar",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL"
+                        }
+                    ]
+                },
+                {
+                    "name": "dateB",
+                    "type": "datetime",
+                    "constraints": [
+                        {
+                            "type": null,
+                            "definition": "NULL"
+                        }
+                    ]
+                },
+                {
+                    "name": "dateB_meaning",
+                    "type": "varchar",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL"
+                        }
+                    ]
+                },
+                {
+                    "name": "description",
+                    "type": "text",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL"
+                        }
+                    ]
+                },
+                {
+                    "name": "idcode",
+                    "type": "varchar",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL"
+                        }
+                    ]
+                },
+                {
+                    "name": "idcode_meaning",
+                    "type": "varchar",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL"
+                        }
+                    ]
+                },
+                {
+                    "name": "question",
+                    "type": "bool",
+                    "constraints": [
+                        {
+                            "type": null,
+                            "definition": "NULL"
+                        }
+                    ]
+                },
+                {
+                    "name": "question_meaning",
+                    "type": "varchar",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL"
+                        }
+                    ]
+                }
+            ],
+            "rows": [
+                [
+                    1,
+                    "47543ef43b804e0fab49785907c3a2bb",
+                    "Janic Heen - Styreleder - Prompelia Borettslag",
+                    "2019-08-02 12:51:06.684849",
+                    "2019-08-02 12:51:06.684886",
+                    1,
+                    3,
+                    1,
+                    null,
+                    "",
+                    null,
+                    "",
+                    "",
+                    "",
+                    "",
+                    null,
+                    ""
+                ],
+                [
+                    2,
+                    "a647aa9d5c664556911948b35a3fe85a",
+                    "John Holmes - Styremedlem - Prompelia Borettslag",
+                    "2019-08-02 12:51:17.385372",
+                    "2019-08-02 12:51:17.385418",
+                    2,
+                    3,
+                    2,
+                    null,
+                    "",
+                    null,
+                    "",
+                    "",
+                    "",
+                    "",
+                    null,
+                    ""
+                ],
+                [
+                    3,
+                    "479753130498421eb758be71b0e107c4",
+                    "John Holmes - Styremedlem - Generisk Sameie",
+                    "2019-08-02 12:51:37.291816",
+                    "2019-08-02 12:51:37.291864",
+                    2,
+                    4,
+                    2,
+                    null,
+                    "",
+                    null,
+                    "",
+                    "",
+                    "",
+                    "",
+                    null,
+                    ""
+                ],
+                [
+                    4,
+                    "0bf0f008028a4470b40201c2fc8fc07b",
+                    "Janic Heen - Styremedlem - Rævåsen Borettslag ",
+                    "2019-08-02 12:54:54.957316",
+                    "2019-08-03 08:31:38.134197",
+                    1,
+                    5,
+                    2,
+                    null,
+                    "Tiltredelse",
+                    null,
+                    "",
+                    "",
+                    "",
+                    "",
+                    null,
+                    ""
+                ],
+                [
+                    5,
+                    "68ed55c920bc424c9e0e86b903ad1e4b",
+                    "Janic Heen - Møteinnkaller - Innkalling til Styremøte ",
+                    "2019-08-03 08:34:38.413556",
+                    "2019-08-03 08:44:20.507044",
+                    1,
+                    6,
+                    3,
+                    null,
+                    "",
+                    null,
+                    "",
+                    "",
+                    "",
+                    "",
+                    null,
+                    ""
+                ],
+                [
+                    6,
+                    "69ca351d13ca47ef890bf3a1d3b2c92e",
+                    "Gjeldende entitet",
+                    "2019-08-03 08:48:12.652666",
+                    "2019-08-03 08:51:57.981822",
+                    3,
+                    6,
+                    5,
+                    null,
+                    "",
+                    null,
+                    "",
+                    "",
+                    "",
+                    "",
+                    null,
+                    ""
+                ]
+            ]
+        },
+        {
+            "type": "table",
+            "database": null,
+            "name": "todo_todo",
+            "withoutRowId": true,
+            "ddl": "CREATE TABLE \"todo_todo\" (\"id\" integer NOT NULL PRIMARY KEY AUTOINCREMENT, \"todo_description\" varchar(120) NOT NULL, \"todo_responsible\" varchar(120) NOT NULL, \"todo_priority\" varchar(120) NOT NULL, \"todo_completed\" bool NOT NULL, \"uuid\" char(32) NOT NULL UNIQUE)",
+            "columns": [
+                {
+                    "name": "id",
+                    "type": "integer",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL "
+                        },
+                        {
+                            "type": "PRIMARY KEY",
+                            "definition": "PRIMARY KEY AUTOINCREMENT"
+                        }
+                    ]
+                },
+                {
+                    "name": "todo_description",
+                    "type": "varchar",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL"
+                        }
+                    ]
+                },
+                {
+                    "name": "todo_responsible",
+                    "type": "varchar",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL"
+                        }
+                    ]
+                },
+                {
+                    "name": "todo_priority",
+                    "type": "varchar",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL"
+                        }
+                    ]
+                },
+                {
+                    "name": "todo_completed",
+                    "type": "bool",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL"
+                        }
+                    ]
+                },
+                {
+                    "name": "uuid",
+                    "type": "char",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL "
+                        },
+                        {
+                            "type": "UNIQUE",
+                            "definition": "UNIQUE"
+                        }
+                    ]
+                }
+            ],
+            "rows": [
+            ]
+        },
+        {
+            "type": "table",
+            "database": null,
+            "name": "user_views_pepparinsight",
+            "withoutRowId": true,
+            "ddl": "CREATE TABLE \"user_views_pepparinsight\" (\"id\" integer NOT NULL PRIMARY KEY AUTOINCREMENT, \"uuid\" char(32) NOT NULL UNIQUE, \"level\" varchar(1) NOT NULL, \"timestamp_created\" datetime NOT NULL, \"timestamp_updated\" datetime NOT NULL, \"peppar_id\" integer NOT NULL REFERENCES \"peppar_base_peppar\" (\"id\") DEFERRABLE INITIALLY DEFERRED, \"user_id\" integer NOT NULL REFERENCES \"auth_user\" (\"id\") DEFERRABLE INITIALLY DEFERRED)",
+            "columns": [
+                {
+                    "name": "id",
+                    "type": "integer",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL "
+                        },
+                        {
+                            "type": "PRIMARY KEY",
+                            "definition": "PRIMARY KEY AUTOINCREMENT"
+                        }
+                    ]
+                },
+                {
+                    "name": "uuid",
+                    "type": "char",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL "
+                        },
+                        {
+                            "type": "UNIQUE",
+                            "definition": "UNIQUE"
+                        }
+                    ]
+                },
+                {
+                    "name": "level",
+                    "type": "varchar",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL"
+                        }
+                    ]
+                },
+                {
+                    "name": "timestamp_created",
+                    "type": "datetime",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL"
+                        }
+                    ]
+                },
+                {
+                    "name": "timestamp_updated",
+                    "type": "datetime",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL"
+                        }
+                    ]
+                },
+                {
+                    "name": "peppar_id",
+                    "type": "integer",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL "
+                        },
+                        {
+                            "type": "FOREIGN KEY",
+                            "definition": "REFERENCES \"peppar_base_peppar\" (\"id\") "
+                        }
+                    ]
+                },
+                {
+                    "name": "user_id",
+                    "type": "integer",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL "
+                        },
+                        {
+                            "type": "FOREIGN KEY",
+                            "definition": "REFERENCES \"auth_user\" (\"id\") "
+                        }
+                    ]
+                }
+            ],
+            "rows": [
+                [
+                    1,
+                    "769f3171d33445aa8727092755a5c066",
+                    "0",
+                    "2019-08-02 11:32:47.255214",
+                    "2019-08-02 11:32:47.255254",
+                    1,
+                    1
+                ],
+                [
+                    2,
+                    "70bdb652ffe74f93812685499d85acfd",
+                    "2",
+                    "2019-08-02 12:52:42.552150",
+                    "2019-08-02 12:52:42.552190",
+                    2,
+                    1
+                ],
+                [
+                    3,
+                    "9adf4385fc8d495397f624ac4e751a26",
+                    "1",
+                    "2019-08-02 12:57:10.805480",
+                    "2019-08-02 12:57:10.805515",
+                    3,
+                    1
+                ],
+                [
+                    4,
+                    "34f4a2fd0c724489a57340ed2ff067b8",
+                    "1",
+                    "2019-08-02 12:57:35.805160",
+                    "2019-08-02 12:57:35.805198",
+                    5,
+                    1
+                ]
+            ]
+        },
+        {
+            "type": "table",
+            "database": null,
+            "name": "user_views_relationinsight",
+            "withoutRowId": true,
+            "ddl": "CREATE TABLE \"user_views_relationinsight\" (\"id\" integer NOT NULL PRIMARY KEY AUTOINCREMENT, \"uuid\" char(32) NOT NULL UNIQUE, \"level\" varchar(1) NOT NULL, \"timestamp_created\" datetime NOT NULL, \"timestamp_updated\" datetime NOT NULL, \"relation_id\" integer NOT NULL REFERENCES \"peppar_relational_relation\" (\"id\") DEFERRABLE INITIALLY DEFERRED, \"user_id\" integer NOT NULL REFERENCES \"auth_user\" (\"id\") DEFERRABLE INITIALLY DEFERRED)",
+            "columns": [
+                {
+                    "name": "id",
+                    "type": "integer",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL "
+                        },
+                        {
+                            "type": "PRIMARY KEY",
+                            "definition": "PRIMARY KEY AUTOINCREMENT"
+                        }
+                    ]
+                },
+                {
+                    "name": "uuid",
+                    "type": "char",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL "
+                        },
+                        {
+                            "type": "UNIQUE",
+                            "definition": "UNIQUE"
+                        }
+                    ]
+                },
+                {
+                    "name": "level",
+                    "type": "varchar",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL"
+                        }
+                    ]
+                },
+                {
+                    "name": "timestamp_created",
+                    "type": "datetime",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL"
+                        }
+                    ]
+                },
+                {
+                    "name": "timestamp_updated",
+                    "type": "datetime",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL"
+                        }
+                    ]
+                },
+                {
+                    "name": "relation_id",
+                    "type": "integer",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL "
+                        },
+                        {
+                            "type": "FOREIGN KEY",
+                            "definition": "REFERENCES \"peppar_relational_relation\" (\"id\") "
+                        }
+                    ]
+                },
+                {
+                    "name": "user_id",
+                    "type": "integer",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL "
+                        },
+                        {
+                            "type": "FOREIGN KEY",
+                            "definition": "REFERENCES \"auth_user\" (\"id\") "
+                        }
+                    ]
+                }
+            ],
+            "rows": [
+                [
+                    1,
+                    "c972aa0fb4fb412394483a7c6fad8ccd",
+                    "1",
+                    "2019-08-02 12:53:01.199705",
+                    "2019-08-02 12:53:01.199738",
+                    1,
+                    1
+                ],
+                [
+                    2,
+                    "d6e818dfa2fe4a539c8ba71e934608d1",
+                    "1",
+                    "2019-08-02 12:55:20.048466",
+                    "2019-08-02 12:55:20.048504",
+                    4,
+                    1
+                ],
+                [
+                    3,
+                    "e32d279cd0d54182b9de316630f0b5a4",
+                    "2",
+                    "2019-08-02 12:55:59.106659",
+                    "2019-08-02 12:55:59.106701",
+                    2,
+                    1
+                ]
+            ]
+        },
+        {
+            "type": "index",
+            "database": null,
+            "name": "auth_group_permissions_group_id_b120cbf9",
+            "unique": false,
+            "ddl": "CREATE INDEX \"auth_group_permissions_group_id_b120cbf9\" ON \"auth_group_permissions\" (\"group_id\")"
+        },
+        {
+            "type": "index",
+            "database": null,
+            "name": "auth_group_permissions_group_id_permission_id_0cd325b0_uniq",
+            "unique": true,
+            "ddl": "CREATE UNIQUE INDEX \"auth_group_permissions_group_id_permission_id_0cd325b0_uniq\" ON \"auth_group_permissions\" (\"group_id\", \"permission_id\")"
+        },
+        {
+            "type": "index",
+            "database": null,
+            "name": "auth_group_permissions_permission_id_84c5c92e",
+            "unique": false,
+            "ddl": "CREATE INDEX \"auth_group_permissions_permission_id_84c5c92e\" ON \"auth_group_permissions\" (\"permission_id\")"
+        },
+        {
+            "type": "index",
+            "database": null,
+            "name": "auth_permission_content_type_id_2f476e4b",
+            "unique": false,
+            "ddl": "CREATE INDEX \"auth_permission_content_type_id_2f476e4b\" ON \"auth_permission\" (\"content_type_id\")"
+        },
+        {
+            "type": "index",
+            "database": null,
+            "name": "auth_permission_content_type_id_codename_01ab375a_uniq",
+            "unique": true,
+            "ddl": "CREATE UNIQUE INDEX \"auth_permission_content_type_id_codename_01ab375a_uniq\" ON \"auth_permission\" (\"content_type_id\", \"codename\")"
+        },
+        {
+            "type": "index",
+            "database": null,
+            "name": "auth_user_groups_group_id_97559544",
+            "unique": false,
+            "ddl": "CREATE INDEX \"auth_user_groups_group_id_97559544\" ON \"auth_user_groups\" (\"group_id\")"
+        },
+        {
+            "type": "index",
+            "database": null,
+            "name": "auth_user_groups_user_id_6a12ed8b",
+            "unique": false,
+            "ddl": "CREATE INDEX \"auth_user_groups_user_id_6a12ed8b\" ON \"auth_user_groups\" (\"user_id\")"
+        },
+        {
+            "type": "index",
+            "database": null,
+            "name": "auth_user_groups_user_id_group_id_94350c0c_uniq",
+            "unique": true,
+            "ddl": "CREATE UNIQUE INDEX \"auth_user_groups_user_id_group_id_94350c0c_uniq\" ON \"auth_user_groups\" (\"user_id\", \"group_id\")"
+        },
+        {
+            "type": "index",
+            "database": null,
+            "name": "auth_user_user_permissions_permission_id_1fbb5f2c",
+            "unique": false,
+            "ddl": "CREATE INDEX \"auth_user_user_permissions_permission_id_1fbb5f2c\" ON \"auth_user_user_permissions\" (\"permission_id\")"
+        },
+        {
+            "type": "index",
+            "database": null,
+            "name": "auth_user_user_permissions_user_id_a95ead1b",
+            "unique": false,
+            "ddl": "CREATE INDEX \"auth_user_user_permissions_user_id_a95ead1b\" ON \"auth_user_user_permissions\" (\"user_id\")"
+        },
+        {
+            "type": "index",
+            "database": null,
+            "name": "auth_user_user_permissions_user_id_permission_id_14a6b632_uniq",
+            "unique": true,
+            "ddl": "CREATE UNIQUE INDEX \"auth_user_user_permissions_user_id_permission_id_14a6b632_uniq\" ON \"auth_user_user_permissions\" (\"user_id\", \"permission_id\")"
+        },
+        {
+            "type": "index",
+            "database": null,
+            "name": "django_admin_log_content_type_id_c4bce8eb",
+            "unique": false,
+            "ddl": "CREATE INDEX \"django_admin_log_content_type_id_c4bce8eb\" ON \"django_admin_log\" (\"content_type_id\")"
+        },
+        {
+            "type": "index",
+            "database": null,
+            "name": "django_admin_log_user_id_c564eba6",
+            "unique": false,
+            "ddl": "CREATE INDEX \"django_admin_log_user_id_c564eba6\" ON \"django_admin_log\" (\"user_id\")"
+        },
+        {
+            "type": "index",
+            "database": null,
+            "name": "django_content_type_app_label_model_76bd3d3b_uniq",
+            "unique": true,
+            "ddl": "CREATE UNIQUE INDEX \"django_content_type_app_label_model_76bd3d3b_uniq\" ON \"django_content_type\" (\"app_label\", \"model\")"
+        },
+        {
+            "type": "index",
+            "database": null,
+            "name": "django_session_expire_date_a5c62663",
+            "unique": false,
+            "ddl": "CREATE INDEX \"django_session_expire_date_a5c62663\" ON \"django_session\" (\"expire_date\")"
+        },
+        {
+            "type": "index",
+            "database": null,
+            "name": "peppar_base_peppar_type_id_5cf45d6f",
+            "unique": false,
+            "ddl": "CREATE INDEX \"peppar_base_peppar_type_id_5cf45d6f\" ON \"peppar_base_peppar\" (\"type_id\")"
+        },
+        {
+            "type": "index",
+            "database": null,
+            "name": "peppar_relational_relation_pepparA_id_8e12d201",
+            "unique": false,
+            "ddl": "CREATE INDEX \"peppar_relational_relation_pepparA_id_8e12d201\" ON \"peppar_relational_relation\" (\"pepparA_id\")"
+        },
+        {
+            "type": "index",
+            "database": null,
+            "name": "peppar_relational_relation_pepparB_id_ca911f85",
+            "unique": false,
+            "ddl": "CREATE INDEX \"peppar_relational_relation_pepparB_id_ca911f85\" ON \"peppar_relational_relation\" (\"pepparB_id\")"
+        },
+        {
+            "type": "index",
+            "database": null,
+            "name": "peppar_relational_relation_type_id_5c6c8ab1",
+            "unique": false,
+            "ddl": "CREATE INDEX \"peppar_relational_relation_type_id_5c6c8ab1\" ON \"peppar_relational_relation\" (\"type_id\")"
+        },
+        {
+            "type": "index",
+            "database": null,
+            "name": "user_views_pepparinsight_peppar_id_083456c1",
+            "unique": false,
+            "ddl": "CREATE INDEX \"user_views_pepparinsight_peppar_id_083456c1\" ON \"user_views_pepparinsight\" (\"peppar_id\")"
+        },
+        {
+            "type": "index",
+            "database": null,
+            "name": "user_views_pepparinsight_user_id_60dd89dd",
+            "unique": false,
+            "ddl": "CREATE INDEX \"user_views_pepparinsight_user_id_60dd89dd\" ON \"user_views_pepparinsight\" (\"user_id\")"
+        },
+        {
+            "type": "index",
+            "database": null,
+            "name": "user_views_relationinsight_relation_id_6b64bb1e",
+            "unique": false,
+            "ddl": "CREATE INDEX \"user_views_relationinsight_relation_id_6b64bb1e\" ON \"user_views_relationinsight\" (\"relation_id\")"
+        },
+        {
+            "type": "index",
+            "database": null,
+            "name": "user_views_relationinsight_user_id_287c6297",
+            "unique": false,
+            "ddl": "CREATE INDEX \"user_views_relationinsight_user_id_287c6297\" ON \"user_views_relationinsight\" (\"user_id\")"
         }
     ]
 }
