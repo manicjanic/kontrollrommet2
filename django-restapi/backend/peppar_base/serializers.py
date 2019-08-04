@@ -2,6 +2,10 @@ from rest_framework import serializers
 from .models import Peppar
 
 class PepparSerializer(serializers.ModelSerializer):
+    peppar_type = serializers.PrimaryKeyRelatedField(source='type', read_only=True)
+    peppar_uuid = serializers.CharField(source='uuid', read_only=True)
+    peppar_name = serializers.CharField(source='name', read_only=True)
+
     class Meta:
         model = Peppar
         fields = ('__all__')

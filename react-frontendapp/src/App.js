@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Route } from "react-router";
 import { PrivateRoute } from './_components';
 
-import {filterService} from './_services/filter.service'
+import {filterService} from './_services/filter-service'
 
 
 // Layout elements
@@ -21,27 +21,27 @@ class App extends Component {
         // Defining Central State
         this.state = {
             // Catalogs
-            pepparType: [],
-            relationType: [],
+            peppar_Types: [],
+            relation_Types: [],
             // App Status
-            isLoggedin: false,
-            isLoading: false,
+            is_Loggedin: false,
+            is_Loggedin: false,
             // Peppars and Relations
-            myPeppars: [ ],
-            myRelations: [ ],
+            all_Peppars: [ ],
+            all_Relations: [ ],
             // Derived Peppars and Relations
-            mePeppar: {},
-            myEntityRelations: [],
+            me_Peppar: {},
+            my_Entity_Relations: [],
             // Selections
-            selectedEntityRelation : {},
+            selected_Entity_Relation : {},
         }
         // Making functions available
-        this.ModifyState = this.ModifyState.bind(this);
+        this.modifyState = this.modifyState.bind(this);
         this.getState = this.getState.bind(this);
     }
 
     // Callback function to manipulate state
-    ModifyState(stateobj) {
+    modifyState(stateobj) {
         this.setState(stateobj)
     }
 
@@ -54,7 +54,7 @@ class App extends Component {
     LoginSetup = () => (
     <div>
         <Login
-            ModifyState={this.ModifyState}
+            modifyState={this.modifyState}
         />
     </div>
     );
@@ -74,8 +74,8 @@ class App extends Component {
             This is the Dashboard. Main control mastered from here.
         </div>
         <PepparList 
-                myPeppars={this.state.myPeppars}
-                ModifyState={this.ModifyState}
+                all_Peppars={this.state.all_Peppars}
+                modifyState={this.modifyState}
         />
     </div>
     );
@@ -83,7 +83,7 @@ class App extends Component {
     LoaderSetup = () => (
         <div>
             <Loader
-                ModifyState={this.ModifyState}
+                modifyState={this.modifyState}
                 getState={this.getState}
             />
         </div>
@@ -102,10 +102,10 @@ class App extends Component {
         return (
             <div>
                 <Nav
-                    isLoggedin={this.state.isLoggedin}
-                    mePeppar={this.state.mePeppar}
-                    myEntityRelations={this.state.myEntityRelations}
-                    ModifyState={this.ModifyState}
+                    is_Loggedin={this.state.is_Loggedin}
+                    me_Peppar={this.state.me_Peppar}
+                    my_Entity_Relations={this.state.my_Entity_Relations}
+                    modifyState={this.modifyState}
                 />
                 <Route path="/" exact = {true} render = {this.HomeSetup}/>
                 <Route path="/login" exact = {true} render = {this.LoginSetup}/>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {dataService} from '../_services/data.service'
+import {dataService} from '../_services/data-service'
 import { withRouter } from 'react-router'
 
 import LoginForm from './LoginForm';
@@ -23,7 +23,7 @@ class Login extends Component {
     doLogout() {
         // remove token from local storage
         localStorage.removeItem('token');
-        this.props.ModifyState({"isLoggedin": false})
+        this.props.modifyState({"is_Loggedin": false})
     }
     
     doLogin(username, password) {
@@ -34,7 +34,7 @@ class Login extends Component {
                 // store user details and basic auth credentials in local storage 
                 data.authdata = window.btoa(username + ':' + password);
                 localStorage.setItem('token', JSON.stringify(data));
-                this.props.ModifyState({"isLoggedin": true})
+                this.props.modifyState({"is_Loggedin": true})
                 this.props.history.push('/loader')
         });
     }

@@ -9,7 +9,7 @@ class Peppar(models.Model):
     #Unique identification
     uuid = models.UUIDField(default=uuid_field.uuid4, unique=True, editable=False)
     # Type specification of PEPPAR
-    type = models.ForeignKey(PepparType, on_delete=models.CASCADE)
+    type = models.ForeignKey(PepparType, on_delete=models.CASCADE, related_name='peppar_type')
     # Derived Name
     name = models.CharField(max_length=300, editable=False, blank=True)
     # The two Name Elements

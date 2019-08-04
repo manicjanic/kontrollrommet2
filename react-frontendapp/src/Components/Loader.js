@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import {dataService} from '../_services/data.service'
-import {filterService} from '../_services/filter.service'
+import {dataService} from '../_services/data-service'
+import {filterService} from '../_services/filter-service'
 import { withRouter } from 'react-router'
 
 
@@ -15,73 +15,63 @@ class Loader extends Component {
         const fetchData = async () => {
             // Get the data
             let [
-                pepparType, 
-                relationType, 
-                myPeppars_raw, 
-                myRelations_raw
+                peppar_types, 
+                relation_types, 
+                all_peppars_raw, 
+                all_relations_raw
             ] = await Promise.all([
-                dataService.getPepparType(),
-                dataService.getRelationType(),
+                dataService.getPepparTypes(),
+                dataService.getRelationTypes(),
                 dataService.getPeppars(), 
                 dataService.getRelations(),
             ]);
-           
-            // Manipulate to use in fronend solution
-            const add_id = (objectlist) => {
-                // Add ID
-                let result = objectlist.map((object, i) => {
-                    object.id = i
-                    return object
-                })
-            return result
+            
+            const processPeppars = (peppars) => {
+                let lookuplist = [
+                    {idkey: "peppar_type", referencelist: peppar_types}
+                ]
+                let data = peppars
+                data = filterService.add_id(data)
+                data = filterService.add_nesteddata(data, lookuplist)
+                let outdata = data
+                return outdata
             }
             
-            const myPeppars = (myPeppars_raw) => {
-                // Add ID
-                result = add_id(myPeppars_raw)
-                // Add nested data
-                let secondchurn = filterService.addNestPeppar(firstchurn, pepparType)
-
-                return secondchurn
+            const processRelations = (relations, me_peppar) => {
+                let lookuplist = [
+                    {idkey: "peppar_type", referencelist: peppar_types},
+                    {idkey: 'relation_type', referencelist: relation_types},
+                ]
+                let data = relations
+                data = filterService.AlignObjects(data, me_peppar)
+                data = filterService.add_id(data)
+                data = filterService.add_nesteddata(data, lookuplist)
+                let outdata = data
+                return outdata
             }
-
-            const myRelations = (myRelations_raw) => {
-                let firstchurn = myRelations_raw.map((relation, i) => {
-                    relation.id = i
-                    return relation 
-                })
-                let secondchurn = filterService.align_and_addnest_relations(me, firstchurn, pepparType, relationType)
-                return secondchurn
-            }
-
-            const me = filterService.findMe(myPeppars(myPeppars_raw))
-            const myEntityRelations = filterService.get_specified_myrelations
-
+            let me_peppar_raw = filterService.findMePeppar(all_peppars_raw)
+            let all_Peppars = processPeppars(all_peppars_raw)
+            let all_Relations = processRelations(all_relations_raw, me_peppar_raw)
             // Set state with the processed data
             // Catalog
-            this.props.ModifyState({
-                'pepparType': pepparType,
-                'relationType': relationType,
+            this.props.modifyState({
+                'peppar_Types': peppar_types,
+                'relation_Types': relation_types,
                 // Full Peppars and Relations lists
-                'myPeppars': myPeppars(myPeppars_raw),
-                'myRelations': myRelations(myRelations_raw)
+                'all_Peppars': all_Peppars,
+                'all_Relations': all_Relations
             })
             // Derived Peppar and Relation lists
-            this.props.ModifyState({
-                "mePeppar": filterService.findMe(this.props.getState('myPeppars'))
+            this.props.modifyState({
+                "me_Peppar": filterService.findMePeppar(this.props.getState('all_Peppars'))
             })
-            this.props.ModifyState({
-                'myEntityRelations': filterService.get_specified_myrelations(
-                    this.props.getState("mePeppar"),
-                    this.props.getState("myRelations"),
+            this.props.modifyState({
+                'my_Entity_Relations': filterService.getMyRelations(
+                    this.props.getState("me_Peppar"),
+                    this.props.getState("all_Relations"),
                     "ENTITY"
                 )
             })
-
-            // this.props.getState('myPeppars')
-            // filterService.findMe()
-            // this.props.SetDerivedState('mePeppar', 'myPeppars', filterService.findMe)
-
             this.props.history.push('/')
         }
         fetchData()

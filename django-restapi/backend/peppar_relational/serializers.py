@@ -2,6 +2,11 @@ from rest_framework import serializers
 from .models import Relation
 
 class RelationSerializer(serializers.ModelSerializer):
+    relation_type = serializers.PrimaryKeyRelatedField(source='type', read_only=True)
+    relation_uuid = serializers.CharField(source='uuid', read_only=True)
+    relation_name = serializers.CharField(source='name', read_only=True)
+
+    
     class Meta:
         model = Relation
         fields = ( '__all__' )

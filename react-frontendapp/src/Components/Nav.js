@@ -20,7 +20,7 @@ class Nav extends Component {
 
     // If prop changes, rundt this
     componentWillReceiveProps() {
-        if (this.props.isLoggedin) {
+        if (this.props.is_Loggedin) {
             this.setState(prevState => {
                 var list = prevState.menudata;
                 list[0].status = "enabled" 
@@ -33,16 +33,16 @@ class Nav extends Component {
     }
 
     doSelectEntity(selected) {
-        this.props.ModifyState({"selectedEntityRelation": selected})
+        this.props.modifyState({"selected_Entity_Relation": selected})
     }
 
     render() {
         return (
             <NavBar 
-                isLoggedin={this.props.isLoggedin}
+                is_Loggedin={this.props.is_Loggedin}
                 menudata={this.state.menudata}
-                myEntityRelations={this.props.myEntityRelations}
-                mePeppar={this.props.mePeppar}
+                my_Entity_Relations={this.props.my_Entity_Relations}
+                me_Peppar={this.props.me_Peppar}
                 doSelectEntity={this.doSelectEntity}
                 />
         )

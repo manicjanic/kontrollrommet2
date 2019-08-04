@@ -1,4 +1,4 @@
-import {postalService} from './postal.service'
+import {postalService} from './postal-service'
 
 const sendLogin = (username, password) => {
     const payload = { username: username, password: password }
@@ -13,11 +13,11 @@ const getRelations = () => {
     return postalService.get_auth("api/user/relations/")    
 }
 
-const getPepparType = () => {
+const getPepparTypes = () => {
     return postalService.get_auth("api/catalog/peppartype/")    
 }
 
-const getRelationType = () => {
+const getRelationTypes = () => {
     return postalService.get_auth("api/catalog/relationtype/")    
 }
 
@@ -25,6 +25,6 @@ export const dataService = {
     sendLogin,
     getPeppars,
     getRelations,
-    getPepparType,
-    getRelationType
+    getPepparTypes,
+    getRelationTypes
 };

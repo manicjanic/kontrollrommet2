@@ -8,25 +8,15 @@ from peppar_base.serializers import PepparSerializer
 # Peppar Insight by User
 class PepparInsightSerializer(serializers.ModelSerializer):
     # Flattened representation of basic data from related Peppar
-    peppar_uuid = serializers.SerializerMethodField()
-    peppar_type_id = serializers.SerializerMethodField()
-    peppar_name = serializers.SerializerMethodField()
+    peppar_uuid = serializers.CharField(source='peppar.uuid')
+    peppar_type = serializers.IntegerField(source='peppar.type.id')
+    peppar_name = serializers.CharField(source='peppar.name')
     # Method field that builds and object with visible data, based on type and user's insight level
     added_data = serializers.SerializerMethodField()
     
     class Meta:
         model = PepparInsight
-        fields = ('uuid', 'level', 'peppar_uuid', 'peppar_type_id', 'peppar_name', 'added_data')
-
-    #Methods to get relevant fields from related Peppar
-    def get_peppar_uuid(self, obj):
-        return obj.peppar.uuid
-
-    def get_peppar_name(self, obj):
-        return obj.peppar.name
-
-    def get_peppar_type_id(self, obj):
-        return obj.peppar.type.id
+        fields = ('uuid', 'level', 'peppar_uuid', 'peppar_name', 'peppar_type', 'added_data')
 
 
     #Method for making dynamic object with visible data
@@ -168,37 +158,18 @@ class PepparInsightSerializer(serializers.ModelSerializer):
 #Relation Insight by User
 class RelationInsightSerializer(serializers.ModelSerializer):
     # Flattened representation of basic data from related Relation
-    relation_uuid = serializers.SerializerMethodField()
-    relation_name = serializers.SerializerMethodField()
-    relation_type_id = serializers.SerializerMethodField()
+    relation_uuid = serializers.CharField(source='relation.uuid')
+    relation_type = serializers.IntegerField(source='relation.type.id')
+    relation_name = serializers.CharField(source='relation.name')
     # Reference to the Peppar Objects in the relation
-    pepparA = serializers.SerializerMethodField()
-    pepparB = serializers.SerializerMethodField()
+    pepparA = PepparSerializer(fields=('peppar_uuid', 'peppar_type', 'peppar_name'), source='relation.pepparA')
+    pepparB = PepparSerializer(fields=('peppar_uuid', 'peppar_type', 'peppar_name'), source='relation.pepparB')
     # Method field that builds and object with visible data, based on type and user's insight level
     added_data = serializers.SerializerMethodField()
     
     class Meta:
         model = RelationInsight
-        fields = ('uuid', 'level', 'relation_uuid', 'relation_type_id', 'relation_name', 'pepparA', 'pepparB', 'added_data')
-
-    #Methods to get relevant fields from related Relation
-    def get_relation_uuid(self, obj):
-        return obj.relation.uuid
-
-    def get_relation_type_id(self, obj):
-        return obj.relation.type.id
-
-    def get_relation_name(self, obj):
-        return obj.relation.name
-
-    #Reference to the two Peppar Objects in the relation
-    def get_pepparA(self, obj):
-        peppar = obj.relation.pepparA
-        return PepparSerializer(peppar, fields=('uuid', 'type', 'name',)).data
-        
-    def get_pepparB(self, obj):
-        peppar = obj.relation.pepparB
-        return PepparSerializer(peppar, fields=('uuid', 'type', 'name',)).data
+        fields = ('uuid', 'level', 'relation_uuid', 'relation_type', 'relation_name', 'pepparA', 'pepparB', 'added_data')
 
     #Method for making dynamic object with visible data
     def get_added_data(self, obj):
