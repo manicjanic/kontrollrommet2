@@ -25,18 +25,6 @@ export default class PepparList extends Component {
     render() {
         return (
             <div className="container">
-                <h3>Peppar List</h3>
-                <table className="table table-striped" style={{ marginTop: 20 }} >
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>email</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        { this.PepparLister() }
-                    </tbody>
-                </table>
             </div>
         )
     }

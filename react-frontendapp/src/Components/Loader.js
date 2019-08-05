@@ -31,8 +31,8 @@ class Loader extends Component {
                     {idkey: "peppar_type", referencelist: peppar_types}
                 ]
                 let data = peppars
-                data = filterService.add_id(data)
-                data = filterService.add_nesteddata(data, lookuplist)
+                data = filterService.addID(data)
+                data = filterService.replaceForeignKeyWithObject(data, lookuplist)
                 let outdata = data
                 return outdata
             }
@@ -43,9 +43,9 @@ class Loader extends Component {
                     {idkey: 'relation_type', referencelist: relation_types},
                 ]
                 let data = relations
-                data = filterService.AlignObjects(data, me_peppar)
-                data = filterService.add_id(data)
-                data = filterService.add_nesteddata(data, lookuplist)
+                data = filterService.alignRelations(data, me_peppar)
+                data = filterService.addID(data)
+                data = filterService.replaceForeignKeyWithObject(data, lookuplist)
                 let outdata = data
                 return outdata
             }
@@ -66,10 +66,9 @@ class Loader extends Component {
                 "me_Peppar": filterService.findMePeppar(this.props.getState('all_Peppars'))
             })
             this.props.modifyState({
-                'my_Entity_Relations': filterService.getMyRelations(
+                'my_Relations': filterService.findMyRelations(
                     this.props.getState("me_Peppar"),
-                    this.props.getState("all_Relations"),
-                    "ENTITY"
+                    this.props.getState("all_Relations")
                 )
             })
             this.props.history.push('/')

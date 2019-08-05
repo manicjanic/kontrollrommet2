@@ -5,20 +5,54 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import {cssModifier} from '../_helpers/css-modifier'
 
 const NavBar = (props) => {
+
+    // 
+    const menu = [ 
+        {text: "Dashboard", status: "disabled", path: "/dashboard" },
+        {text: "Meetings", status: "disabled", path: "/meetings"},
+        {text: "Login", status: "enabled", path: "/login"},
+        {text: "Logout", status: "hidden", path: "/logout"},   
+    ]
+
     // Defining state. Selected = id from selected in selection menu
-    const [selected, setSelected] = useState()
+    const [menustatus, setMenustatus] = useState([
+        "disabled",
+        "disabled",
+        "enabled",
+        "hidden"
+    ])
     const inputRef = useRef()
 
     // Effect Hook that executes when 'selected' changes
     useEffect(() => {
-        props.doSelectEntity(props.my_Entity_Relations.find(relation => relation.id == selected))
-    }, [inputRef, selected]);
-
+        console.log("running useeffect in navBar")
+        onLoggedIn()
+    },
+        [inputRef, props.selected_Entity_Relation, props.is_Loggedin, props.my_Entity_Relations]
+    );
+    
     // Set state on changes to selection menu
     const onChangeSelect = e => {
-        setSelected(+e.target.value)
+        props.modifyState({selected_Entity_Relation: props.my_Entity_Relations.find(relation => relation.id == +e.target.value)})
     }        
     
+    const onLoggedIn = () => {
+        if (props.is_Loggedin) {
+            setMenustatus([
+                "enabled", 
+                "enabled",                 
+                "hidden", 
+                "enabled"
+            ])
+        }
+        else
+            setMenustatus([
+                "disabled",
+                "disabled",
+                "enabled",
+                "hidden"
+            ])
+    }
     // Greeting element, controlled by me_Peppar data  
     const Greeting = (props) => {
         if (props.me_Peppar.peppar_name) {
@@ -32,7 +66,7 @@ const NavBar = (props) => {
         if (props.dropdown_content.length) {
             return (
                 <span className="navbar-text">         
-                    <select ref={inputRef} className="custom-select" value={selected} onChange={onChangeSelect}>
+                    <select ref={inputRef} className="custom-select" value={props.selected.id} onChange={onChangeSelect}>
                         {props.dropdown_content.map(function(item, i) {
                         return <RepresentationDropdownItem item={item} key={item.id} />
                         })}
@@ -53,22 +87,25 @@ const NavBar = (props) => {
                 <NavLink className="navbar-brand" to="/">Kontrollrommet</NavLink>
                 <ul className="navbar-nav mr-auto">
                     <li className="nav-item">
-                        <NavLink className={cssModifier("nav-link", props.menudata[0].status)} to={props.menudata[0].path}>{props.menudata[0].text}</NavLink>
+                        <NavLink className={cssModifier("nav-link", menustatus[0])} to={menu[0].path}>{menu[0].text}</NavLink>
                     </li>
                     <li className="nav-item">
-                        <NavLink className={cssModifier("nav-link", props.menudata[1].status)} to={props.menudata[1].path}>{props.menudata[1].text}</NavLink>
+                        <NavLink className={cssModifier("nav-link", menustatus[1])} to={menu[1].path}>{menu[1].text}</NavLink>
                     </li>
                     <li className="nav-item">
-                        <NavLink className={cssModifier("nav-link", props.menudata[2].status)} to={props.menudata[2].path}>{props.menudata[2].text}</NavLink>
+                        <NavLink className={cssModifier("nav-link", menustatus[2])} to={menu[2].path}>{menu[2].text}</NavLink>
                     </li>
                     <li className="nav-item">
-                        <NavLink className={cssModifier("nav-link", props.menudata[3].status)} to={props.menudata[3].path}>{props.menudata[3].text}</NavLink>
+                        <NavLink className={cssModifier("nav-link", menustatus[3])} to={menu[3].path}>{menu[3].text}</NavLink>
                     </li>
                 </ul>
                 <span className="navbar-text">
                     <Greeting me_Peppar={props.me_Peppar}/>
                     <br/>
-                    <RepresentationDropdown dropdown_content={props.my_Entity_Relations}/>
+                    <RepresentationDropdown 
+                        dropdown_content={props.my_Entity_Relations}
+                        selected={props.selected_Entity_Relation}
+                    />
                 </span>
             </nav>
         </div>

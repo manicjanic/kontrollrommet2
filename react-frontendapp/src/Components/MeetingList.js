@@ -1,20 +1,20 @@
-import React, {Component} from 'react';
+import React from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const MeetingList = (props) => {  
     
-    const List = () => {
-            return props.meetings.map((meeting, i) => {
+    const List = (props) => {
+            return props.my_Meetings.map((meeting, i) => {
                 return <Item meeting={meeting} key={i} />;
             })
     }
 
-    const Item = () => {
+    const Item = (props) => {
         return (
             <tr>
-                <td>{props.meeting.type.name}</td>
-                <td>{props.meeting.entitiy.name}</td>
-                <td>{props.meeting.date}</td>
+                <td>{props.meeting.peppar_name}</td>
+                <td></td>
+                <td>{props.meeting.added_data.peppar_dateA}</td>
             </tr>
         )
     }
@@ -31,7 +31,7 @@ const MeetingList = (props) => {
                     </tr>
                 </thead>
                 <tbody>
-                { List() }
+                <List my_Meetings={props.my_Meetings}/>
             </tbody>
         </table>
     </div>

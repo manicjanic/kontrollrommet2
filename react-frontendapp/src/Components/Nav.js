@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {filterService} from '../_services/filter-service'
 
 import NavBar from './NavBar';
 
@@ -6,45 +7,24 @@ class Nav extends Component {
   
     constructor(props){
         super(props);
-        this.state = {
-            menudata: [ 
-                {text: "Dashboard", status: "disabled", path: "/dashboard" },
-                {text: "Meetings", status: "disabled", path: "/meetings"},
-                {text: "Login", status: "enabled", path: "/login"},
-                {text: "Logout", status: "hidden", path: "/logout"},   
-            ]
-        }
+        // Set Local State
         // Bind functions so they can access this
-        this.doSelectEntity = this.doSelectEntity.bind(this);
+        this.findMyEntityRelations = this.findMyEntityRelations.bind(this);
     }
 
-    // If prop changes, rundt this
-    componentWillReceiveProps() {
-        if (this.props.is_Loggedin) {
-            this.setState(prevState => {
-                var list = prevState.menudata;
-                list[0].status = "enabled" 
-                list[1].status = "enabled"                 
-                list[2].status = "hidden" 
-                list[3].status = "enabled"
-                return list
-            })
-        }
-    }
-
-    doSelectEntity(selected) {
-        this.props.modifyState({"selected_Entity_Relation": selected})
+    findMyEntityRelations() {
+        return filterService.findRelationType(this.props.my_Relations, 'PER-ENT')
     }
 
     render() {
         return (
             <NavBar 
                 is_Loggedin={this.props.is_Loggedin}
-                menudata={this.state.menudata}
-                my_Entity_Relations={this.props.my_Entity_Relations}
                 me_Peppar={this.props.me_Peppar}
-                doSelectEntity={this.doSelectEntity}
-                />
+                selected_Entity_Relation={this.props.selected_Entity_Relation}
+                my_Entity_Relations={this.findMyEntityRelations()}
+                modifyState={this.props.modifyState}
+            />
         )
     }
 }

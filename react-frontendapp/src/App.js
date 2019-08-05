@@ -3,13 +3,11 @@ import React, { Component } from 'react';
 import { Route } from "react-router";
 import { PrivateRoute } from './_components';
 
-import {filterService} from './_services/filter-service'
-
-
 // Layout elements
 import Nav from './Components/Nav';
 import Login from './Components/Login';
 import PepparList from './Components/PepparList';
+import Meetings from "./Components/Meetings";
 // Loader
 import Loader from './Components/Loader';
 
@@ -31,7 +29,7 @@ class App extends Component {
             all_Relations: [ ],
             // Derived Peppars and Relations
             me_Peppar: {},
-            my_Entity_Relations: [],
+            my_Relations: [],
             // Selections
             selected_Entity_Relation : {},
         }
@@ -52,32 +50,38 @@ class App extends Component {
     
     // Layouts
     LoginSetup = () => (
-    <div>
-        <Login
-            modifyState={this.modifyState}
-        />
-    </div>
+        <div>
+            <Login
+                modifyState={this.modifyState}
+            />
+        </div>
     );
     
     HomeSetup = () => (
-    <div>
         <div className="container">
             This is the Home page of Kontrollrommet. 
             Log in or create new user to take control.
         </div>
-    </div>
     );
-    
+
+    MeetingsSetup = () => (
+        <div className="container">
+            <Meetings
+                my_Relations={this.state.my_Relations}
+                modifyState={this.modifyState}
+                all_Peppars={this.state.all_Peppars}
+            />
+        </div>
+    );
+                
     DashboardSetup = () => (
-    <div>
         <div className="container">
             This is the Dashboard. Main control mastered from here.
+            <PepparList 
+                    all_Peppars={this.state.all_Peppars}
+                    modifyState={this.modifyState}
+            />
         </div>
-        <PepparList 
-                all_Peppars={this.state.all_Peppars}
-                modifyState={this.modifyState}
-        />
-    </div>
     );
     
     LoaderSetup = () => (
@@ -104,12 +108,14 @@ class App extends Component {
                 <Nav
                     is_Loggedin={this.state.is_Loggedin}
                     me_Peppar={this.state.me_Peppar}
-                    my_Entity_Relations={this.state.my_Entity_Relations}
+                    my_Relations={this.state.my_Relations}
+                    selected_Entity_Relation={this.state.selected_Entity_Relation}
                     modifyState={this.modifyState}
                 />
                 <Route path="/" exact = {true} render = {this.HomeSetup}/>
                 <Route path="/login" exact = {true} render = {this.LoginSetup}/>
                 <Route path="/logout" exact = {true} render = {this.LoginSetup}/>
+                <PrivateRoute exact path="/meetings" component={this.MeetingsSetup} />
                 <PrivateRoute exact path="/dashboard" component={this.DashboardSetup} />
                 <PrivateRoute exact path="/loader" component={this.LoaderSetup} />
             </div>

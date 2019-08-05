@@ -1,14 +1,62 @@
 
-// Filter to get relations to user's Peppar, by type
-const getMyRelations = (me, relations, type) => {
-    let result = relations.filter(obj => {
-        return ( 
-            (obj.pepparA.peppar_uuid === me.peppar_uuid) && (obj.pepparB.peppar_type.type == type)
-        )
+// Filters list of relations to select where PepparA is MePeppar.
+// Takes optional argument to filter by PEPPAR type.
+const findMyRelations = (me, relations, type) => {
+    console.log("running findMyRelations with this relations list:", relations)
+    let result = relations.filter(relation => {
+        if (type === undefined) {
+            return (relation.pepparA.peppar_uuid === me.peppar_uuid)   
+        }
+        else
+        return (relation.pepparA.peppar_uuid === me.peppar_uuid) && (relation.pepparB.peppar_type.type == type) 
     })
     return result
-    } 
+} 
 
+// Finds relations of specific Type
+const findRelationType = (relations, type) => {
+    console.log("running findRelationType with this relations list:", relations)
+    let result = relations.filter(relation => {
+        return (relation.relation_type.type == type) 
+    })
+    return result
+} 
+
+// Finds correspondins PEPPARs from a list of relations. Optional argument to choose A-end, B-end only
+const findPepparsFromRelation = (relations, peppars, end) => {
+    console.log("running findPepparsFromRelation with this relations list:", relations, peppars)
+    let result = []
+    relations.forEach(relation => {
+        console.log("Working in this relation:", relation)
+        if (end === "A" || end === undefined) {
+            console.log("Checking to find PepparA...")
+            var pepparA = peppars.find(peppar => {
+            	console.log("comparing A", peppar.peppar_uuid, relation.pepparA.peppar_uuid)
+                return peppar.peppar_uuid === relation.pepparA.peppar_uuid
+            })
+            
+        }
+        if (end === "B" || end === undefined) {
+            console.log("Checking to find PepparB...")
+            var pepparB = peppars.find(peppar => {
+                console.log("comparing B", peppar.peppar_uuid, relation.pepparB.peppar_uuid)
+                return peppar.peppar_uuid === relation.pepparB.peppar_uuid
+            })
+    
+        }
+        console.log("Peppar A and B", pepparA, pepparB)
+        if ((pepparA) && (!result.includes(pepparA))) {
+            result.push(pepparA)
+        }
+        if ((pepparB) && (!result.includes(pepparB))) {
+            result.push(pepparB)
+        }
+    	console.log("result pr. now:", result)
+    })
+    return result
+}
+
+// Finds MePeppar from a list of Peppars
 const findMePeppar = (peppars) => {
     let me = peppars.find(peppar => {
         return peppar.level == "0"
@@ -16,10 +64,8 @@ const findMePeppar = (peppars) => {
     return me
 }
 
-
-
-// Adds an ID to objects in objectlist
-const add_id = (objectlist) => {
+// Adds an ID property to objects in objectlist
+const addID = (objectlist) => {
     // Add ID
     let result = objectlist.map((object, i) => {
         object.id = i
@@ -28,53 +74,39 @@ const add_id = (objectlist) => {
     return result
 }
 
-// Takes and objectlist, Replaces id fields with nested data objects linked to a reference list
-// Objectlist = [{}...]
-// lookuplist = [{idkey: 'akey', referencelist: [{}...]}...]
-const add_nesteddata = (objectlist, lookuplist) => {
-    console.log ("starting with this objectlist", objectlist)
-    console.log ("mapping through objects")
+// Takes an objectlist, replaces foreignkey fields with nested data objects, 
+// based on a reference list
+// Objectlist = [{object}...]
+// lookuplist = [{idkey: 'keyname', referencelist: [{obj}...]}...]
+const replaceForeignKeyWithObject = (objectlist, lookuplist) => {
+    console.log ("running replaceForeignKeyWithObject with this objectlist", objectlist)
     let altered_objectlist = objectlist.map((object) => {
-        console.log ("here is the object im working on", object)
         for (var property in object) {
-            console.log("working on this property:", property)
             let _property = property
             let key = lookuplist.find(item => {
-                console.log("idkey", item.idkey)
                 return item.idkey == _property
             })
-        console.log("key", key)
             if (key) {
-                console.log("running prop is id routine")
                 let lookup_object = key.referencelist.find(listitem => {
                     return listitem.id == object[property]
                 })
                 object[property] = lookup_object
-                console.log ("stored a new property on object. Now it looks like this:", object)
             }
             else if ((typeof object[property] == 'object') && (Array.isArray(object[property]) === false)) {
-                    console.log("running prop is object routine")
                     let propertyobject = object[property]
-                    console.log("this is the property that is an object", propertyobject)
-                    let altered_propertyobject = add_nesteddata([propertyobject], lookuplist)
-                    console.log("altered propertyobject", altered_propertyobject)
+                    let altered_propertyobject = replaceForeignKeyWithObject([propertyobject], lookuplist)
                     object[property] = altered_propertyobject[0]
             }
-            console.log("all checks passed")
         }
-        console.log("All properties checked. This is the object returned:", object)
         return object
     })
-    console.log("altered objectlist", altered_objectlist)
     return altered_objectlist
 }
 
 // Alligns object so that relational obj is always in the A-end
-const AlignObjects = (objectlist, origo_object) => {
-    console.log("Aligning objects...")
-    console.log(objectlist, origo_object)
+const alignRelations = (objectlist, origo_object) => {
+    console.log("running aligning relations with this objectlist", objectlist)
     let result = objectlist.map((object, i) => {
-        console.log("checing if this object needs alignement", object)
         if (object.pepparB.peppar_uuid == origo_object.peppar_uuid) {
             console.log("since", object.pepparB.peppar_uuid, origo_object.peppar_uuid, "i will swap")
             let swapperA = object.pepparB
@@ -84,15 +116,16 @@ const AlignObjects = (objectlist, origo_object) => {
         }
         return object
     })
-    console.log("no more objects to align")
     return result
 }
 
 export const filterService = {
-    add_id,
-    add_nesteddata,
+    addID,
+    alignRelations,
     findMePeppar,
-    getMyRelations,
-    AlignObjects
+    findMyRelations,
+    findRelationType,
+    replaceForeignKeyWithObject,
+    findPepparsFromRelation
 }
 
