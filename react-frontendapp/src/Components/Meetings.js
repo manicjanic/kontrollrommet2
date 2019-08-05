@@ -13,8 +13,6 @@ class Meetings extends Component {
     }
 
     findMyMeetings() {
-        console.log("found these relations in Meetings:", filterService.findRelationType(this.props.my_Relations, 'PER-PLA'))
-        console.log("all_peppars:", this.props.all_Peppars)
         let my_planrelations = filterService.findRelationType(this.props.my_Relations, 'PER-PLA')
         return filterService.findPepparsFromRelation(my_planrelations, this.props.all_Peppars, "B")
     }

@@ -2,7 +2,7 @@
 // Filters list of relations to select where PepparA is MePeppar.
 // Takes optional argument to filter by PEPPAR type.
 const findMyRelations = (me, relations, type) => {
-    console.log("running findMyRelations with this relations list:", relations)
+    console.log("running findMyRelations with this data:", me, relations, type)
     let result = relations.filter(relation => {
         if (type === undefined) {
             return (relation.pepparA.peppar_uuid === me.peppar_uuid)   
@@ -15,7 +15,7 @@ const findMyRelations = (me, relations, type) => {
 
 // Finds relations of specific Type
 const findRelationType = (relations, type) => {
-    console.log("running findRelationType with this relations list:", relations)
+    console.log("running findRelationType with this data:", relations, type)
     let result = relations.filter(relation => {
         return (relation.relation_type.type == type) 
     })
@@ -24,34 +24,27 @@ const findRelationType = (relations, type) => {
 
 // Finds correspondins PEPPARs from a list of relations. Optional argument to choose A-end, B-end only
 const findPepparsFromRelation = (relations, peppars, end) => {
-    console.log("running findPepparsFromRelation with this relations list:", relations, peppars)
+    console.log("running findPepparsFromRelation with this data:", relations, peppars, end)
     let result = []
     relations.forEach(relation => {
-        console.log("Working in this relation:", relation)
         if (end === "A" || end === undefined) {
-            console.log("Checking to find PepparA...")
             var pepparA = peppars.find(peppar => {
-            	console.log("comparing A", peppar.peppar_uuid, relation.pepparA.peppar_uuid)
                 return peppar.peppar_uuid === relation.pepparA.peppar_uuid
             })
             
         }
         if (end === "B" || end === undefined) {
-            console.log("Checking to find PepparB...")
             var pepparB = peppars.find(peppar => {
-                console.log("comparing B", peppar.peppar_uuid, relation.pepparB.peppar_uuid)
                 return peppar.peppar_uuid === relation.pepparB.peppar_uuid
             })
     
         }
-        console.log("Peppar A and B", pepparA, pepparB)
         if ((pepparA) && (!result.includes(pepparA))) {
             result.push(pepparA)
         }
         if ((pepparB) && (!result.includes(pepparB))) {
             result.push(pepparB)
         }
-    	console.log("result pr. now:", result)
     })
     return result
 }
@@ -79,7 +72,7 @@ const addID = (objectlist) => {
 // Objectlist = [{object}...]
 // lookuplist = [{idkey: 'keyname', referencelist: [{obj}...]}...]
 const replaceForeignKeyWithObject = (objectlist, lookuplist) => {
-    console.log ("running replaceForeignKeyWithObject with this objectlist", objectlist)
+    console.log ("running replaceForeignKeyWithObject with this data:", objectlist, lookuplist)
     let altered_objectlist = objectlist.map((object) => {
         for (var property in object) {
             let _property = property
@@ -105,7 +98,7 @@ const replaceForeignKeyWithObject = (objectlist, lookuplist) => {
 
 // Alligns object so that relational obj is always in the A-end
 const alignRelations = (objectlist, origo_object) => {
-    console.log("running aligning relations with this objectlist", objectlist)
+    console.log("running aligning relations with this data", objectlist, origo_object)
     let result = objectlist.map((object, i) => {
         if (object.pepparB.peppar_uuid == origo_object.peppar_uuid) {
             console.log("since", object.pepparB.peppar_uuid, origo_object.peppar_uuid, "i will swap")

@@ -25,7 +25,6 @@ const NavBar = (props) => {
 
     // Effect Hook that executes when 'selected' changes
     useEffect(() => {
-        console.log("running useeffect in navBar")
         onLoggedIn()
     },
         [inputRef, props.selected_Entity_Relation, props.is_Loggedin, props.my_Entity_Relations]
