@@ -13,20 +13,14 @@ class Peppar(models.Model):
     # Derived Name
     name = models.CharField(max_length=300, editable=False, blank=True)
     # The two Name Elements
-    nameA_meaning = models.CharField(max_length=300, blank=True)
     nameA = models.CharField(max_length=300, blank=True)
-    nameB_meaning = models.CharField(max_length=300, blank=True)
     nameB = models.CharField(max_length=300, blank=True)
     # The two Time Elements
-    dateA_meaning = models.CharField(max_length=300, blank=True)
     dateA = models.DateTimeField(blank=True, null=True)
-    dateB_meaning = models.CharField(max_length=300, blank=True)
     dateB = models.DateTimeField(blank=True, null=True)
     # Unique identifier Element
-    idcode_meaning = models.CharField(max_length=300, blank=True)
     idcode = models.CharField(max_length=25, blank=True)
     # A question
-    question_meaning = models.CharField(max_length=300, blank=True)
     question = models.BooleanField(blank=True, null=True)
     # All other specifications
     specific_data = JSONField(null=True, blank=True)
