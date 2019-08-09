@@ -1,40 +1,63 @@
-import React from 'react';
+import React, { useState }  from 'react';
+import {Table} from 'react-bootstrap'
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const MeetingList = (props) => {  
     
-    const List = (props) => {
-            return props.my_Meetings.map((meeting, i) => {
-                return <Item meeting={meeting} key={i} />;
-            })
+    // Static data for display
+    const tablehead = [
+        {text: "Overskrift"},
+        {text: "Dato"}
+    ]
+
+    // Defining state. Selected = id from selected in selection menu
+    const [tablestatus, setTablestatus] = useState({
+        row_selected: {},
+    })
+    
+    // JSX Elements
+    const MainTable = (props) => {
+        return props.my_MeetingCalls.map((meeting, i) => {
+            return <Table_Row 
+                meeting={meeting}
+                key={i}
+                onSelectMeeting={props.onSelectMeeting}
+            />;
+        })
     }
 
-    const Item = (props) => {
+    const Table_Row = (props) => {
         return (
-            <tr>
+            <tr onClick={() => rowClick(props.meeting.id)}>
                 <td>{props.meeting.peppar_name}</td>
-                <td></td>
                 <td>{props.meeting.added_data.peppar_dateA}</td>
             </tr>
         )
     }
 
+    // Event Handlers
+    const rowClick = (id) => {
+        console.log("Clicked", id)
+        props.onSelectMeeting(id)
+    }
+
     return (
         <div className="container">
-            <h3>Meeting List</h3>
-            <table className="table table-striped" style={{ marginTop: 20 }} >
-                <thead>
-                    <tr>
-                        <th>Type</th>
-                        <th>Organisasjon</th>
-                        <th>Dato</th>
-                    </tr>
-                </thead>
+            <Table striped bordered hover>
+            <thead>
+                <tr>
+                    <th>{tablehead[0].text}</th>
+                    <th>{tablehead[1].text}</th>
+                </tr>
+            </thead>
                 <tbody>
-                <List my_Meetings={props.my_Meetings}/>
-            </tbody>
-        </table>
-    </div>
+                    <MainTable 
+                        my_MeetingCalls={props.my_MeetingCalls}
+                        setMeetingCard={props.setMeetingCard}
+                    />
+                </tbody>
+            </Table>
+        </div>
     )
     
 }

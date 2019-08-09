@@ -4,7 +4,7 @@ import { Route } from "react-router";
 import { PrivateRoute } from './_components';
 
 // Layout elements
-import Nav from './Components/Nav';
+import Navigator from './Components/Nav';
 import Login from './Components/Login';
 import PepparList from './Components/PepparList';
 import Meetings from "./Components/Meetings";
@@ -23,14 +23,14 @@ class App extends Component {
             relation_Types: [],
             // App Status
             is_Loggedin: false,
-            is_Loggedin: false,
             // Peppars and Relations
             all_Peppars: [ ],
             all_Relations: [ ],
             // Derived Peppars and Relations
             me_Peppar: {},
+            my_Peppars: [],
             my_Relations: [],
-            // Selections
+            // Selections to be available globally
             selected_Entity_Relation : {},
         }
         // Making functions available
@@ -68,6 +68,8 @@ class App extends Component {
         <div className="container">
             <Meetings
                 my_Relations={this.state.my_Relations}
+                my_Peppars={this.state.my_Peppars}
+                all_Relations={this.state.all_Relations}
                 modifyState={this.modifyState}
                 all_Peppars={this.state.all_Peppars}
             />
@@ -102,10 +104,10 @@ class App extends Component {
     </div>
     );
     
-    render() {        
+    render() {
         return (
             <div>
-                <Nav
+                <Navigator
                     is_Loggedin={this.state.is_Loggedin}
                     me_Peppar={this.state.me_Peppar}
                     my_Relations={this.state.my_Relations}

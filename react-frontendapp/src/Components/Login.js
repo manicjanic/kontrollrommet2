@@ -19,7 +19,6 @@ class Login extends Component {
     }
 
     // Callback functions to deal with input from Layout element
-
     doLogout() {
         // remove token from local storage
         localStorage.removeItem('token');

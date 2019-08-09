@@ -2,11 +2,12 @@ import React, { useState, useEffect, useRef  } from 'react';
 import { NavLink } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
+import {filterService} from '../_services/filter-service'
 import {cssModifier} from '../_helpers/css-modifier'
 
 const NavBar = (props) => {
 
-    // 
+    // Static data for display
     const menu = [ 
         {text: "Dashboard", status: "disabled", path: "/dashboard" },
         {text: "Meetings", status: "disabled", path: "/meetings"},
@@ -14,45 +15,48 @@ const NavBar = (props) => {
         {text: "Logout", status: "hidden", path: "/logout"},   
     ]
 
-    // Defining state. Selected = id from selected in selection menu
-    const [menustatus, setMenustatus] = useState([
+    const menustatus_loggedout = [
         "disabled",
         "disabled",
         "enabled",
         "hidden"
-    ])
-    const inputRef = useRef()
+    ]
+
+    const menustatus_loggedin = [
+        "enabled", 
+        "enabled",                 
+        "hidden", 
+        "enabled"
+    ]
+
+    // Defining state. Selected = id from selected in selection menu
+    const [menustatus, setMenustatus] = useState(menustatus_loggedout)
 
     // Effect Hook that executes when 'selected' changes
     useEffect(() => {
-        onLoggedIn()
+        console.log("running useEffect in NavBar")
+        checkifLoggedIn()
     },
-        [inputRef, props.selected_Entity_Relation, props.is_Loggedin, props.my_Entity_Relations]
+        [props.is_Loggedin]
     );
     
-    // Set state on changes to selection menu
-    const onChangeSelect = e => {
-        props.modifyState({selected_Entity_Relation: props.my_Entity_Relations.find(relation => relation.id == +e.target.value)})
+    // Event Handler - Sets state on changes to selection menu
+    const onSelectEntityRelation = e => {
+        let selected_relation = filterService.findOnId(+e.target.value, props.my_Entity_Relations)
+        console.log("found selected relation:", selected_relation)
+        props.modifyState({selected_Entity_Relation: selected_relation})
     }        
     
-    const onLoggedIn = () => {
+    // Checks prop and sets menu based on status
+    const checkifLoggedIn = () => {
         if (props.is_Loggedin) {
-            setMenustatus([
-                "enabled", 
-                "enabled",                 
-                "hidden", 
-                "enabled"
-            ])
+            setMenustatus(menustatus_loggedin)
         }
         else
-            setMenustatus([
-                "disabled",
-                "disabled",
-                "enabled",
-                "hidden"
-            ])
+            setMenustatus(menustatus_loggedout)
     }
-    // Greeting element, controlled by me_Peppar data  
+    
+    // Greeting element
     const Greeting = (props) => {
         if (props.me_Peppar.peppar_name) {
             return ("Hello, " + props.me_Peppar.peppar_name + ". You are currently representing")
@@ -60,12 +64,12 @@ const NavBar = (props) => {
         return ""
     }
 
-    // Representation choice element, passing 
+    // Representation choice element
     const RepresentationDropdown = (props) => {
         if (props.dropdown_content.length) {
             return (
                 <span className="navbar-text">         
-                    <select ref={inputRef} className="custom-select" value={props.selected.id} onChange={onChangeSelect}>
+                    <select className="custom-select" value={props.selected.id} onChange={onSelectEntityRelation}>
                         {props.dropdown_content.map(function(item, i) {
                         return <RepresentationDropdownItem item={item} key={item.id} />
                         })}
@@ -77,7 +81,11 @@ const NavBar = (props) => {
     }
 
     const RepresentationDropdownItem = (props) => {
-        return <option value={props.item.id}>{props.item.pepparB.peppar_name} as {props.item.relation_type.name}</option>
+        return (
+            <option value={props.item.id}>
+                {props.item.pepparB.peppar_name} as {props.item.relation_type.name}
+            </option>
+        )    
     }
 
     return (

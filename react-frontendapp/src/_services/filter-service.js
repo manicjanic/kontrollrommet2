@@ -1,37 +1,35 @@
 
-// Filters list of relations to select where PepparA is MePeppar.
-// Takes optional argument to filter by PEPPAR type.
-const findMyRelations = (me, relations, type) => {
-    console.log("running findMyRelations with this data:", me, relations, type)
-    let result = relations.filter(relation => {
-        if (type === undefined) {
-            return (relation.pepparA.peppar_uuid === me.peppar_uuid)   
-        }
-        else
-        return (relation.pepparA.peppar_uuid === me.peppar_uuid) && (relation.pepparB.peppar_type.type == type) 
+const findOnId = (id, objects) => {
+    console.log("running findOnId with this data:", id, objects)
+    let result = objects.find(object => {
+        return object.id == id
     })
     return result
-} 
-
-// Finds relations of specific Type
-const findRelationType = (relations, type) => {
-    console.log("running findRelationType with this data:", relations, type)
-    let result = relations.filter(relation => {
-        return (relation.relation_type.type == type) 
+}
+// Filters list of relations to select where Peppar is in the A-end.
+// Takes optional argument to filter by PEPPAR type.
+// SearchObj = {peppar: {}, relations: [{}...], type: "PER", end: "A"}
+const findRelationsFromPeppar = (relations, peppar) => {
+    console.log("running findRelationsFromPeppar with this data:", relations, peppar)
+    let result = relations.filter(relation => {    
+        return (
+            peppar.peppar_uuid === relation.pepparA.peppar_uuid 
+            || 
+            peppar.peppar_uuid === relation.pepparB.peppar_uuid
+        )   
     })
     return result
 } 
 
 // Finds correspondins PEPPARs from a list of relations. Optional argument to choose A-end, B-end only
-const findPepparsFromRelation = (relations, peppars, end) => {
-    console.log("running findPepparsFromRelation with this data:", relations, peppars, end)
+const findPepparsFromRelations = (relations, peppars, end) => {
+    console.log("running findPepparsFromRelations with this data:", relations, peppars, end)
     let result = []
     relations.forEach(relation => {
         if (end === "A" || end === undefined) {
             var pepparA = peppars.find(peppar => {
                 return peppar.peppar_uuid === relation.pepparA.peppar_uuid
-            })
-            
+            })            
         }
         if (end === "B" || end === undefined) {
             var pepparB = peppars.find(peppar => {
@@ -48,6 +46,55 @@ const findPepparsFromRelation = (relations, peppars, end) => {
     })
     return result
 }
+
+// Finds relations of specific Type
+const findRelationsByType = (relations, type) => {
+    console.log("running findRelationsByType with this data:", relations, type)
+    let result
+    if (typeof type == "string") {
+        result = relations.filter(relation => {
+            return (relation.relation_type.type == type) 
+        })    
+    }
+    if (typeof type == "number") {
+        result = relations.filter(relation => {
+            return (relation.relation_type.id == type) 
+        })    
+    }
+    return result
+} 
+
+// Finds relations of specific Type
+const findPepparsByType = (peppars, type) => {
+    console.log("running findPepparsByType with this data:", peppars, type)
+    let result
+    if (typeof type == "string") {
+        result = peppars.filter(peppar => {
+            return (peppar.peppar_type.type === type) 
+        })
+    }
+    if (typeof type == "number") {
+        result = peppars.filter(peppar => {
+            return (peppar.peppar_type.id === type) 
+        })
+    }
+    return result
+} 
+
+// Find the Peppar on the other end of a Relation
+const findOtherEnd = (relation, peppars, peppar) => {
+    if (peppar.peppar_uuid === relation.pepparA.peppar_uuid) {
+        return peppars.find(peppar => {
+            return peppar.peppar_uuid === relation.pepparB.peppar_uuid
+        })
+    }
+    if (peppar.peppar_uuid === relation.pepparB.peppar_uuid) {
+        return peppars.find(peppar => {
+            return peppar.peppar_uuid === relation.pepparA.peppar_uuid
+        })
+    }
+}
+
 
 // Finds MePeppar from a list of Peppars
 const findMePeppar = (peppars) => {
@@ -115,10 +162,14 @@ const alignRelations = (objectlist, origo_object) => {
 export const filterService = {
     addID,
     alignRelations,
+    findOnId,
     findMePeppar,
-    findMyRelations,
-    findRelationType,
+    findRelationsFromPeppar,
+    findPepparsFromRelations,
+    findRelationsByType,
+    findPepparsByType,
+    findOtherEnd,
     replaceForeignKeyWithObject,
-    findPepparsFromRelation
+    
 }
 
