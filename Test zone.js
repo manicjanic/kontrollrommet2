@@ -254,3 +254,19 @@ const findOnId = (id, objects) => {
 
 let test = findOnId(1, Pepparlist)
 console.log("Result", test)
+
+
+const makeCommalist = (objlist) => {
+    const length = objlist.length
+    const wrapopen = "<div>"
+    const wrapclose = "</div"
+    let _string = wrapopen
+    objlist.forEach((obj ,i) => {
+        _string += obj
+        if (length != i+1) {
+            _string += ", "
+        }
+    });
+    _string += wrapclose
+    return _string
+}

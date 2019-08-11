@@ -1,4 +1,8 @@
-import React, { useState, useEffect, useRef  } from 'react';
+import React, { useState, useEffect } from 'react';
+import { LinkContainer } from 'react-router-bootstrap'
+
+import {Nav, Navbar} from 'react-bootstrap'
+// Not currently in use, unsure if it is needed to make the Routing in React work
 import { NavLink } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -59,7 +63,7 @@ const NavBar = (props) => {
     // Greeting element
     const Greeting = (props) => {
         if (props.me_Peppar.peppar_name) {
-            return ("Hello, " + props.me_Peppar.peppar_name + ". You are currently representing")
+            return (<span>Hello, {props.me_Peppar.peppar_name}. </span>)
         }
         return ""
     }
@@ -68,13 +72,16 @@ const NavBar = (props) => {
     const RepresentationDropdown = (props) => {
         if (props.dropdown_content.length) {
             return (
-                <span className="navbar-text">         
-                    <select className="custom-select" value={props.selected.id} onChange={onSelectEntityRelation}>
-                        {props.dropdown_content.map(function(item, i) {
-                        return <RepresentationDropdownItem item={item} key={item.id} />
-                        })}
-                    </select>                                    
-                </span>
+                <span>
+                    Your are currently representing      
+                    <div>
+                        <select className="custom-select" value={props.selected.id} onChange={onSelectEntityRelation}>
+                            {props.dropdown_content.map(item =>
+                                <RepresentationDropdownItem item={item} key={item.id} />
+                            )}
+                        </select>
+                    </div>
+                </span>  
             )
         }
         return ""
@@ -89,33 +96,30 @@ const NavBar = (props) => {
     }
 
     return (
-        <div className="container">
-            <nav className="navbar navbar-expand-lg navbar-light bg-light">
-                <NavLink className="navbar-brand" to="/">Kontrollrommet</NavLink>
-                <ul className="navbar-nav mr-auto">
-                    <li className="nav-item">
-                        <NavLink className={cssModifier("nav-link", menustatus[0])} to={menu[0].path}>{menu[0].text}</NavLink>
-                    </li>
-                    <li className="nav-item">
-                        <NavLink className={cssModifier("nav-link", menustatus[1])} to={menu[1].path}>{menu[1].text}</NavLink>
-                    </li>
-                    <li className="nav-item">
-                        <NavLink className={cssModifier("nav-link", menustatus[2])} to={menu[2].path}>{menu[2].text}</NavLink>
-                    </li>
-                    <li className="nav-item">
-                        <NavLink className={cssModifier("nav-link", menustatus[3])} to={menu[3].path}>{menu[3].text}</NavLink>
-                    </li>
-                </ul>
-                <span className="navbar-text">
-                    <Greeting me_Peppar={props.me_Peppar}/>
-                    <br/>
-                    <RepresentationDropdown 
-                        dropdown_content={props.my_Entity_Relations}
-                        selected={props.selected_Entity_Relation}
-                    />
-                </span>
-            </nav>
-        </div>
+        <Navbar bg="light" expand="lg">
+            <Navbar.Brand href="/">Kontrollrommet</Navbar.Brand>
+            <Nav className="mr-auto">
+                <LinkContainer to={menu[0].path}>
+                <Nav.Link className={cssModifier("", menustatus[0])}>{menu[0].text}</Nav.Link>
+                </LinkContainer>
+                <LinkContainer to={menu[1].path}>
+                <Nav.Link className={cssModifier("", menustatus[1])}>{menu[1].text}</Nav.Link>
+                </LinkContainer>
+                <LinkContainer to={menu[2].path}>
+                <Nav.Link className={cssModifier("", menustatus[2])}>{menu[2].text}</Nav.Link>
+                </LinkContainer>
+                <LinkContainer to={menu[3].path}>
+                <Nav.Link className={cssModifier("", menustatus[3])}>{menu[3].text}</Nav.Link>
+                </LinkContainer>
+            </Nav>
+            <Navbar.Text>
+                <Greeting me_Peppar={props.me_Peppar}/>
+                <RepresentationDropdown 
+                    dropdown_content={props.my_Entity_Relations}
+                    selected={props.selected_Entity_Relation}
+                />
+            </Navbar.Text>
+        </Navbar>
     )   
 };
 

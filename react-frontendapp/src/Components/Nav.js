@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import {Nav} from 'react-bootstrap'
 
 import {filterService} from '../_services/filter-service'
-
 import NavBar from './NavBar';
 
 class Navigator extends Component {
@@ -13,13 +11,6 @@ class Navigator extends Component {
 
         // Bind functions so they can access this
         this.findMyEntityRelations = this.findMyEntityRelations.bind(this);
-    }
-
-    componentDidMount() {
-//        // Set initial value for selection
-//        let entity_relations = this.findMyEntityRelations(this.props.my_Relations, 'PER-ENT')
-//        console.log("setting state with this initial value:", entity_relations[0])
-//        this.props.modifyState({selected_Entity_Relation: entity_relations[0]})
     }
 
     findMyEntityRelations() {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {filterService} from '../_services/filter-service'
-import {Table, ListGroup, ListGroupItem, Row, Col, Tab, Nav, Container} from 'react-bootstrap'
+import {Row, Col, Container} from 'react-bootstrap'
 
 import MeetingList from './MeetingList';
 import MeetingCard from './MeetingCard';
@@ -11,24 +11,30 @@ class Meetings extends Component {
         super(props);
         // Set Local State
         this.state = {
-            my_MeetingCalls: filterService.findPepparsByType(this.props.my_Peppars, 4),
             selected_Meeting: {nodata: true}
         }
         // Bind functions so they can access this
-        this.getMeetingCardData = this.getMeetingCardData.bind(this);
+        this.findMyMeetings = this.findMyMeetings.bind(this);
+        this.findMeetingCardData = this.findMeetingCardData.bind(this);
         this.onSelectMeeting = this.onSelectMeeting.bind(this);
     }
     
     onSelectMeeting(id) {
-        let selected_meeting = filterService.findOnId(id, this.state.my_MeetingCalls)
+        let selected_meeting = filterService.findOnId(id, this.findMyMeetings())
         selected_meeting.nodata = false
         this.setState({selected_Meeting: selected_meeting})
     }
 
-    getMeetingCardData() {
+    findMyMeetings() {
+        const meeting_calls = filterService.findPepparsByType(this.props.my_Peppars, 4)
+        const all_meetings = meeting_calls
+        return all_meetings
+    }
+
+    findMeetingCardData() {
         if (!this.state.selected_Meeting.nodata) {
-            console.log("running getMeetingCardData")
-            let meeting = this.state.selected_Meeting
+            console.log("running findMeetingCardData")
+            const meeting = this.state.selected_Meeting
             let relations = filterService.findRelationsFromPeppar(this.props.all_Relations, meeting)
             let inviter_relations = filterService.findRelationsByType(relations, 3)
             let inviter = filterService.findOtherEnd(inviter_relations[0], this.props.all_Peppars, meeting)
@@ -58,19 +64,17 @@ class Meetings extends Component {
     
     render() {
         return (
-            <Container>
+            <Container fluid={true}>
                 <Row>
                     <Col>
-                        <h3>Meeting List</h3>
                         <MeetingList 
-                            my_MeetingCalls={this.state.my_MeetingCalls}
+                            my_Meetings={this.findMyMeetings()}
                             onSelectMeeting={this.onSelectMeeting}
                         />
                     </Col>
                     <Col>
-                        <h3>Info</h3>
                         <MeetingCard
-                            meetingcarddata ={this.getMeetingCardData()}
+                            meetingcarddata ={this.findMeetingCardData()}
                             selected_meeting = {this.state.selected_Meeting}
                         />
                         

@@ -6,7 +6,6 @@ import { PrivateRoute } from './_components';
 // Layout elements
 import Navigator from './Components/Nav';
 import Login from './Components/Login';
-import PepparList from './Components/PepparList';
 import Meetings from "./Components/Meetings";
 // Loader
 import Loader from './Components/Loader';
@@ -39,11 +38,12 @@ class App extends Component {
     }
 
     // Callback function to manipulate state
+    // stateobj = object consisting of key and value to be set
     modifyState(stateobj) {
         this.setState(stateobj)
     }
 
-    // Callback function to get state properties
+    // Callback function to get state value
     getState(state_prop) {
         return this.state[state_prop]
     }
@@ -58,31 +58,26 @@ class App extends Component {
     );
     
     HomeSetup = () => (
-        <div className="container">
+        <div>
             This is the Home page of Kontrollrommet. 
-            Log in or create new user to take control.
         </div>
     );
 
     MeetingsSetup = () => (
-        <div className="container">
+        <div>
             <Meetings
+                all_Relations={this.state.all_Relations}
+                all_Peppars={this.state.all_Peppars}
                 my_Relations={this.state.my_Relations}
                 my_Peppars={this.state.my_Peppars}
-                all_Relations={this.state.all_Relations}
                 modifyState={this.modifyState}
-                all_Peppars={this.state.all_Peppars}
             />
         </div>
     );
                 
     DashboardSetup = () => (
-        <div className="container">
+        <div>
             This is the Dashboard. Main control mastered from here.
-            <PepparList 
-                    all_Peppars={this.state.all_Peppars}
-                    modifyState={this.modifyState}
-            />
         </div>
     );
     

@@ -1,4 +1,4 @@
-import React, { useState }  from 'react';
+import React from 'react';
 import {Table} from 'react-bootstrap'
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -6,19 +6,13 @@ const MeetingList = (props) => {
     
     // Static data for display
     const tablehead = [
-        {text: "Overskrift"},
-        {text: "Dato"}
-    ]
+        {text: "Møter:"}    ]
 
-    // Defining state. Selected = id from selected in selection menu
-    const [tablestatus, setTablestatus] = useState({
-        row_selected: {},
-    })
     
     // JSX Elements
     const MainTable = (props) => {
-        return props.my_MeetingCalls.map((meeting, i) => {
-            return <Table_Row 
+        return props.my_Meetings.map((meeting, i) => {
+            return <TableRow 
                 meeting={meeting}
                 key={i}
                 onSelectMeeting={props.onSelectMeeting}
@@ -26,11 +20,11 @@ const MeetingList = (props) => {
         })
     }
 
-    const Table_Row = (props) => {
+    const TableRow = (props) => {
         return (
             <tr onClick={() => rowClick(props.meeting.id)}>
                 <td>{props.meeting.peppar_name}</td>
-                <td>{props.meeting.added_data.peppar_dateA}</td>
+                <td>{props.meeting.peppar_dateA}</td>
             </tr>
         )
     }
@@ -47,12 +41,11 @@ const MeetingList = (props) => {
             <thead>
                 <tr>
                     <th>{tablehead[0].text}</th>
-                    <th>{tablehead[1].text}</th>
                 </tr>
             </thead>
                 <tbody>
                     <MainTable 
-                        my_MeetingCalls={props.my_MeetingCalls}
+                        my_Meetings={props.my_Meetings}
                         setMeetingCard={props.setMeetingCard}
                     />
                 </tbody>

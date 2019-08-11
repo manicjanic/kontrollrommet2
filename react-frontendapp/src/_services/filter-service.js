@@ -2,7 +2,7 @@
 const findOnId = (id, objects) => {
     console.log("running findOnId with this data:", id, objects)
     let result = objects.find(object => {
-        return object.id == id
+        return object.id === id
     })
     return result
 }
@@ -51,14 +51,14 @@ const findPepparsFromRelations = (relations, peppars, end) => {
 const findRelationsByType = (relations, type) => {
     console.log("running findRelationsByType with this data:", relations, type)
     let result
-    if (typeof type == "string") {
+    if (typeof type === "string") {
         result = relations.filter(relation => {
-            return (relation.relation_type.type == type) 
+            return (relation.relation_type.type === type) 
         })    
     }
-    if (typeof type == "number") {
+    if (typeof type === "number") {
         result = relations.filter(relation => {
-            return (relation.relation_type.id == type) 
+            return (relation.relation_type.id === type) 
         })    
     }
     return result
@@ -68,12 +68,12 @@ const findRelationsByType = (relations, type) => {
 const findPepparsByType = (peppars, type) => {
     console.log("running findPepparsByType with this data:", peppars, type)
     let result
-    if (typeof type == "string") {
+    if (typeof type === "string") {
         result = peppars.filter(peppar => {
             return (peppar.peppar_type.type === type) 
         })
     }
-    if (typeof type == "number") {
+    if (typeof type === "number") {
         result = peppars.filter(peppar => {
             return (peppar.peppar_type.id === type) 
         })
@@ -99,7 +99,7 @@ const findOtherEnd = (relation, peppars, peppar) => {
 // Finds MePeppar from a list of Peppars
 const findMePeppar = (peppars) => {
     let me = peppars.find(peppar => {
-        return peppar.level == "0"
+        return peppar.level === "0"
     })
     return me
 }
@@ -124,15 +124,15 @@ const replaceForeignKeyWithObject = (objectlist, lookuplist) => {
         for (var property in object) {
             let _property = property
             let key = lookuplist.find(item => {
-                return item.idkey == _property
+                return item.idkey === _property
             })
             if (key) {
                 let lookup_object = key.referencelist.find(listitem => {
-                    return listitem.id == object[property]
+                    return listitem.id === object[property]
                 })
                 object[property] = lookup_object
             }
-            else if ((typeof object[property] == 'object') && (Array.isArray(object[property]) === false)) {
+            else if ((typeof object[property] === 'object') && (Array.isArray(object[property]) === false)) {
                     let propertyobject = object[property]
                     let altered_propertyobject = replaceForeignKeyWithObject([propertyobject], lookuplist)
                     object[property] = altered_propertyobject[0]
@@ -147,7 +147,7 @@ const replaceForeignKeyWithObject = (objectlist, lookuplist) => {
 const alignRelations = (objectlist, origo_object) => {
     console.log("running aligning relations with this data", objectlist, origo_object)
     let result = objectlist.map((object, i) => {
-        if (object.pepparB.peppar_uuid == origo_object.peppar_uuid) {
+        if (object.pepparB.peppar_uuid === origo_object.peppar_uuid) {
             console.log("since", object.pepparB.peppar_uuid, origo_object.peppar_uuid, "i will swap")
             let swapperA = object.pepparB
             let swapperB = object.pepparA
@@ -156,6 +156,19 @@ const alignRelations = (objectlist, origo_object) => {
         }
         return object
     })
+    return result
+}
+
+const extractAddedData = (objectlist) => {
+    console.log("running extractAddedData with this data", objectlist)
+    let result = objectlist.map((object) => {
+        for (let property in object.added_data) {
+            object[property] = object.added_data[property]   
+        }
+        delete object.added_data
+        return object
+    })
+    console.log("this is the result", result)
     return result
 }
 
@@ -170,6 +183,5 @@ export const filterService = {
     findPepparsByType,
     findOtherEnd,
     replaceForeignKeyWithObject,
-    
+    extractAddedData  
 }
-

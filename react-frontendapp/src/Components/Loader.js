@@ -33,6 +33,7 @@ class Loader extends Component {
                 ]
                 let data = peppars
                 data = filterService.addID(data)
+                data = filterService.extractAddedData(data)
                 data = filterService.replaceForeignKeyWithObject(data, lookuplist)
                 let outdata = data
                 return outdata
