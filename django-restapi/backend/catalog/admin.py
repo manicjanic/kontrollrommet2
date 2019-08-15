@@ -6,7 +6,7 @@ class PepparTypeAdmin(admin.ModelAdmin):
     list_display = ('name', 'type',)    
 
 class RelationTypeAdmin(admin.ModelAdmin):
-    list_display = ('name',)    
+    list_display = ('name', 'type')    
 
 admin.site.register(PepparType, PepparTypeAdmin)
 admin.site.register(RelationType, RelationTypeAdmin)

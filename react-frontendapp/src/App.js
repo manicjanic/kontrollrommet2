@@ -1,12 +1,13 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import React, { Component } from 'react';
-import { Route } from "react-router";
+import { Route, Switch } from "react-router";
 import { PrivateRoute } from './_components';
 
 // Layout elements
 import Navigator from './Components/Nav';
 import Login from './Components/Login';
 import Meetings from "./Components/Meetings";
+
 // Loader
 import Loader from './Components/Loader';
 
@@ -29,6 +30,9 @@ class App extends Component {
             me_Peppar: {},
             my_Peppars: [],
             my_Relations: [],
+            // Created Peppars and Relations
+            new_Peppars: [],
+            new_Relations: [],
             // Selections to be available globally
             selected_Entity_Relation : {},
         }
@@ -66,11 +70,12 @@ class App extends Component {
     MeetingsSetup = () => (
         <div>
             <Meetings
-                all_Relations={this.state.all_Relations}
-                all_Peppars={this.state.all_Peppars}
-                my_Relations={this.state.my_Relations}
-                my_Peppars={this.state.my_Peppars}
-                modifyState={this.modifyState}
+                    all_Relations={this.state.all_Relations}
+                    all_Peppars={this.state.all_Peppars}
+                    my_Relations={this.state.my_Relations}
+                    my_Peppars={this.state.my_Peppars}
+                    modifyState={this.modifyState}
+                    getState={this.getState}
             />
         </div>
     );
@@ -109,12 +114,14 @@ class App extends Component {
                     selected_Entity_Relation={this.state.selected_Entity_Relation}
                     modifyState={this.modifyState}
                 />
-                <Route path="/" exact = {true} render = {this.HomeSetup}/>
-                <Route path="/login" exact = {true} render = {this.LoginSetup}/>
-                <Route path="/logout" exact = {true} render = {this.LoginSetup}/>
-                <PrivateRoute exact path="/meetings" component={this.MeetingsSetup} />
-                <PrivateRoute exact path="/dashboard" component={this.DashboardSetup} />
-                <PrivateRoute exact path="/loader" component={this.LoaderSetup} />
+                <Switch>
+                    <Route path="/" exact = {true} render = {this.HomeSetup}/>
+                    <Route path="/login" exact = {true} render = {this.LoginSetup}/>
+                    <Route path="/logout" exact = {true} render = {this.LoginSetup}/>
+                    <PrivateRoute path="/meetings/" component={this.MeetingsSetup} />
+                    <PrivateRoute exact path="/dashboard" component={this.DashboardSetup} />
+                    <PrivateRoute exact path="/loader" component={this.LoaderSetup}/>
+                </Switch>
             </div>
         )
     }

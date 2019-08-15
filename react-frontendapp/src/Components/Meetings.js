@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import {filterService} from '../_services/filter-service'
 import {Row, Col, Container} from 'react-bootstrap'
+import { PrivateRoute } from '../_components';
+import { withRouter } from 'react-router'
+
 
 import MeetingList from './MeetingList';
 import MeetingCard from './MeetingCard';
+import MeetingRunner from './MeetingRunner';
 
 class Meetings extends Component {
   
@@ -17,12 +21,20 @@ class Meetings extends Component {
         this.findMyMeetings = this.findMyMeetings.bind(this);
         this.findMeetingCardData = this.findMeetingCardData.bind(this);
         this.onSelectMeeting = this.onSelectMeeting.bind(this);
+        this.onStartMeeting = this.onStartMeeting.bind(this);
     }
     
+    // Callbak functions
     onSelectMeeting(id) {
         let selected_meeting = filterService.findOnId(id, this.findMyMeetings())
         selected_meeting.nodata = false
         this.setState({selected_Meeting: selected_meeting})
+    }
+
+    onStartMeeting(id) {
+        console.log("Clicked button", id)
+        this.makeNewPepparObject()
+        this.props.history.push('/meetings/runmeeting')
     }
 
     findMyMeetings() {
@@ -35,6 +47,8 @@ class Meetings extends Component {
         if (!this.state.selected_Meeting.nodata) {
             console.log("running findMeetingCardData")
             const meeting = this.state.selected_Meeting
+            let headline = meeting.peppar_name
+            let id = meeting.id
             let relations = filterService.findRelationsFromPeppar(this.props.all_Relations, meeting)
             let inviter_relations = filterService.findRelationsByType(relations, 3)
             let inviter = filterService.findOtherEnd(inviter_relations[0], this.props.all_Peppars, meeting)
@@ -53,36 +67,68 @@ class Meetings extends Component {
                 inviteds: inviteds,
                 exec_entity: exec_entity,
                 agenda_points: agenda_points,
-                headline: meeting.peppar_name
+                headline: headline,
+                id: id
             }
             console.log("returning this meeting object", meetingobject)
             return meetingobject
         }
         return undefined
     }
+
+    makeNewPepparObject() {
+        let selected_meeting = this.state.selected_Meeting
+        let new_actionobj = {}
+        new_actionobj.peppar_type = 6
+        new_actionobj.peppar_nameA = "Avvikling av"
+        new_actionobj.peppar_nameB = selected_meeting.peppar_nameB
+        new_actionobj.peppar_dateA = new Date()
+
+        let new_peppars = this.props.getState("new_Peppars")
+        let id = new_peppars.length
+        new_actionobj.id = id+1
+        new_peppars.push(new_actionobj)
+        this.props.modifyState({new_Peppars: new_peppars})
+
+        let new_relationobj = {}
+        new_relationobj.relation_type = 10
+        extract = 
+    }
     
-    
+    // Layouts for differend page setups
+    MainPageLayout = () => (
+            <Row>
+                <Col>
+                    <MeetingList 
+                        my_Meetings={this.findMyMeetings()}
+                        onSelectMeeting={this.onSelectMeeting}
+                    />
+                </Col>
+                <Col>
+                    <MeetingCard
+                        meetingcarddata = {this.findMeetingCardData()}
+                        selected_meeting = {this.state.selected_Meeting}
+                        onStartMeeting = {this.onStartMeeting}
+                    />        
+                </Col>
+            </Row>
+    );
+ 
+    MeetingRunnerLayout = () => (
+        <Row>
+            <MeetingRunner
+            />
+        </Row>
+    )
+
     render() {
         return (
             <Container fluid={true}>
-                <Row>
-                    <Col>
-                        <MeetingList 
-                            my_Meetings={this.findMyMeetings()}
-                            onSelectMeeting={this.onSelectMeeting}
-                        />
-                    </Col>
-                    <Col>
-                        <MeetingCard
-                            meetingcarddata ={this.findMeetingCardData()}
-                            selected_meeting = {this.state.selected_Meeting}
-                        />
-                        
-                    </Col>
-                </Row>
+                <PrivateRoute exact path="/meetings/" component={this.MainPageLayout} />
+                <PrivateRoute path="/meetings/runmeeting" component={this.MeetingRunnerLayout} />
             </Container>
         )
     }
 }
    
-export default Meetings;
+export default withRouter(Meetings);

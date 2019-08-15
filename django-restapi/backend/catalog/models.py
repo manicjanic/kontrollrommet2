@@ -16,7 +16,7 @@ class PepparType(models.Model):
     type = models.CharField(max_length=8, choices=PEPPAR_TYPE)
 
     def __str__(self):
-        return self.name
+        return self.name + " - " + self.type
 
 # Relation Types
 class RelationType(models.Model):
@@ -27,11 +27,15 @@ class RelationType(models.Model):
         ('PER-ENT', 'PER-ENT'),
         ('PER-PLA', 'PER-PLA'),
         ('ENT-PLA', 'ENT-PLA'),
+        ('PLA-ACT', 'PLA-ACT'),
+        ('PLA-RES', 'PLA-RES'),
+        ('PLA-PRO', 'PLA-PRO'),
+
     ]
 
     name = models.CharField(max_length=50)
     type = models.CharField(max_length=7, choices=RELATION_TYPE)
 
     def __str__(self):
-        return self.name
+        return self.name + " - " + self.type
 

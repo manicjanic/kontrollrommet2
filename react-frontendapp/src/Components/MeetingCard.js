@@ -1,7 +1,9 @@
 import React from 'react';
-import {Card} from 'react-bootstrap'
-import "bootstrap/dist/css/bootstrap.min.css";
+import {Card, Button} from 'react-bootstrap'
+import { LinkContainer } from 'react-router-bootstrap'
+import {Redirect} from 'react-router-dom'
 
+import "bootstrap/dist/css/bootstrap.min.css";
 import {jsxGenerator} from '../_helpers/jsx-generator'
 
 
@@ -44,10 +46,11 @@ const MeetingCard = (props) => {
             <Card>
                 <Card.Body>
                     <Card.Title>{props.meetingcarddata.headline}</Card.Title>
-                        <Inviteds meetingcarddata={props.meetingcarddata}/>
-                        <br/>
-                        <br/>
-                        <Topics meetingcarddata={props.meetingcarddata}/>
+                    <Inviteds meetingcarddata={props.meetingcarddata}/>
+                    <br/>
+                    <br/>
+                    <Topics meetingcarddata={props.meetingcarddata}/>
+                    <Button variant="primary" onClick={() => props.onStartMeeting(props.meetingcarddata.id)}>Start Møte</Button>
                 </Card.Body>                    
             </Card>
         )
