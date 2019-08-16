@@ -10,11 +10,8 @@ class Peppar(models.Model):
     uuid = models.UUIDField(default=uuid_field.uuid4, unique=True, editable=False)
     # Type specification of PEPPAR
     type = models.ForeignKey(PepparType, on_delete=models.CASCADE, related_name='peppar_type')
-    # Derived Name
-    name = models.CharField(max_length=300, editable=False, blank=True)
-    # The two Name Elements
-    nameA = models.CharField(max_length=300, blank=True)
-    nameB = models.CharField(max_length=300, blank=True)
+    # The Name Element
+    name = models.CharField(max_length=500, blank=True)
     # The two Time Elements
     dateA = models.DateTimeField(blank=True, null=True)
     dateB = models.DateTimeField(blank=True, null=True)
@@ -29,13 +26,14 @@ class Peppar(models.Model):
     timestamp_created = models.DateTimeField(auto_now_add=True, editable=False)
     timestamp_updated = models.DateTimeField(auto_now=True, editable=False)
 
-    #Constructing the Name field based on data in other fields
-    def save(self):
-        if self.nameA or self.nameB:
-            name = self.nameA + ' ' + self.nameB
+    class Meta:
+        ordering = ['type']
 
-        self.name = name
-        super(Peppar, self).save()
+    #Constructing the Name field based on data in other fields
+    def save(self, *args, **kwargs):
+        if not self.name:
+            self.name = self.type.name
+        super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.name
+        return self.name + " (" + self.type.type + ")"
