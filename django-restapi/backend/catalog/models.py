@@ -9,7 +9,7 @@ class PepparType(models.Model):
         ('PROPERTY', 'PROPERTY'),
         ('PLAN', 'PLAN'),
         ('ACTION', 'ACTION'),
-        ('RESULT', 'RESULT'),
+        ('STATUS', 'STATUS'),
     ]
 
     name = models.CharField(max_length=50)
