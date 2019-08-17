@@ -5,10 +5,9 @@ class PepparType(models.Model):
     # The six types in the PEPPAR model    
     PEPPAR_TYPE = [
         ('PERSON', 'PERSON'),
-        ('ENTITY', 'ENTITY'),
-        ('PROPERTY', 'PROPERTY'),
-        ('PLAN', 'PLAN'),
         ('ACTION', 'ACTION'),
+        ('CONCEPT', 'CONCEPT'),
+        ('OBJECT', 'OBJECT'),
         ('STATUS', 'STATUS'),
     ]
 
@@ -25,27 +24,15 @@ class PepparType(models.Model):
 class RelationType(models.Model):
     
     RELATION_TYPE = [
-        ('PER-ENT', '(PER-ENT)'),
-        ('PER-PRO', '(PER-PRO)'),
-        ('PER-PLA', '(PER-PLA)'),
+        ('PER-OBJ', '(PER-OBJ)'),
         ('PER-ACT', '(PER-ACT)'),
-        ('PER-RES', '(PER-RES)'),
-        ('ENT-PRO', '(ENT-PRO)'),
-        ('ENT-PLA', '(ENT-PLA)'),
-        ('ENT-ACT', '(ENT-ACT)'),
-        ('ENT-RES', '(ENT-RES)'),
-        ('PRO-PLA', '(PRO-PLA)'),
-        ('PRO-ACT', '(PRO-ACT)'),
-        ('PRO-RES', '(PRO-RES)'),
-        ('PLA-ACT', '(PLA-ACT)'),
-        ('PLA-RES', '(PLA-RES)'),
-        ('ACT-RES', '(ACT-RES)'),
-        ('PER-PER', '(PER-PER)'),
-        ('ENT-ENT', '(ENT-ENT)'),
-        ('PRO-PRO', '(PRO-PRO)'),
-        ('PLA-PLA', '(PLA-PLA)'),
-        ('ACT-ACT', '(ACT-ACT)'),
-        ('RES-RES', '(RES-RES)'),
+        ('OBJ-STA', '(OBJ-STA)'),
+        ('ACT-STA', '(ACT-STA)'),
+        ('ACT-OBJ', '(ACT-OBJ)'),
+        ('CON-ACT', '(CON-ACT)'),
+        ('CON-STA', '(CON-STA)'),
+        ('CON-OBJ', '(CON-OBJ)'),
+        
     ]
 
     name = models.CharField(max_length=50)
