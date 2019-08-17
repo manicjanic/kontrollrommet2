@@ -2,6 +2,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import React, { Component } from 'react';
 import { Route, Switch } from "react-router";
 import { PrivateRoute } from './_components';
+import PouchDB from 'pouchdb'
 
 // Layout elements
 import Navigator from './Components/Nav';

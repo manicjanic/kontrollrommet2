@@ -5,7 +5,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import axios from 'axios';
 
-import Login from './src/Components/Login';
+import Login from '../react-frontendapp/src/Components/Login';
 
 class Register extends Component {
   constructor(props){

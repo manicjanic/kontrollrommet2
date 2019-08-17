@@ -92,7 +92,7 @@ class Meetings extends Component {
 
         let new_relationobj = {}
         new_relationobj.relation_type = 10
-        extract = 
+        
     }
     
     // Layouts for differend page setups
