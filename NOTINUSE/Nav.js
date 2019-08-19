@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import {filterService} from '../_services/filter-service'
+import {filterService} from '../react-frontendapp/src/_services/filter-service'
 import NavBar from './NavBar';
 
 class Navigator extends Component {

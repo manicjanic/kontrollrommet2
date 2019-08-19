@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import {dataService} from '../_services/data-service'
+import {dataService} from '../react-frontendapp/src/_services/data-service'
 import { withRouter } from 'react-router'
 
-import LoginForm from '../../../NOTINUSE/LoginForm';
+import LoginForm from './LoginForm';
 
 class Login extends Component {
   

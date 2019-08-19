@@ -4,6 +4,7 @@ from rest_framework import generics
 from rest_framework import status 
 from rest_framework.response import Response
 from django.contrib.auth import authenticate
+from rest_framework.authtoken.models import Token
 
 from .serializers import UserSerializer      
 
@@ -22,8 +23,13 @@ class UserLoginView(APIView):
         username = request.data.get("username")
         password = request.data.get("password")
         user = authenticate(username=username, password=password)
-        if user:
-            return Response({"token": user.auth_token.key})
+        is_tokened = Token.objects.filter(user=user).exists()
+        if user and is_tokened:
+            return Response({"username": username, "token": user.auth_token.key})
         else:
-            print("Running wrong credentials")
-            return Response({"error": "Wrong Credentials"}, status=status.HTTP_400_BAD_REQUEST)
+            if user and (not is_tokened):
+                print("User has no Token")
+                return Response({"Found no Token"}, status.HTTP_401_UNAUTHORIZED)
+            else:
+                print("Wrong credentials")
+                return Response({"Wrong Credentials"}, status.HTTP_400_BAD_REQUEST)

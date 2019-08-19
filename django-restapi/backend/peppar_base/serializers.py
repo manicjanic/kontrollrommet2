@@ -8,7 +8,7 @@ class PepparSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Peppar
-        fields = ('__all__')
+        fields = ('peppar_type', 'peppar_name', 'peppar_uuid', 'dateA', 'specific_data')
         read_only_fields = ('uuid', 'name')
 
     # Establish a fields argument to dynamically choose wich fields to serialize

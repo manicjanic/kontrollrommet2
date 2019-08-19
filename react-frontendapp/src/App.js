@@ -1,128 +1,72 @@
-import "bootstrap/dist/css/bootstrap.min.css";
 import React, { Component } from 'react';
-import { Route, Switch } from "react-router";
+import { Route } from "react-router-dom";
+
+// Frontend Database
+import DB from './db'
+// Authorized routes with token
 import { PrivateRoute } from './_components';
-import PouchDB from 'pouchdb'
 
-// Layout elements
-import Navigator from './Components/Nav';
-import Login from './Components/Login';
-import Meetings from "./Components/Meetings";
+// Navbar
+import Navbar from './Pages/navbar'
 
-// Loader
-import Loader from './Components/Loader';
+// Full Page Components
+import HomePage from './Pages/home-page'
+import LoginPage from './Pages/login-page'
+import LogoutPage from './Pages/logout-page'
+import MeetingsPage from './Pages/meetings-page'
 
+import ListPacovsPage from './Pages/listpacovs-page'
+import ShowPacovPage from './Pages/showpacov-page'
 
 class App extends Component {
-    
-    constructor(props){
-        super(props);
-        // Defining Central State
-        this.state = {
-            // Catalogs
-            peppar_Types: [],
-            relation_Types: [],
-            // App Status
-            is_Loggedin: false,
-            // Peppars and Relations
-            all_Peppars: [ ],
-            all_Relations: [ ],
-            // Derived Peppars and Relations
-            me_Peppar: {},
-            my_Peppars: [],
-            my_Relations: [],
-            // Created Peppars and Relations
-            new_Peppars: [],
-            new_Relations: [],
-            // Selections to be available globally
-            selected_Entity_Relation : {},
-        }
-        // Making functions available
-        this.modifyState = this.modifyState.bind(this);
-        this.getState = this.getState.bind(this);
+
+    // Defining Central State
+    state = {
+        db: new DB('pacovbase'),
+        pacovs: {},
+        loading: true,
+        is_loggedin: false
     }
 
+    async componentDidMount() {
+        const pacovs = await this.state.db.getAllPacovs();
+        this.setState({
+            pacovs,
+            loading: false
+        });
+    }
     // Callback function to manipulate state
     // stateobj = object consisting of key and value to be set
-    modifyState(stateobj) {
+    modifyState = (stateobj) => {
         this.setState(stateobj)
     }
 
     // Callback function to get state value
-    getState(state_prop) {
+    getState = (state_prop) => {
         return this.state[state_prop]
     }
     
-    // Layouts
-    LoginSetup = () => (
-        <div>
-            <Login
-                modifyState={this.modifyState}
-            />
-        </div>
-    );
-    
-    HomeSetup = () => (
-        <div>
-            This is the Home page of Kontrollrommet. 
-        </div>
-    );
+    showContent = () => {
+        if (this.state.loading) {
+            return <div>Loading...</div>
+        }
+        return (  
+            <div className="screen-content">
+                <Route exact path='/' component={(props) => <HomePage {...props} is_loggedin={this.state.is_loggedin}/>}/>
+                <Route exact path='/login' component={(props) => <LoginPage {...props} modifyState={this.modifyState}/>}/>
+                <Route exact path='/logout' component={(props) => <LogoutPage {...props} modifyState={this.modifyState}/>}/>
+                <PrivateRoute exact path='/meetings' component={(props) => <MeetingsPage {...props} pacovs={this.state.pacovs}/>}/>
 
-    MeetingsSetup = () => (
-        <div>
-            <Meetings
-                    all_Relations={this.state.all_Relations}
-                    all_Peppars={this.state.all_Peppars}
-                    my_Relations={this.state.my_Relations}
-                    my_Peppars={this.state.my_Peppars}
-                    modifyState={this.modifyState}
-                    getState={this.getState}
-            />
-        </div>
-    );
-                
-    DashboardSetup = () => (
-        <div>
-            This is the Dashboard. Main control mastered from here.
-        </div>
-    );
-    
-    LoaderSetup = () => (
-        <div>
-            <Loader
-                modifyState={this.modifyState}
-                getState={this.getState}
-            />
-        </div>
-    )
-
-    // Currently not used
-    LogoutSetup = () => (
-    <div>
-        <Login
-            LoggedIn={this.LoggedIn}
-        />
-    </div>
-    );
-    
+                <PrivateRoute exact path='/pacovs' component={(props) => <ListPacovsPage {...props} pacovs={this.state.pacovs}/>}/>
+                <Route exact path='/pacovs/:id' component={(props) => <ShowPacovPage {...props} pacov={this.state.pacovs[props.match.params.id]}/>}/>
+            </div>
+        )
+    }
     render() {
         return (
-            <div>
-                <Navigator
-                    is_Loggedin={this.state.is_Loggedin}
-                    me_Peppar={this.state.me_Peppar}
-                    my_Relations={this.state.my_Relations}
-                    selected_Entity_Relation={this.state.selected_Entity_Relation}
-                    modifyState={this.modifyState}
-                />
-                <Switch>
-                    <Route path="/" exact = {true} render = {this.HomeSetup}/>
-                    <Route path="/login" exact = {true} render = {this.LoginSetup}/>
-                    <Route path="/logout" exact = {true} render = {this.LoginSetup}/>
-                    <PrivateRoute path="/meetings/" component={this.MeetingsSetup} />
-                    <PrivateRoute exact path="/dashboard" component={this.DashboardSetup} />
-                    <PrivateRoute exact path="/loader" component={this.LoaderSetup}/>
-                </Switch>
+            <div className="App">
+                <Navbar is_loggedin={this.state.is_loggedin}/>
+                {this.showContent()}
             </div>
         )
     }

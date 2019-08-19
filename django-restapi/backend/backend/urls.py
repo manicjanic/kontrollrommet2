@@ -10,7 +10,7 @@ from user_views import views as user_views
 
 # FULL CALLS FOR TESTING PURPOSES ONLY
 test_router = routers.DefaultRouter()
-test_router.register(r'peppars', base_views.PepparView, 'peppar')     
+test_router.register(r'pacovs', base_views.PepparView, 'pacovs')     
 test_router.register(r'relations', relational_views.RelationView, 'relation')     
 # USER calls
 user_router = routers.DefaultRouter()                      

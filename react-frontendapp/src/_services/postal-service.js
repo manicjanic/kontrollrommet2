@@ -8,21 +8,35 @@ export const postalService = {
     get_auth, 
 };
 
-function post(payload, api) {
-    return axios.post(apiBaseUrl + api, payload)
-     .then(handleResponse)
+async function post(payload, api) {
+    try {
+        const response = await axios.post(apiBaseUrl + api, payload);
+        return handleResponse(response);
+    } catch(error) {
+        return handleError(error)
+    }
+    
 }
 
-function get(api) {
-    return axios.get(apiBaseUrl + api)
-     .then(handleResponse)
+async function get(api) {
+    const response = await axios.get(apiBaseUrl + api);
+    return handleResponse(response);
 }
 
-function get_auth(api) {
-    return axios.get(apiBaseUrl + api , { 'headers': authHeader() })
-     .then(handleResponse)
+async function get_auth(api) {
+    const response = await axios.get(apiBaseUrl + api, { 'headers': authHeader() });
+    return handleResponse(response);
 }
 
+function handleError(error) {
+    console.log("Error", error)    
+    const {data, status} = error.response
+    const responseobj = {error: true, data: data, status: status}
+    return responseobj
+}
 function handleResponse(response) {
-    return response.data
+    console.log("Response", response)
+    const {data, status} = response
+    const responseobj = {error: false, data: data, status: status}
+    return responseobj
 }

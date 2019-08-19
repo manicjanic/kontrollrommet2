@@ -26,6 +26,7 @@ class RelationType(models.Model):
     RELATION_TYPE = [
         ('PER-OBJ', '(PER-OBJ)'),
         ('PER-ACT', '(PER-ACT)'),
+        ('PER-CON', '(PER-CON)'),
         ('OBJ-STA', '(OBJ-STA)'),
         ('ACT-STA', '(ACT-STA)'),
         ('ACT-OBJ', '(ACT-OBJ)'),

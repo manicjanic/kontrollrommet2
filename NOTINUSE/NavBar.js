@@ -6,8 +6,8 @@ import {Nav, Navbar} from 'react-bootstrap'
 import { NavLink } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import {filterService} from '../_services/filter-service'
-import {cssModifier} from '../_helpers/css-modifier'
+import {filterService} from '../react-frontendapp/src/_services/filter-service'
+import {cssModifier} from '../react-frontendapp/src/_helpers/css-modifier'
 
 const NavBar = (props) => {
 

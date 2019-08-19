@@ -6,6 +6,8 @@ from .models import Peppar
 # For testing purposes. Gives the whole database
 class PepparView(viewsets.ModelViewSet):
     
+    permission_classes = []
+
     serializer_class = PepparSerializer          
     queryset = Peppar.objects.all()              
     lookup_field = 'uuid'

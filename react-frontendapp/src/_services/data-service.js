@@ -1,6 +1,6 @@
 import {postalService} from './postal-service'
 
-const sendLogin = (username, password) => {
+const postLogin = (username, password) => {
     const payload = { username: username, password: password }
     return postalService.post(payload, "userlogin/")
 }
@@ -22,7 +22,7 @@ const getRelationTypes = () => {
 }
 
 export const dataService = {
-    sendLogin,
+    postLogin,
     getPeppars,
     getRelations,
     getPepparTypes,
