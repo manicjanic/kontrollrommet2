@@ -44,9 +44,8 @@ INSTALLED_APPS = [
     #active project app modules:
     'pacovbase',
     'catalog',
-#    'user_views',
+    'user_views',
     'user',
-    'todo',
 ]
 
 MIDDLEWARE = [

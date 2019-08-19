@@ -1,158 +1,158 @@
 from rest_framework import serializers
 from django.shortcuts import get_object_or_404
 
-from .models import PepparInsight
+from .models import PACOVInsight
 from .models import RelationInsight
-from pacovbase.serializers import PepparSerializer
+from pacovbase.serializers import PACOVSerializer
 
-# Peppar Insight by User
-class PepparInsightSerializer(serializers.ModelSerializer):
-    # Flattened representation of basic data from related Peppar
-    peppar_uuid = serializers.CharField(source='peppar.uuid')
-    peppar_type = serializers.IntegerField(source='peppar.type.id')
-    peppar_name = serializers.CharField(source='peppar.name')
+# PACOV Insight by User
+class PACOVInsightSerializer(serializers.ModelSerializer):
+    # Flattened representation of basic data from related PACOV
+    pacov_uuid = serializers.CharField(source='pacov.uuid')
+    pacov_type = serializers.IntegerField(source='pacov.type.id')
+    pacov_name = serializers.CharField(source='pacov.name')
     # Method field that builds and object with visible data, based on type and user's insight level
     added_data = serializers.SerializerMethodField()
     
     class Meta:
-        model = PepparInsight
-        fields = ('uuid', 'level', 'peppar_uuid', 'peppar_name', 'peppar_type', 'added_data')
+        model = PACOVInsight
+        fields = ('uuid', 'level', 'pacov_uuid', 'pacov_name', 'pacov_type', 'added_data')
 
 
     #Method for making dynamic object with visible data
     def get_added_data(self, obj):
         #PERSON
-        if obj.peppar.type.type == "PERSON":
+        if obj.pacov.type.type == "PERSON":
             if obj.level == '0':
                 return {
-                    'peppar_nameA' : obj.peppar.nameA,
-                    'peppar_nameB' : obj.peppar.nameB,
-                    'peppar_dateA' : obj.peppar.dateA,
-                    'peppar_dateB' : obj.peppar.dateB,
-                    'peppar_idcode' : obj.peppar.idcode,
-                    'peppar_question' : obj.peppar.question,
+                    'pacov_nameA' : obj.pacov.nameA,
+                    'pacov_nameB' : obj.pacov.nameB,
+                    'pacov_dateA' : obj.pacov.dateA,
+                    'pacov_dateB' : obj.pacov.dateB,
+                    'pacov_idcode' : obj.pacov.idcode,
+                    'pacov_question' : obj.pacov.question,
                 }
             elif obj.level == '1':
                 return {
-                    'peppar_nameA' : obj.peppar.nameA,
-                    'peppar_nameB' : obj.peppar.nameB,
+                    'pacov_nameA' : obj.pacov.nameA,
+                    'pacov_nameB' : obj.pacov.nameB,
                 } 
             elif obj.level == '2':
                 return {
-                    'peppar_nameA' : obj.peppar.nameA,
-                    'peppar_nameB' : obj.peppar.nameB,
+                    'pacov_nameA' : obj.pacov.nameA,
+                    'pacov_nameB' : obj.pacov.nameB,
                 }     
             elif obj.level == '3':
                 return {
-                    'peppar_nameA' : obj.peppar.nameA,
-                    'peppar_nameB' : obj.peppar.nameB,
+                    'pacov_nameA' : obj.pacov.nameA,
+                    'pacov_nameB' : obj.pacov.nameB,
                 }
         # ENTITY
-        if obj.peppar.type.type == "ENTITY":
+        if obj.pacov.type.type == "ENTITY":
             if obj.level == '1':
                 return {
-                    'peppar_nameA' : obj.peppar.nameA,
-                    'peppar_nameB' : obj.peppar.nameB,
-                    'peppar_dateA' : obj.peppar.dateA,
-                    'peppar_dateB' : obj.peppar.dateB,
-                    'peppar_idcode' : obj.peppar.idcode,
-                    'peppar_question' : obj.peppar.question,
+                    'pacov_nameA' : obj.pacov.nameA,
+                    'pacov_nameB' : obj.pacov.nameB,
+                    'pacov_dateA' : obj.pacov.dateA,
+                    'pacov_dateB' : obj.pacov.dateB,
+                    'pacov_idcode' : obj.pacov.idcode,
+                    'pacov_question' : obj.pacov.question,
                 }
             if obj.level == '2':
                 return {
-                    'peppar_nameA' : obj.peppar.nameA,
-                    'peppar_nameB' : obj.peppar.nameB,
+                    'pacov_nameA' : obj.pacov.nameA,
+                    'pacov_nameB' : obj.pacov.nameB,
                 }
             if obj.level == '3':
                 return {
-                    'peppar_nameA' : obj.peppar.nameA,
-                    'peppar_nameB' : obj.peppar.nameB,
+                    'pacov_nameA' : obj.pacov.nameA,
+                    'pacov_nameB' : obj.pacov.nameB,
                 }
         # PROPERTY        
-        if obj.peppar.type.type == "PROPERTY":
+        if obj.pacov.type.type == "PROPERTY":
             if obj.level == '1':
                 return {
-                    'peppar_nameA' : obj.peppar.nameA,
-                    'peppar_nameB' : obj.peppar.nameB,
-                    'peppar_dateA' : obj.peppar.dateA,
-                    'peppar_dateB' : obj.peppar.dateB,
-                    'peppar_idcode' : obj.peppar.idcode,
-                    'peppar_question' : obj.peppar.question,
+                    'pacov_nameA' : obj.pacov.nameA,
+                    'pacov_nameB' : obj.pacov.nameB,
+                    'pacov_dateA' : obj.pacov.dateA,
+                    'pacov_dateB' : obj.pacov.dateB,
+                    'pacov_idcode' : obj.pacov.idcode,
+                    'pacov_question' : obj.pacov.question,
                 }
             if obj.level == '2':
                 return {
-                    'peppar_nameA' : obj.peppar.nameA,
-                    'peppar_nameB' : obj.peppar.nameB,
+                    'pacov_nameA' : obj.pacov.nameA,
+                    'pacov_nameB' : obj.pacov.nameB,
                 }
             if obj.level == '3':
                 return {
-                    'peppar_nameA' : obj.peppar.nameA,
-                    'peppar_nameB' : obj.peppar.nameB,
+                    'pacov_nameA' : obj.pacov.nameA,
+                    'pacov_nameB' : obj.pacov.nameB,
                 }
         #PLAN
-        if obj.peppar.type.type == "PLAN":
+        if obj.pacov.type.type == "PLAN":
             if obj.level == '1':
                 return {
-                    'peppar_nameA' : obj.peppar.nameA,
-                    'peppar_nameB' : obj.peppar.nameB,
-                    'peppar_dateA' : obj.peppar.dateA,
-                    'peppar_dateB' : obj.peppar.dateB,
-                    'peppar_idcode' : obj.peppar.idcode,
-                    'peppar_question' : obj.peppar.question,
+                    'pacov_nameA' : obj.pacov.nameA,
+                    'pacov_nameB' : obj.pacov.nameB,
+                    'pacov_dateA' : obj.pacov.dateA,
+                    'pacov_dateB' : obj.pacov.dateB,
+                    'pacov_idcode' : obj.pacov.idcode,
+                    'pacov_question' : obj.pacov.question,
                 }
             elif obj.level == '2':
                 return {
-                    'peppar_nameA' : obj.peppar.nameA,
-                    'peppar_nameB' : obj.peppar.nameB,
+                    'pacov_nameA' : obj.pacov.nameA,
+                    'pacov_nameB' : obj.pacov.nameB,
                 } 
             elif obj.level == '3':
                 return {
-                    'peppar_nameA' : obj.peppar.nameA,
-                    'peppar_nameB' : obj.peppar.nameB,
+                    'pacov_nameA' : obj.pacov.nameA,
+                    'pacov_nameB' : obj.pacov.nameB,
                 }     
         
         #ACTION fields
-        if obj.peppar.type.type == "ACTION":
+        if obj.pacov.type.type == "ACTION":
             if obj.level == '1':
                 return {
-                    'peppar_nameA' : obj.peppar.nameA,
-                    'peppar_nameB' : obj.peppar.nameB,
-                    'peppar_dateA' : obj.peppar.dateA,
-                    'peppar_dateB' : obj.peppar.dateB,
-                    'peppar_idcode' : obj.peppar.idcode,
-                    'peppar_question' : obj.peppar.question,
+                    'pacov_nameA' : obj.pacov.nameA,
+                    'pacov_nameB' : obj.pacov.nameB,
+                    'pacov_dateA' : obj.pacov.dateA,
+                    'pacov_dateB' : obj.pacov.dateB,
+                    'pacov_idcode' : obj.pacov.idcode,
+                    'pacov_question' : obj.pacov.question,
                 }
             elif obj.level == '2':
                 return {
-                    'peppar_nameA' : obj.peppar.nameA,
-                    'peppar_nameB' : obj.peppar.nameB,
+                    'pacov_nameA' : obj.pacov.nameA,
+                    'pacov_nameB' : obj.pacov.nameB,
                 }     
             elif obj.level == '3':
                 return {
-                    'peppar_nameA' : obj.peppar.nameA,
-                    'peppar_nameB' : obj.peppar.nameB,
+                    'pacov_nameA' : obj.pacov.nameA,
+                    'pacov_nameB' : obj.pacov.nameB,
                 }     
                    
         #RESULT fields
-        if obj.peppar.type.type == "RESULT":
+        if obj.pacov.type.type == "RESULT":
             if obj.level == '1':
                 return {
-                    'peppar_nameA' : obj.peppar.nameA,
-                    'peppar_nameB' : obj.peppar.nameB,
-                    'peppar_dateA' : obj.peppar.dateA,
-                    'peppar_dateB' : obj.peppar.dateB,
-                    'peppar_idcode' : obj.peppar.idcode,
-                    'peppar_question' : obj.peppar.question,
+                    'pacov_nameA' : obj.pacov.nameA,
+                    'pacov_nameB' : obj.pacov.nameB,
+                    'pacov_dateA' : obj.pacov.dateA,
+                    'pacov_dateB' : obj.pacov.dateB,
+                    'pacov_idcode' : obj.pacov.idcode,
+                    'pacov_question' : obj.pacov.question,
                 }
             elif obj.level == '2':
                 return {
-                    'peppar_nameA' : obj.peppar.nameA,
-                    'peppar_nameB' : obj.peppar.nameB,
+                    'pacov_nameA' : obj.pacov.nameA,
+                    'pacov_nameB' : obj.pacov.nameB,
                 }     
             elif obj.level == '3':
                 return {
-                    'peppar_nameA' : obj.peppar.nameA,
-                    'peppar_nameB' : obj.peppar.nameB,
+                    'pacov_nameA' : obj.pacov.nameA,
+                    'pacov_nameB' : obj.pacov.nameB,
                 }     
         
 #Relation Insight by User
@@ -161,15 +161,15 @@ class RelationInsightSerializer(serializers.ModelSerializer):
     relation_uuid = serializers.CharField(source='relation.uuid')
     relation_type = serializers.IntegerField(source='relation.type.id')
     relation_name = serializers.CharField(source='relation.name')
-    # Reference to the Peppar Objects in the relation
-    pepparA = PepparSerializer(fields=('peppar_uuid', 'peppar_type', 'peppar_name'), source='relation.pepparA')
-    pepparB = PepparSerializer(fields=('peppar_uuid', 'peppar_type', 'peppar_name'), source='relation.pepparB')
+    # Reference to the PACOV Objects in the relation
+    pacovA = PACOVSerializer(fields=('pacov_uuid', 'pacov_type', 'pacov_name'), source='relation.pacovA')
+    pacovB = PACOVSerializer(fields=('pacov_uuid', 'pacov_type', 'pacov_name'), source='relation.pacovB')
     # Method field that builds and object with visible data, based on type and user's insight level
     added_data = serializers.SerializerMethodField()
     
     class Meta:
         model = RelationInsight
-        fields = ('uuid', 'level', 'relation_uuid', 'relation_type', 'relation_name', 'pepparA', 'pepparB', 'added_data')
+        fields = ('uuid', 'level', 'relation_uuid', 'relation_type', 'relation_name', 'pacovA', 'pacovB', 'added_data')
 
     #Method for making dynamic object with visible data
     def get_added_data(self, obj):

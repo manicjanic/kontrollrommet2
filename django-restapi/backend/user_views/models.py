@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from pacovbase.models import PACOV, Relation
 
 #Users sight scope into PACOVs
-class PepparInsight(models.Model):
+class PACOVInsight(models.Model):
     #Defining the different Sight Levels
     LEVEL = [
         ('0', 'Me'),
@@ -19,7 +19,7 @@ class PepparInsight(models.Model):
     # Specified User
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     #The Object observed
-    peppar = models.ForeignKey(PACOV, on_delete=models.CASCADE)
+    pacov = models.ForeignKey(PACOV, on_delete=models.CASCADE)
     #Insight Level
     level = models.CharField(max_length=1, choices=LEVEL)
     
@@ -28,7 +28,7 @@ class PepparInsight(models.Model):
     timestamp_updated = models.DateTimeField(auto_now=True, editable=False)
 
     def __str__(self):
-        return self.user.username + " - " + self.level + " - " + self.peppar.name
+        return self.user.username + " - " + self.level + " - " + self.pacov.name
 
 #Users sight scope into Relations
 class RelationInsight(models.Model):

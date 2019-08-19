@@ -1,13 +1,13 @@
 from django.contrib import admin
 
-from .models import PepparInsight
+from .models import PACOVInsight
 from .models import RelationInsight
 
-class PepparInsightAdmin(admin.ModelAdmin):
-    list_display = ('user', 'level', 'peppar')
+class PACOVInsightAdmin(admin.ModelAdmin):
+    list_display = ('user', 'level', 'pacov')
     
 class RelationInsightAdmin(admin.ModelAdmin):
     list_display = ('user', 'level', 'relation')
     
-admin.site.register(PepparInsight, PepparInsightAdmin)
+admin.site.register(PACOVInsight, PACOVInsightAdmin)
 admin.site.register(RelationInsight, RelationInsightAdmin)
