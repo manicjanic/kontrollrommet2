@@ -1,9 +1,9 @@
 from django.db import models
 
-# PEPPAR Types
-class PepparType(models.Model):
-    # The six types in the PEPPAR model    
-    PEPPAR_TYPE = [
+# PACOV Types
+class PACOVType(models.Model):
+    # The six types in the PACOV model    
+    PACOV_TYPE = [
         ('PERSON', 'PERSON'),
         ('ACTION', 'ACTION'),
         ('CONCEPT', 'CONCEPT'),
@@ -12,7 +12,7 @@ class PepparType(models.Model):
     ]
 
     name = models.CharField(max_length=50)
-    type = models.CharField(max_length=8, choices=PEPPAR_TYPE)
+    type = models.CharField(max_length=8, choices=PACOV_TYPE)
 
     class Meta:
         ordering = ['type']

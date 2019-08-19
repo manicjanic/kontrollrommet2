@@ -1,12 +1,12 @@
 from django.contrib import admin
 
-from .models import PepparType, RelationType
+from .models import PACOVType, RelationType
 
-class PepparTypeAdmin(admin.ModelAdmin):
+class PACOVTypeAdmin(admin.ModelAdmin):
     list_display = ('name', 'type',)    
 
 class RelationTypeAdmin(admin.ModelAdmin):
     list_display = ('name', 'type')    
 
-admin.site.register(PepparType, PepparTypeAdmin)
+admin.site.register(PACOVType, PACOVTypeAdmin)
 admin.site.register(RelationType, RelationTypeAdmin)

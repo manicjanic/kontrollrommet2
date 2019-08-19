@@ -18,7 +18,7 @@ user_router.register(r'peppars', user_views.PepparInsightView, 'user_peppars')
 user_router.register(r'relations', user_views.RelationInsightView, 'user_relations')     
 # CATALOG calls
 catalog_router = routers.DefaultRouter()
-catalog_router.register(r'peppartype', catalog_views.PepparTypeView, 'peppartype')     
+catalog_router.register(r'peppartype', catalog_views.PACOVTypeView, 'peppartype')     
 catalog_router.register(r'relationtype', catalog_views.RelationTypeView, 'relationtype')     
 
 urlpatterns = [

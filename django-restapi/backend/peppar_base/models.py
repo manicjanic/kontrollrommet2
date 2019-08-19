@@ -2,14 +2,14 @@ import uuid as uuid_field
 from django.db import models
 from jsonfield import JSONField
 
-from catalog.models import PepparType
+from catalog.models import PACOVType
 
 # PEPPAR CORE MODEL
 class Peppar(models.Model):
     #Unique identification
     uuid = models.UUIDField(default=uuid_field.uuid4, unique=True, editable=False)
     # Type specification of PEPPAR
-    type = models.ForeignKey(PepparType, on_delete=models.CASCADE, related_name='peppar_type')
+    type = models.ForeignKey(PACOVType, on_delete=models.CASCADE, related_name='peppar_type')
     # The Name Element
     name = models.CharField(max_length=500, blank=True)
     # The two Time Elements

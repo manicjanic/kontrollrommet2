@@ -1,11 +1,11 @@
 from rest_framework import serializers
 
-from .models import PepparType
+from .models import PACOVType
 from .models import RelationType
 
-class PepparTypeSerializer(serializers.ModelSerializer):
+class PACOVTypeSerializer(serializers.ModelSerializer):
     class Meta:
-        model = PepparType
+        model = PACOVType
         fields = ('__all__')
 
     # Establish a fields argument to dynamically choose wich fields to serialize
@@ -13,7 +13,7 @@ class PepparTypeSerializer(serializers.ModelSerializer):
         # Don't pass the 'fields' arg up to the superclass
         fields = kwargs.pop('fields', None)
         # Instantiate the superclass normally
-        super(PepparTypeSerializer, self).__init__(*args, **kwargs)
+        super(PACOVTypeSerializer, self).__init__(*args, **kwargs)
         if fields is not None:
             # Drop any fields that are not specified in the `fields` argument.
             allowed = set(fields)
