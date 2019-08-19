@@ -3,10 +3,9 @@ from datetime import datetime
 import uuid as uuid_field
 
 from django.contrib.auth.models import User
-from peppar_base.models import Peppar
-from peppar_relational.models import Relation
+from pacovbase.models import PACOV, Relation
 
-#Users sight scope into Peppars
+#Users sight scope into PACOVs
 class PepparInsight(models.Model):
     #Defining the different Sight Levels
     LEVEL = [
@@ -20,7 +19,7 @@ class PepparInsight(models.Model):
     # Specified User
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     #The Object observed
-    peppar = models.ForeignKey(Peppar, on_delete=models.CASCADE)
+    peppar = models.ForeignKey(PACOV, on_delete=models.CASCADE)
     #Insight Level
     level = models.CharField(max_length=1, choices=LEVEL)
     

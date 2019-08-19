@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404
 
 from .models import PepparInsight
 from .models import RelationInsight
-from peppar_base.serializers import PepparSerializer
+from pacovbase.serializers import PepparSerializer
 
 # Peppar Insight by User
 class PepparInsightSerializer(serializers.ModelSerializer):

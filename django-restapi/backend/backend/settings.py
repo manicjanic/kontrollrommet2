@@ -42,10 +42,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     #active project app modules:
-    'peppar_base',
-    'peppar_relational',
+    'pacovbase',
     'catalog',
-    'user_views',
+#    'user_views',
     'user',
     'todo',
 ]

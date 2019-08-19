@@ -2,7 +2,7 @@ import uuid as uuid_field
 from django.db import models
 from jsonfield import JSONField
 
-from peppar_base.models import Peppar
+from pacovbase.models import PACOV
 from catalog.models import RelationType
 
 # PEPPAR RELATIONAL MODEL
@@ -14,9 +14,9 @@ class Relation(models.Model):
     type = models.ForeignKey(RelationType, on_delete=models.CASCADE, related_name='relation_type')
     # Name
     name = models.CharField(max_length=500, blank=True )
-    #Peppars connected
-    pepparA = models.ForeignKey(Peppar, related_name="pepparA", on_delete=models.CASCADE)
-    pepparB = models.ForeignKey(Peppar, related_name="pepparB", on_delete=models.CASCADE)
+    #PACOVs connected
+    pepparA = models.ForeignKey(PACOV, related_name="pepparA", on_delete=models.CASCADE)
+    pepparB = models.ForeignKey(PACOV, related_name="pepparB", on_delete=models.CASCADE)
     # The two Time Elements
     dateA = models.DateTimeField(blank=True, null=True)
     dateB = models.DateTimeField(blank=True, null=True)
