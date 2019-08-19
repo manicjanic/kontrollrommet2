@@ -8,7 +8,7 @@ class PepparType(models.Model):
         ('ACTION', 'ACTION'),
         ('CONCEPT', 'CONCEPT'),
         ('OBJECT', 'OBJECT'),
-        ('STATUS', 'STATUS'),
+        ('VALUE', 'VALUE'),
     ]
 
     name = models.CharField(max_length=50)
@@ -27,11 +27,11 @@ class RelationType(models.Model):
         ('PER-OBJ', '(PER-OBJ)'),
         ('PER-ACT', '(PER-ACT)'),
         ('PER-CON', '(PER-CON)'),
-        ('OBJ-STA', '(OBJ-STA)'),
-        ('ACT-STA', '(ACT-STA)'),
+        ('OBJ-VAL', '(OBJ-VAL)'),
+        ('ACT-VAL', '(ACT-VAL)'),
         ('ACT-OBJ', '(ACT-OBJ)'),
         ('CON-ACT', '(CON-ACT)'),
-        ('CON-STA', '(CON-STA)'),
+        ('CON-VAL', '(CON-VAL)'),
         ('CON-OBJ', '(CON-OBJ)'),
         
     ]
