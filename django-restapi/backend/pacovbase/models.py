@@ -50,8 +50,8 @@ class Relation(models.Model):
     # Name
     name = models.CharField(max_length=500, blank=True )
     #PACOVs connected
-    pepparA = models.ForeignKey(PACOV, related_name="pepparA", on_delete=models.CASCADE)
-    pepparB = models.ForeignKey(PACOV, related_name="pepparB", on_delete=models.CASCADE)
+    pacovA = models.ForeignKey(PACOV, related_name="pacovA", on_delete=models.CASCADE)
+    pacovB = models.ForeignKey(PACOV, related_name="pacovB", on_delete=models.CASCADE)
     # The two Time Elements
     dateA = models.DateTimeField(blank=True, null=True)
     dateB = models.DateTimeField(blank=True, null=True)

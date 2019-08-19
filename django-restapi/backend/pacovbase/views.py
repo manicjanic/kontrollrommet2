@@ -1,17 +1,17 @@
 from rest_framework import viewsets         
 
-from .serializers import PepparSerializer
+from .serializers import PACOVSerializer
 from .models import PACOV                 
 from .serializers import RelationSerializer
 from .models import Relation                 
 
 
 # For testing purposes. Gives the whole database
-class PepparView(viewsets.ModelViewSet):
+class PACOVView(viewsets.ModelViewSet):
     
     permission_classes = []
 
-    serializer_class = PepparSerializer          
+    serializer_class = PACOVSerializer          
     queryset = PACOV.objects.all()              
     lookup_field = 'uuid'
 

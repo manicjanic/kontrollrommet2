@@ -7,7 +7,7 @@ class PACOVAdmin(admin.ModelAdmin):
     list_display = ('name', 'type',)
 
 class RelationAdmin(admin.ModelAdmin):
-    list_display = ('pepparA', 'type', 'pepparB', 'name')
+    list_display = ('pacovA', 'type', 'pacovB', 'name')
 
 # Register your models here.
 admin.site.register(PACOV, PACOVAdmin)

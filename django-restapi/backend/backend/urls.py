@@ -9,7 +9,7 @@ from catalog import views as catalog_views
 
 # FULL CALLS FOR TESTING PURPOSES ONLY
 test_router = routers.DefaultRouter()
-test_router.register(r'pacovs', base_views.PepparView, 'pacovs')     
+test_router.register(r'pacovs', base_views.PACOVView, 'pacovs')     
 test_router.register(r'relations', base_views.RelationView, 'relation')     
 # USER calls
 #user_router = routers.DefaultRouter()                      
