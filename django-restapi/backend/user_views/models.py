@@ -27,13 +27,15 @@ class PACOVInsight(models.Model):
     timestamp_created = models.DateTimeField(auto_now_add=True, editable=False)
     timestamp_updated = models.DateTimeField(auto_now=True, editable=False)
 
+    class Meta:
+        unique_together = ['user', 'pacov']
+
     def __str__(self):
         return self.user.username + " - " + self.level + " - " + self.pacov.name
 
 #Users sight scope into Relations
 class RelationInsight(models.Model):
     LEVEL = [
-        ('0', 'Me'),
         ('1', 'My'),
         ('2', 'Close'),
         ('3', 'Distant'),
@@ -51,6 +53,9 @@ class RelationInsight(models.Model):
     #Timestamps
     timestamp_created = models.DateTimeField(auto_now_add=True, editable=False)
     timestamp_updated = models.DateTimeField(auto_now=True, editable=False)
+
+    class Meta:
+        unique_together = ['user', 'relation']
 
     def __str__(self):
         return self.user.username + " Level " + self.level + " " + self.relation.name

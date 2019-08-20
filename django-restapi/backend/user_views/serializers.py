@@ -1,175 +1,64 @@
 from rest_framework import serializers
 from django.shortcuts import get_object_or_404
 
-from .models import PACOVInsight
-from .models import RelationInsight
-from pacovbase.serializers import PACOVSerializer
+from .models import PACOVInsight, RelationInsight
+from pacovbase.models import PACOV, Relation
+from catalog.models import PACOVType, RelationType
 
 # PACOV Insight by User
 class PACOVInsightSerializer(serializers.ModelSerializer):
-    # Flattened representation of basic data from related PACOV
-    pacov_uuid = serializers.CharField(source='pacov.uuid')
-    pacov_type = serializers.IntegerField(source='pacov.type.id')
-    pacov_name = serializers.CharField(source='pacov.name')
+    # Representation of data from related the PACOV
+    uuid = serializers.SlugRelatedField(source='pacov', slug_field='uuid', queryset=PACOV.objects.all())
+    type = serializers.SlugRelatedField(source='pacov.type', slug_field='id', queryset=PACOVType.objects.all())
     # Method field that builds and object with visible data, based on type and user's insight level
     added_data = serializers.SerializerMethodField()
     
     class Meta:
         model = PACOVInsight
-        fields = ('uuid', 'level', 'pacov_uuid', 'pacov_name', 'pacov_type', 'added_data')
-
+        fields = ('level', 'uuid', 'type', 'added_data')
 
     #Method for making dynamic object with visible data
     def get_added_data(self, obj):
-        #PERSON
-        if obj.pacov.type.type == "PERSON":
-            if obj.level == '0':
-                return {
-                    'pacov_nameA' : obj.pacov.nameA,
-                    'pacov_nameB' : obj.pacov.nameB,
-                    'pacov_dateA' : obj.pacov.dateA,
-                    'pacov_dateB' : obj.pacov.dateB,
-                    'pacov_idcode' : obj.pacov.idcode,
-                    'pacov_question' : obj.pacov.question,
-                }
-            elif obj.level == '1':
-                return {
-                    'pacov_nameA' : obj.pacov.nameA,
-                    'pacov_nameB' : obj.pacov.nameB,
-                } 
-            elif obj.level == '2':
-                return {
-                    'pacov_nameA' : obj.pacov.nameA,
-                    'pacov_nameB' : obj.pacov.nameB,
-                }     
-            elif obj.level == '3':
-                return {
-                    'pacov_nameA' : obj.pacov.nameA,
-                    'pacov_nameB' : obj.pacov.nameB,
-                }
-        # ENTITY
-        if obj.pacov.type.type == "ENTITY":
-            if obj.level == '1':
-                return {
-                    'pacov_nameA' : obj.pacov.nameA,
-                    'pacov_nameB' : obj.pacov.nameB,
-                    'pacov_dateA' : obj.pacov.dateA,
-                    'pacov_dateB' : obj.pacov.dateB,
-                    'pacov_idcode' : obj.pacov.idcode,
-                    'pacov_question' : obj.pacov.question,
-                }
-            if obj.level == '2':
-                return {
-                    'pacov_nameA' : obj.pacov.nameA,
-                    'pacov_nameB' : obj.pacov.nameB,
-                }
-            if obj.level == '3':
-                return {
-                    'pacov_nameA' : obj.pacov.nameA,
-                    'pacov_nameB' : obj.pacov.nameB,
-                }
-        # PROPERTY        
-        if obj.pacov.type.type == "PROPERTY":
-            if obj.level == '1':
-                return {
-                    'pacov_nameA' : obj.pacov.nameA,
-                    'pacov_nameB' : obj.pacov.nameB,
-                    'pacov_dateA' : obj.pacov.dateA,
-                    'pacov_dateB' : obj.pacov.dateB,
-                    'pacov_idcode' : obj.pacov.idcode,
-                    'pacov_question' : obj.pacov.question,
-                }
-            if obj.level == '2':
-                return {
-                    'pacov_nameA' : obj.pacov.nameA,
-                    'pacov_nameB' : obj.pacov.nameB,
-                }
-            if obj.level == '3':
-                return {
-                    'pacov_nameA' : obj.pacov.nameA,
-                    'pacov_nameB' : obj.pacov.nameB,
-                }
-        #PLAN
-        if obj.pacov.type.type == "PLAN":
-            if obj.level == '1':
-                return {
-                    'pacov_nameA' : obj.pacov.nameA,
-                    'pacov_nameB' : obj.pacov.nameB,
-                    'pacov_dateA' : obj.pacov.dateA,
-                    'pacov_dateB' : obj.pacov.dateB,
-                    'pacov_idcode' : obj.pacov.idcode,
-                    'pacov_question' : obj.pacov.question,
-                }
-            elif obj.level == '2':
-                return {
-                    'pacov_nameA' : obj.pacov.nameA,
-                    'pacov_nameB' : obj.pacov.nameB,
-                } 
-            elif obj.level == '3':
-                return {
-                    'pacov_nameA' : obj.pacov.nameA,
-                    'pacov_nameB' : obj.pacov.nameB,
-                }     
-        
-        #ACTION fields
-        if obj.pacov.type.type == "ACTION":
-            if obj.level == '1':
-                return {
-                    'pacov_nameA' : obj.pacov.nameA,
-                    'pacov_nameB' : obj.pacov.nameB,
-                    'pacov_dateA' : obj.pacov.dateA,
-                    'pacov_dateB' : obj.pacov.dateB,
-                    'pacov_idcode' : obj.pacov.idcode,
-                    'pacov_question' : obj.pacov.question,
-                }
-            elif obj.level == '2':
-                return {
-                    'pacov_nameA' : obj.pacov.nameA,
-                    'pacov_nameB' : obj.pacov.nameB,
-                }     
-            elif obj.level == '3':
-                return {
-                    'pacov_nameA' : obj.pacov.nameA,
-                    'pacov_nameB' : obj.pacov.nameB,
-                }     
-                   
-        #RESULT fields
-        if obj.pacov.type.type == "RESULT":
-            if obj.level == '1':
-                return {
-                    'pacov_nameA' : obj.pacov.nameA,
-                    'pacov_nameB' : obj.pacov.nameB,
-                    'pacov_dateA' : obj.pacov.dateA,
-                    'pacov_dateB' : obj.pacov.dateB,
-                    'pacov_idcode' : obj.pacov.idcode,
-                    'pacov_question' : obj.pacov.question,
-                }
-            elif obj.level == '2':
-                return {
-                    'pacov_nameA' : obj.pacov.nameA,
-                    'pacov_nameB' : obj.pacov.nameB,
-                }     
-            elif obj.level == '3':
-                return {
-                    'pacov_nameA' : obj.pacov.nameA,
-                    'pacov_nameB' : obj.pacov.nameB,
-                }     
-        
+        if obj.level == '0':
+            return {
+                'name' : obj.pacov.name,
+                'dateA' : obj.pacov.dateA,
+                'dateB' : obj.pacov.dateB,
+                'idcode' : obj.pacov.idcode,
+                'question' : obj.pacov.question,
+            }
+        elif obj.level == '1':
+            return {
+                'name' : obj.pacov.name,
+                'dateA' : obj.pacov.dateA,
+                'dateB' : obj.pacov.dateB,
+                'idcode' : obj.pacov.idcode,
+                'question' : obj.pacov.question,
+
+            } 
+        elif obj.level == '2':
+            return {
+                'name' : obj.pacov.name,
+            }     
+        elif obj.level == '3':
+            return {
+                'name' : obj.pacov.name,
+            }
+
 #Relation Insight by User
 class RelationInsightSerializer(serializers.ModelSerializer):
     # Flattened representation of basic data from related Relation
-    relation_uuid = serializers.CharField(source='relation.uuid')
-    relation_type = serializers.IntegerField(source='relation.type.id')
-    relation_name = serializers.CharField(source='relation.name')
+    uuid = serializers.SlugRelatedField(source='relation', slug_field='uuid', queryset=Relation.objects.all())
+    type = serializers.SlugRelatedField(source='relation.type', slug_field='id', read_only=True)
     # Reference to the PACOV Objects in the relation
-    pacovA = PACOVSerializer(fields=('pacov_uuid', 'pacov_type', 'pacov_name'), source='relation.pacovA')
-    pacovB = PACOVSerializer(fields=('pacov_uuid', 'pacov_type', 'pacov_name'), source='relation.pacovB')
+    pacovA = serializers.SlugRelatedField(source='relation.pacovA', slug_field='uuid', read_only=True)
+    pacovB = serializers.SlugRelatedField(source='relation.pacovB', slug_field='uuid', read_only=True)
     # Method field that builds and object with visible data, based on type and user's insight level
     added_data = serializers.SerializerMethodField()
     
     class Meta:
         model = RelationInsight
-        fields = ('uuid', 'level', 'relation_uuid', 'relation_type', 'relation_name', 'pacovA', 'pacovB', 'added_data')
+        fields = ('level', 'uuid', 'type', 'pacovA', 'pacovB', 'added_data')
 
     #Method for making dynamic object with visible data
     def get_added_data(self, obj):

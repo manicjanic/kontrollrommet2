@@ -11,18 +11,18 @@ from .models import PACOVInsight
 from .models import RelationInsight                 
 
 #General View of PACOVInsigt, by User
-class PACOVInsightView(viewsets.ModelViewSet):       
+class PACOVInsightView(viewsets.ReadOnlyModelViewSet):       
     serializer_class = PACOVInsightSerializer                     
-    lookup_field = 'uuid'
+    lookup_field = 'pacov__uuid'
 
     def get_queryset(self):
         user = self.request.user
         return PACOVInsight.objects.filter(user=user)
 
 #General View of RelationInsigt, by User
-class RelationInsightView(viewsets.ModelViewSet):       
+class RelationInsightView(viewsets.ReadOnlyModelViewSet):       
     serializer_class = RelationInsightSerializer                     
-    lookup_field = 'uuid'
+    lookup_field = 'relation__uuid'
 
     def get_queryset(self):
         user = self.request.user

@@ -3,14 +3,11 @@ from .models import PACOV, Relation
 
 
 class PACOVSerializer(serializers.ModelSerializer):
-    pacov_type = serializers.PrimaryKeyRelatedField(source='type', read_only=True)
-    pacov_uuid = serializers.CharField(source='uuid', read_only=True)
-    pacov_name = serializers.CharField(source='name', read_only=True)
 
     class Meta:
         model = PACOV
-        fields = ('pacov_type', 'pacov_name', 'pacov_uuid', 'dateA', 'specific_data')
-        read_only_fields = ('uuid', 'name')
+        fields = ('uuid', 'name', 'type', 'dateA', 'dateB', 'idcode', 'question', 'specific_data')
+        read_only_fields = ('uuid',)
 
     # Establish a fields argument to dynamically choose wich fields to serialize
     def __init__(self, *args, **kwargs):
@@ -25,14 +22,14 @@ class PACOVSerializer(serializers.ModelSerializer):
             for field_name in existing - allowed:
                 self.fields.pop(field_name)
 
+
 class RelationSerializer(serializers.ModelSerializer):
-    relation_type = serializers.PrimaryKeyRelatedField(source='type', read_only=True)
-    relation_uuid = serializers.CharField(source='uuid', read_only=True)
-    relation_name = serializers.CharField(source='name', read_only=True)
+    pacovA = serializers.SlugRelatedField(slug_field='uuid', queryset=PACOV.objects.all())
+    pacovB = serializers.SlugRelatedField(slug_field='uuid', queryset=PACOV.objects.all())
 
     class Meta:
         model = Relation
-        fields = ( '__all__' )
+        fields = ('uuid', 'name', 'type', 'pacovA', 'pacovB', 'dateA', 'dateB', 'idcode', 'question', 'specific_data')
         read_only_fields = ( 'uuid', )
 
     # Establish a fields argument to dynamically choose wich fields to serialize

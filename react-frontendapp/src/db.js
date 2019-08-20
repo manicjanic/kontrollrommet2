@@ -12,4 +12,8 @@ export default class DB {
         allPacovs.rows.forEach(item => pacovs[item.id] = item.doc )
         return pacovs
     }
+
+    async loadPacovs(pacovs_raw) {
+        
+    }
 }

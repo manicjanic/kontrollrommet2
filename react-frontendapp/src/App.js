@@ -17,6 +17,7 @@ import MeetingsPage from './Pages/meetings-page'
 
 import ListPacovsPage from './Pages/listpacovs-page'
 import ShowPacovPage from './Pages/showpacov-page'
+import { dataService } from './_services/data-service';
 
 class App extends Component {
 
@@ -46,6 +47,11 @@ class App extends Component {
         return this.state[state_prop]
     }
     
+    async getPacovs() {
+        this.setState({loading: true})
+        const pacovs = await dataService.
+
+    }
     showContent = () => {
         if (this.state.loading) {
             return <div>Loading...</div>

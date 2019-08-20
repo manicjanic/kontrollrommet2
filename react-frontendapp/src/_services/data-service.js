@@ -5,6 +5,11 @@ const postLogin = (username, password) => {
     return postalService.post(payload, "userlogin/")
 }
 
+const getPacovs = () => {
+    return postalService.get_auth("api/user/pacovs/")    
+}
+
+
 const getPeppars = () => {
     return postalService.get_auth("api/user/peppars/")    
 }
