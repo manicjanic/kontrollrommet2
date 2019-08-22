@@ -24,7 +24,6 @@ const LoginForm = (props) => {
         const {username, password} = form_data
         e.preventDefault();
         var response = await props.handleLogin(username, password)
-        console.log("response", response)
         if (response.data[0] === "Wrong Credentials") {
             let errormessage = "Feil brukernavn/passord"
             let error=true

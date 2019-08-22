@@ -9,17 +9,12 @@ const getPacovs = () => {
     return postalService.get_auth("api/user/pacovs/")    
 }
 
-
-const getPeppars = () => {
-    return postalService.get_auth("api/user/peppars/")    
-}
-
 const getRelations = () => {
     return postalService.get_auth("api/user/relations/")    
 }
 
-const getPepparTypes = () => {
-    return postalService.get_auth("api/catalog/peppartype/")    
+const getPacovTypes = () => {
+    return postalService.get_auth("api/catalog/pacovtype/")    
 }
 
 const getRelationTypes = () => {
@@ -28,8 +23,8 @@ const getRelationTypes = () => {
 
 export const dataService = {
     postLogin,
-    getPeppars,
+    getPacovs,
     getRelations,
-    getPepparTypes,
+    getPacovTypes,
     getRelationTypes
 };

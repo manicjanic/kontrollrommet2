@@ -11,6 +11,7 @@ export default class LogoutPage extends Component {
     doLogout = () => {
         this.props.modifyState({is_loggedin: false})
         localStorage.removeItem('userobj');
+        this.props.modifyState({pacovs: {}, relations: {}})
         this.props.history.push('/')
     }
         

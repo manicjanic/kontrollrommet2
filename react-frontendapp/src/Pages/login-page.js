@@ -13,7 +13,7 @@ export default class LoginPage extends Component {
         if (!responseobj.error) {
             localStorage.setItem('userobj', JSON.stringify(responseobj.data));
             this.props.modifyState({is_loggedin: true})
-            this.props.history.push('/')
+            this.props.history.push('/loader')
         }
         else {
             console.log(responseobj.status, responseobj.data[0])

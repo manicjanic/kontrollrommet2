@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Route } from "react-router-dom";
 
+import {filterService} from './_services/filter-service'
+
 // Frontend Database
 import DB from './db'
 // Authorized routes with token
@@ -13,29 +15,31 @@ import Navbar from './Pages/navbar'
 import HomePage from './Pages/home-page'
 import LoginPage from './Pages/login-page'
 import LogoutPage from './Pages/logout-page'
+import LoaderPage from './Pages/loader-page'
+
 import MeetingsPage from './Pages/meetings-page'
 
 import ListPacovsPage from './Pages/listpacovs-page'
 import ShowPacovPage from './Pages/showpacov-page'
-import { dataService } from './_services/data-service';
 
 class App extends Component {
 
     // Defining Central State
     state = {
         db: new DB('pacovbase'),
+        pacovtypes: {},
+        relationtypes: {},
         pacovs: {},
-        loading: true,
-        is_loggedin: false
+        relations: {},
+        
+        loading: false,
+        is_loggedin: false,
+        
+        userpacov: {},
+        user_functions: [],
+        selected_function: {}
     }
 
-    async componentDidMount() {
-        const pacovs = await this.state.db.getAllPacovs();
-        this.setState({
-            pacovs,
-            loading: false
-        });
-    }
     // Callback function to manipulate state
     // stateobj = object consisting of key and value to be set
     modifyState = (stateobj) => {
@@ -46,12 +50,7 @@ class App extends Component {
     getState = (state_prop) => {
         return this.state[state_prop]
     }
-    
-    async getPacovs() {
-        this.setState({loading: true})
-        const pacovs = await dataService.
-
-    }
+        
     showContent = () => {
         if (this.state.loading) {
             return <div>Loading...</div>
@@ -61,8 +60,8 @@ class App extends Component {
                 <Route exact path='/' component={(props) => <HomePage {...props} is_loggedin={this.state.is_loggedin}/>}/>
                 <Route exact path='/login' component={(props) => <LoginPage {...props} modifyState={this.modifyState}/>}/>
                 <Route exact path='/logout' component={(props) => <LogoutPage {...props} modifyState={this.modifyState}/>}/>
+                <PrivateRoute exact path='/loader' component={(props) => <LoaderPage {...props} modifyState={this.modifyState}/>}/>
                 <PrivateRoute exact path='/meetings' component={(props) => <MeetingsPage {...props} pacovs={this.state.pacovs}/>}/>
-
                 <PrivateRoute exact path='/pacovs' component={(props) => <ListPacovsPage {...props} pacovs={this.state.pacovs}/>}/>
                 <Route exact path='/pacovs/:id' component={(props) => <ShowPacovPage {...props} pacov={this.state.pacovs[props.match.params.id]}/>}/>
             </div>
@@ -71,7 +70,12 @@ class App extends Component {
     render() {
         return (
             <div className="App">
-                <Navbar is_loggedin={this.state.is_loggedin}/>
+                <Navbar 
+                    is_loggedin={this.state.is_loggedin} 
+                    userpacov={this.state.userpacov}
+                    user_functions={this.state.user_functions}
+                    selected_function={this.state.selected_function}
+                />
                 {this.showContent()}
             </div>
         )

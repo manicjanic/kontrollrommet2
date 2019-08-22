@@ -65,10 +65,11 @@ class RelationInsightSerializer(serializers.ModelSerializer):
         # Data for Level 1
         if obj.level == '1':
             return {
-                'relation_dateA' : obj.relation.dateA,
-                'relation_dateB' : obj.relation.dateB,
-                'relation_idcode' : obj.relation.idcode,
-                'relation_question' : obj.relation.question,
+                'dateA' : obj.relation.dateA,
+                'dateB' : obj.relation.dateB,
+                'idcode' : obj.relation.idcode,
+                'question' : obj.relation.question,
+                'specific_data': obj.relation.specific_data
             }
         # Data for Level 2
         elif obj.level == '2':

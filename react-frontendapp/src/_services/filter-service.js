@@ -1,187 +1,128 @@
-
-const findOnId = (id, objects) => {
-    console.log("running findOnId with this data:", id, objects)
-    let result = objects.find(object => {
-        return object.id === id
-    })
-    return result
+//Search Functions
+const findPacovType = (types, typeid) => {
+    console.log("running findPacovType with this data:", typeid)
+    const pacovtype = types[typeid]
+    return pacovtype
 }
-// Filters list of relations to select where Peppar is in the A-end.
-// Takes optional argument to filter by PEPPAR type.
-// SearchObj = {peppar: {}, relations: [{}...], type: "PER", end: "A"}
-const findRelationsFromPeppar = (relations, peppar) => {
-    console.log("running findRelationsFromPeppar with this data:", relations, peppar)
-    let result = relations.filter(relation => {    
+
+const findRelationType = (types, typeid) => {
+    console.log("running findPacovType with this data:", typeid)
+    const pacovtype = types[typeid]
+    return pacovtype
+}
+
+const findUserPacov = (pacovs) => {
+    console.log("running findUserPacov with this data:", pacovs)
+    const pacovslist = Object.values(pacovs);
+    let user_pacov = pacovslist.find(pacov => {
+        return pacov.level === "0"
+    })
+    return user_pacov
+}
+
+const findPacovByUUID = (pacovs, uuid) => {
+    console.log("running findPacovByUUID with this data:", pacovs, uuid)
+    const pacov = pacovs[uuid]
+    return pacov
+}
+const findPacovsByType = (pacovs, typeid) => {
+    console.log("running findPacovsByType with this data:", pacovs, typeid)
+    const pacovslist = Object.values(pacovs);
+    let resultlist = pacovslist.filter(pacov => {    
         return (
-            peppar.peppar_uuid === relation.pepparA.peppar_uuid 
-            || 
-            peppar.peppar_uuid === relation.pepparB.peppar_uuid
+            pacov.type === typeid 
         )   
     })
-    return result
-} 
-
-// Finds correspondins PEPPARs from a list of relations. Optional argument to choose A-end, B-end only
-const findPepparsFromRelations = (relations, peppars, end) => {
-    console.log("running findPepparsFromRelations with this data:", relations, peppars, end)
-    let result = []
-    relations.forEach(relation => {
-        if (end === "A" || end === undefined) {
-            var pepparA = peppars.find(peppar => {
-                return peppar.peppar_uuid === relation.pepparA.peppar_uuid
-            })            
-        }
-        if (end === "B" || end === undefined) {
-            var pepparB = peppars.find(peppar => {
-                return peppar.peppar_uuid === relation.pepparB.peppar_uuid
-            })
-    
-        }
-        if ((pepparA) && (!result.includes(pepparA))) {
-            result.push(pepparA)
-        }
-        if ((pepparB) && (!result.includes(pepparB))) {
-            result.push(pepparB)
-        }
-    })
-    return result
+    return resultlist
 }
 
-// Finds relations of specific Type
-const findRelationsByType = (relations, type) => {
-    console.log("running findRelationsByType with this data:", relations, type)
-    let result
-    if (typeof type === "string") {
-        result = relations.filter(relation => {
-            return (relation.relation_type.type === type) 
-        })    
-    }
-    if (typeof type === "number") {
-        result = relations.filter(relation => {
-            return (relation.relation_type.id === type) 
-        })    
-    }
-    return result
-} 
+const findRelationByUUID = (relations, uuid) => {
+    console.log("running findRelationByUUID with this data:", uuid, relations)
+    const relation = relations[uuid]
+    return relation
+}
 
-// Finds relations of specific Type
-const findPepparsByType = (peppars, type) => {
-    console.log("running findPepparsByType with this data:", peppars, type)
-    let result
-    if (typeof type === "string") {
-        result = peppars.filter(peppar => {
-            return (peppar.peppar_type.type === type) 
-        })
+// Returns new object, NOT list
+const findRelationsByType = (relations, typeid) => {
+    console.log("running findRelationsByType with this data:", relations, typeid)
+    let resultobj = {}
+    for (let relation in relations) {
+        if (relations[relation].type === typeid) {
+            resultobj[relation] = relations[relation]
+        }
     }
-    if (typeof type === "number") {
-        result = peppars.filter(peppar => {
-            return (peppar.peppar_type.id === type) 
-        })
-    }
-    return result
-} 
+    return resultobj
+}
 
-// Find the Peppar on the other end of a Relation
-const findOtherEnd = (relation, peppars, peppar) => {
-    if (peppar.peppar_uuid === relation.pepparA.peppar_uuid) {
-        return peppars.find(peppar => {
-            return peppar.peppar_uuid === relation.pepparB.peppar_uuid
-        })
+// Returns new object, NOT list
+const findRelationsToPacov = (relations, pacov) => {
+    console.log("running findRelationsToPacov with this data:", relations, pacov)
+    let resultobj = {}
+    for (let relation in relations) {
+        if (pacov.uuid === relations[relation].pacovA || pacov.uuid === relations[relation].pacovB) {
+            resultobj[relation] = relations[relation]
+        }
     }
-    if (peppar.peppar_uuid === relation.pepparB.peppar_uuid) {
-        return peppars.find(peppar => {
-            return peppar.peppar_uuid === relation.pepparA.peppar_uuid
-        })
-    }
+    return resultobj
 }
 
 
-// Finds MePeppar from a list of Peppars
-const findMePeppar = (peppars) => {
-    let me = peppars.find(peppar => {
-        return peppar.level === "0"
-    })
-    return me
+const expandPacovsInRelations = (pacovs, relations) => {
+    console.log("running expandPacovsInRelations with this data:", pacovs, relations)
+    const resultobj = relations
+    for (let relation in relations) {
+        resultobj[relation].pacovA = pacovs[resultobj[relation].pacovA]
+        resultobj[relation].pacovB = pacovs[resultobj[relation].pacovB]
+    }
+    return resultobj
 }
 
-// Adds an ID property to objects in objectlist
-const addID = (objectlist) => {
-    // Add ID
-    let result = objectlist.map((object, i) => {
-        object.id = i
-        return object
-    })
-    return result
+const expandTypeInPacov = (pacovtypes, pacov) => {
+    console.log("running expandTypeInPacov with this data:", pacovtypes, pacov)
+    const pacovobj = pacov
+    pacovobj.type = pacovtypes[pacov.type]
+    return pacovobj
 }
 
-// Takes an objectlist, replaces foreignkey fields with nested data objects, 
-// based on a reference list
-// Objectlist = [{object}...]
-// lookuplist = [{idkey: 'keyname', referencelist: [{obj}...]}...]
-const replaceForeignKeyWithObject = (objectlist, lookuplist) => {
-    console.log ("running replaceForeignKeyWithObject with this data:", objectlist, lookuplist)
-    let altered_objectlist = objectlist.map((object) => {
-        for (var property in object) {
-            let _property = property
-            let key = lookuplist.find(item => {
-                return item.idkey === _property
-            })
-            if (key) {
-                let lookup_object = key.referencelist.find(listitem => {
-                    return listitem.id === object[property]
-                })
-                object[property] = lookup_object
-            }
-            else if ((typeof object[property] === 'object') && (Array.isArray(object[property]) === false)) {
-                    let propertyobject = object[property]
-                    let altered_propertyobject = replaceForeignKeyWithObject([propertyobject], lookuplist)
-                    object[property] = altered_propertyobject[0]
-            }
+const expandTypeInRelation = (relationtypes, relation) => {
+    console.log("running expandTypeInRelation with this data:", relationtypes, relation)
+    const relationobj = relation
+    relationobj.type = relationtypes[relation.type]
+    return relationobj
+}
+
+// Takes relations, keeps the ones where either A og B is pacov, 
+// alligns them so that pacov is in A
+// Returns Obj
+const allignRelationsByPacov = (relations, pacov) => {
+    console.log("running allignRelationsByPacov with this data:", relations, pacov)
+    let resultobj = {}
+    for (let relation in relations) {
+        if (pacov.uuid === relations[relation].pacovA) {
+            resultobj[relation] = relations[relation]
         }
-        return object
-    })
-    return altered_objectlist
-}
-
-// Alligns object so that relational obj is always in the A-end
-const alignRelations = (objectlist, origo_object) => {
-    console.log("running aligning relations with this data", objectlist, origo_object)
-    let result = objectlist.map((object, i) => {
-        if (object.pepparB.peppar_uuid === origo_object.peppar_uuid) {
-            console.log("since", object.pepparB.peppar_uuid, origo_object.peppar_uuid, "i will swap")
-            let swapperA = object.pepparB
-            let swapperB = object.pepparA
-            object.pepparA = swapperA
-            object.pepparB = swapperB
+        else if (pacov.uuid === relations[relation].pacovB) {
+            resultobj[relation] = relations[relation]
+            let tempA = relations[relation].pacovA
+            let tempB = relations[relation].pacovB
+            resultobj[relation].pacovA = tempB
+            resultobj[relation].pacovB = tempA
         }
-        return object
-    })
-    return result
-}
-
-const extractAddedData = (objectlist) => {
-    console.log("running extractAddedData with this data", objectlist)
-    let result = objectlist.map((object) => {
-        for (let property in object.added_data) {
-            object[property] = object.added_data[property]   
-        }
-        delete object.added_data
-        return object
-    })
-    console.log("this is the result", result)
-    return result
+    }
+    return resultobj
 }
 
 export const filterService = {
-    addID,
-    alignRelations,
-    findOnId,
-    findMePeppar,
-    findRelationsFromPeppar,
-    findPepparsFromRelations,
+    findPacovType,
+    findRelationType,
+    findUserPacov,
+    findPacovByUUID,
+    findPacovsByType,
+    findRelationByUUID,
     findRelationsByType,
-    findPepparsByType,
-    findOtherEnd,
-    replaceForeignKeyWithObject,
-    extractAddedData  
+    findRelationsToPacov,
+    expandPacovsInRelations,
+    expandTypeInPacov,
+    expandTypeInRelation,
+    allignRelationsByPacov 
 }

@@ -67,6 +67,8 @@ class Relation(models.Model):
 
     class Meta:
         ordering = ['type']
+        unique_together = ['pacovA', 'pacovB', 'type']
+
 
     #Function to define default value of name
     def save(self, *args, **kwargs):

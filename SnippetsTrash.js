@@ -166,3 +166,11 @@ function htmlSwitcher(_truetext, _falsetext, _truth) {
         )    
     }
 
+        async componentDidMount() {
+        const pacovs = await this.state.db.getAllPacovs();
+        this.setState({
+            pacovs,
+            loading: false
+        });
+    }
+
