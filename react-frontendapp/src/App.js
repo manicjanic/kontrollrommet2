@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { Route } from "react-router-dom";
 
-import {filterService} from './_services/filter-service'
-
 // Frontend Database
 import DB from './db'
 // Authorized routes with token
@@ -75,6 +73,7 @@ class App extends Component {
                     userpacov={this.state.userpacov}
                     user_functions={this.state.user_functions}
                     selected_function={this.state.selected_function}
+                    modifyState={this.modifyState}
                 />
                 {this.showContent()}
             </div>

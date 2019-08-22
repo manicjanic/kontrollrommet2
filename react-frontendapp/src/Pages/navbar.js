@@ -2,13 +2,29 @@ import React, { Component } from 'react';
 import { Navbar as BootNavbar} from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 
-import {filterService} from '../_services/filter-service'
-
 import NavbarMenu from '../Components/navbar-menu'
 import NavbarUserdropdown from '../Components/navbar-userdropdown'
 
 export default class Navbar extends Component {
     
+    changeDropdownSelection = (e) => {
+        let selected = this.props.user_functions.find(user_function => 
+            e.target.value === user_function.value
+        )
+        this.props.modifyState({selected_function: selected}) 
+    }
+
+    makeDropdownMenu = () => {
+            let menuobjlist = []
+            this.props.user_functions.forEach(userfunction  => {
+                menuobjlist.push({
+                    text: userfunction.organization + " as " + userfunction.userfunction,
+                    value: userfunction.value
+                })   
+            });
+        return menuobjlist
+    }
+
     render() {
         return (
             <div>
@@ -20,8 +36,9 @@ export default class Navbar extends Component {
                     <NavbarUserdropdown 
                         is_loggedin={this.props.is_loggedin}
                         userpacov={this.props.userpacov}
-                        user_functions={this.props.user_functions}
+                        menuobjlist={this.makeDropdownMenu()}
                         selected_function={this.props.selected_function}
+                        changeDropdownSelection={this.changeDropdownSelection}
                         />
                 </BootNavbar>
             </div>

@@ -5,7 +5,7 @@ export default class ShowPacovPage extends Component {
     console.log(pacov)
         return (
             <div>
-                <h1>{pacov.added_data.name}</h1>
+                <h1>{pacov.name}</h1>
                 <h2>{pacov.uuid}</h2>
             </div>
         )

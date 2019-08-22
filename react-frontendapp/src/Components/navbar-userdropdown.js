@@ -1,22 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Navbar } from 'react-bootstrap'
 
 const NavbarUserdropdown = (props) => {
     
-    // Returns list of menuobject with text and value for each choice
-    // [{text: "", value: N}]
-    const makeDropdownMenu = () => {
-        console.log("making menu", props.user_functions)
-            let menuobjlist = []
-            props.user_functions.forEach((userfunction, index)  => {
-                menuobjlist.push({
-                    text: userfunction.organization + " as " + userfunction.userfunction,
-                    value: userfunction.value
-                })   
-            });
-        return menuobjlist
-    }
-
     // Greeting element
     const Greeting = (props) => {
         if (props.userpacov.name) {
@@ -27,14 +13,13 @@ const NavbarUserdropdown = (props) => {
 
     // Dropdown element
     const Dropdown = (props) => {
-        if (props.user_functions.length) {
-            const menuobjlist = makeDropdownMenu()        
-            console.log("menuobjlist", menuobjlist)
+        if (props.menuobjlist.length) {
+            const menuobjlist = props.menuobjlist        
             return (
                 <span> 
                     Your are currently representing
                     <div>
-                        <select>
+                        <select value={props.selected_function.value} onChange={props.changeDropdownSelection}>
                                 <DropdownList menuobjlist={menuobjlist}/>
                         </select>
                     </div>
@@ -44,10 +29,11 @@ const NavbarUserdropdown = (props) => {
         return ""
     }
 
+    // List element
     const DropdownList = (props) => {
         const dropdown = props.menuobjlist.map(item => {
             return(
-                <option value={item.value}>
+                <option value={item.value} key={item.value}>
                     {item.text}
                 </option>
             )
@@ -58,7 +44,11 @@ const NavbarUserdropdown = (props) => {
     return (
             <Navbar.Text>
                 <Greeting userpacov={props.userpacov}/>
-                <Dropdown user_functions={props.user_functions} />
+                <Dropdown 
+                    menuobjlist={props.menuobjlist}
+                    selected_function={props.selected_function}
+                    changeDropdownSelection={props.changeDropdownSelection}
+                />
             </Navbar.Text>
     )   
 };

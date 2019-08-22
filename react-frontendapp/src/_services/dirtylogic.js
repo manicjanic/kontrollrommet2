@@ -13,7 +13,7 @@ const makeUserFunctions = (relations, userpacov, pacovs) => {
         resultlist.push({
             userfunction: filtered_relations[relation].function_name,
             organization: filtered_relations[relation].pacovB.name,
-            value: relation
+            value: relation,
         })
     }
     return resultlist
