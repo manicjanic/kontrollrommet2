@@ -34,7 +34,7 @@ class App extends Component {
         is_loggedin: false,
         
         userpacov: {},
-        user_functions: [],
+        user_representations: [],
         selected_function: {}
     }
 
@@ -59,8 +59,8 @@ class App extends Component {
                 <Route exact path='/login' component={(props) => <LoginPage {...props} modifyState={this.modifyState}/>}/>
                 <Route exact path='/logout' component={(props) => <LogoutPage {...props} modifyState={this.modifyState}/>}/>
                 <PrivateRoute exact path='/loader' component={(props) => <LoaderPage {...props} modifyState={this.modifyState}/>}/>
-                <PrivateRoute exact path='/meetings' component={(props) => <MeetingsPage {...props} pacovs={this.state.pacovs}/>}/>
-                <PrivateRoute exact path='/pacovs' component={(props) => <ListPacovsPage {...props} pacovs={this.state.pacovs}/>}/>
+                <PrivateRoute path='/meetings' component={(props) => <MeetingsPage {...props} pacovs={this.state.pacovs}/>}/>
+                <Route exact path='/pacovs' component={(props) => <ListPacovsPage {...props} pacovs={this.state.pacovs}/>}/>
                 <Route exact path='/pacovs/:id' component={(props) => <ShowPacovPage {...props} pacov={this.state.pacovs[props.match.params.id]}/>}/>
             </div>
         )
@@ -71,7 +71,7 @@ class App extends Component {
                 <Navbar 
                     is_loggedin={this.state.is_loggedin} 
                     userpacov={this.state.userpacov}
-                    user_functions={this.state.user_functions}
+                    user_representations={this.state.user_representations}
                     selected_function={this.state.selected_function}
                     modifyState={this.modifyState}
                 />

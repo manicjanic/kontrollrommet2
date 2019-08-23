@@ -72,7 +72,7 @@ export default class LoaderPage extends Component {
             pacovs: pacovsObj,
             relations: relationsObj,
             userpacov: userpacov,
-            user_functions: userfunctions,
+            user_representations: userfunctions,
             selected_function: userfunctions[0],
             loading: false
         })

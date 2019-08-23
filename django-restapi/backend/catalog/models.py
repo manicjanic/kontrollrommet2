@@ -1,4 +1,6 @@
 from django.db import models
+from jsonfield import JSONField
+
 
 # PACOV Types
 class PACOVType(models.Model):
@@ -13,7 +15,9 @@ class PACOVType(models.Model):
 
     name = models.CharField(max_length=50)
     type = models.CharField(max_length=8, choices=PACOV_TYPE)
-
+    sub_data = JSONField(null=True, blank=True)
+    description= models.TextField(blank=True, null=True)
+    
     class Meta:
         ordering = ['type']
 
@@ -38,6 +42,8 @@ class RelationType(models.Model):
 
     name = models.CharField(max_length=50)
     type = models.CharField(max_length=7, choices=RELATION_TYPE)
+    sub_data = JSONField(null=True, blank=True)
+    description= models.TextField(blank=True, null=True)
 
     class Meta:
         ordering = ['type']

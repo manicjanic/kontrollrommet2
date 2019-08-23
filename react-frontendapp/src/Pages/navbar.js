@@ -8,15 +8,16 @@ import NavbarUserdropdown from '../Components/navbar-userdropdown'
 export default class Navbar extends Component {
     
     changeDropdownSelection = (e) => {
-        let selected = this.props.user_functions.find(user_function => 
-            e.target.value === user_function.value
+        let selected = this.props.user_representations.find(user_representation => 
+            e.target.value === user_representation.value
         )
         this.props.modifyState({selected_function: selected}) 
     }
 
-    makeDropdownMenu = () => {
+    // Takes State data and constructs dropdown content
+    makeDropdownContent = () => {
             let menuobjlist = []
-            this.props.user_functions.forEach(userfunction  => {
+            this.props.user_representations.forEach(userfunction  => {
                 menuobjlist.push({
                     text: userfunction.organization + " as " + userfunction.userfunction,
                     value: userfunction.value
@@ -36,7 +37,7 @@ export default class Navbar extends Component {
                     <NavbarUserdropdown 
                         is_loggedin={this.props.is_loggedin}
                         userpacov={this.props.userpacov}
-                        menuobjlist={this.makeDropdownMenu()}
+                        menuobjlist={this.makeDropdownContent()}
                         selected_function={this.props.selected_function}
                         changeDropdownSelection={this.changeDropdownSelection}
                         />
