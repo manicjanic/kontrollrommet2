@@ -35,7 +35,7 @@ class App extends Component {
         
         userpacov: {},
         user_representations: [],
-        selected_function: {}
+        selected_representation: {}
     }
 
     // Callback function to manipulate state
@@ -59,7 +59,12 @@ class App extends Component {
                 <Route exact path='/login' component={(props) => <LoginPage {...props} modifyState={this.modifyState}/>}/>
                 <Route exact path='/logout' component={(props) => <LogoutPage {...props} modifyState={this.modifyState}/>}/>
                 <PrivateRoute exact path='/loader' component={(props) => <LoaderPage {...props} modifyState={this.modifyState}/>}/>
-                <PrivateRoute path='/meetings' component={(props) => <MeetingsPage {...props} pacovs={this.state.pacovs}/>}/>
+                <PrivateRoute path='/meetings' component={(props) => 
+                    <MeetingsPage {...props} 
+                        pacovs={this.state.pacovs}
+                        relations={this.state.relations}
+                    />
+                }/>
                 <Route exact path='/pacovs' component={(props) => <ListPacovsPage {...props} pacovs={this.state.pacovs}/>}/>
                 <Route exact path='/pacovs/:id' component={(props) => <ShowPacovPage {...props} pacov={this.state.pacovs[props.match.params.id]}/>}/>
             </div>
@@ -72,7 +77,7 @@ class App extends Component {
                     is_loggedin={this.state.is_loggedin} 
                     userpacov={this.state.userpacov}
                     user_representations={this.state.user_representations}
-                    selected_function={this.state.selected_function}
+                    selected_representation={this.state.selected_representation}
                     modifyState={this.modifyState}
                 />
                 {this.showContent()}

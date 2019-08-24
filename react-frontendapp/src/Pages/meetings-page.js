@@ -4,9 +4,21 @@ import { LinkContainer } from 'react-router-bootstrap'
 
 import { PrivateRoute } from '../_components';
 
+import {ConstructionService} from '../_services/construction-service'
+import {dirtyLogic} from '../_services/dirtylogic'
+
 import MeetingRequestForm from "../Components/meetingrequest-form"
 
 export default class MeetingsPage extends Component {
+
+    state = {
+        meetingobjlist: ConstructionService.constructMeetingObjList(this.props.pacovs, this.props.relations)
+    }
+    //Make derived data from State
+    getMeetings() {
+        
+    }
+
     MainPageLayout() {
         return (
             <div>

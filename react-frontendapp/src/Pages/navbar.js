@@ -11,16 +11,16 @@ export default class Navbar extends Component {
         let selected = this.props.user_representations.find(user_representation => 
             e.target.value === user_representation.value
         )
-        this.props.modifyState({selected_function: selected}) 
+        this.props.modifyState({selected_representation: selected}) 
     }
 
-    // Takes State data and constructs dropdown content
+    // Make derived data from State and construct dropdown content
     makeDropdownContent = () => {
             let menuobjlist = []
-            this.props.user_representations.forEach(userfunction  => {
+            this.props.user_representations.forEach(user_representation  => {
                 menuobjlist.push({
-                    text: userfunction.organization + " as " + userfunction.userfunction,
-                    value: userfunction.value
+                    text: user_representation.organization + " as " + user_representation.userrole,
+                    value: user_representation.value
                 })   
             });
         return menuobjlist
@@ -38,7 +38,7 @@ export default class Navbar extends Component {
                         is_loggedin={this.props.is_loggedin}
                         userpacov={this.props.userpacov}
                         menuobjlist={this.makeDropdownContent()}
-                        selected_function={this.props.selected_function}
+                        selected_representation={this.props.selected_representation}
                         changeDropdownSelection={this.changeDropdownSelection}
                         />
                 </BootNavbar>

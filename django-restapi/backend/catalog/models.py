@@ -37,7 +37,7 @@ class RelationType(models.Model):
         ('CON-ACT', '(CON-ACT)'),
         ('CON-VAL', '(CON-VAL)'),
         ('CON-OBJ', '(CON-OBJ)'),
-        
+        ('CON-CON', '(CON-CON)')
     ]
 
     name = models.CharField(max_length=50)

@@ -25,16 +25,19 @@ const findPacovByUUID = (pacovs, uuid) => {
     const pacov = pacovs[uuid]
     return pacov
 }
+
+// Returns new object with filtered result 
 const findPacovsByType = (pacovs, typeid) => {
     console.log("running findPacovsByType with this data:", pacovs, typeid)
-    const pacovslist = Object.values(pacovs);
-    let resultlist = pacovslist.filter(pacov => {    
-        return (
-            pacov.type === typeid 
-        )   
-    })
-    return resultlist
+    let resultobj = {}
+    for (let pacov in pacovs) {
+        if (pacovs[pacov].type === typeid) {
+            resultobj[pacov] = pacovs[pacov]
+        }
+    }
+    return resultobj
 }
+
 
 const findRelationByUUID = (relations, uuid) => {
     console.log("running findRelationByUUID with this data:", uuid, relations)
@@ -42,7 +45,7 @@ const findRelationByUUID = (relations, uuid) => {
     return relation
 }
 
-// Returns new object, NOT list
+// Returns new object with filtered result
 const findRelationsByType = (relations, typeid) => {
     console.log("running findRelationsByType with this data:", relations, typeid)
     let resultobj = {}
@@ -54,7 +57,7 @@ const findRelationsByType = (relations, typeid) => {
     return resultobj
 }
 
-// Returns new object, NOT list
+// Returns new object,
 const findRelationsToPacov = (relations, pacov) => {
     console.log("running findRelationsToPacov with this data:", relations, pacov)
     let resultobj = {}

@@ -26,6 +26,8 @@ class PACOVInsightSerializer(serializers.ModelSerializer):
                 'dateB' : obj.pacov.dateB,
                 'idcode' : obj.pacov.idcode,
                 'question' : obj.pacov.question,
+                'specific_data': obj.pacov.specific_data
+
             }
         elif obj.level == '1':
             return {
@@ -34,7 +36,7 @@ class PACOVInsightSerializer(serializers.ModelSerializer):
                 'dateB' : obj.pacov.dateB,
                 'idcode' : obj.pacov.idcode,
                 'question' : obj.pacov.question,
-
+                'specific_data': obj.pacov.specific_data
             } 
         elif obj.level == '2':
             return {

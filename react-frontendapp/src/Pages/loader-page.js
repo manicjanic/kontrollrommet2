@@ -30,7 +30,8 @@ export default class LoaderPage extends Component {
             relationtypesObj[item.id] = item
         })
         
-        // Structure data for use in Frontend State
+        // Structure data as one object with all pacovs as props for use in Frontend State
+        // Flatten nested content in added_data and specific_data
         let pacovsObj = {}
         pacovs.data.forEach((item, index) => {
             for (let prop in item.added_data) {
@@ -46,7 +47,8 @@ export default class LoaderPage extends Component {
             pacovsObj[item.uuid] = item
         })
         
-        // Structure data for use in Frontend State
+        // Structure data as one object with all relations as props for use in Frontend State
+        // Flatten nested content in added_data and specific_data
         let relationsObj = {}
         relations.data.forEach((item, index) => {
             for (let prop in item.added_data) {
@@ -63,8 +65,8 @@ export default class LoaderPage extends Component {
         })
         // Determine derived state values
         const userpacov = filterService.findUserPacov(pacovsObj)
-        const userfunctions = dirtyLogic.makeUserFunctions(relationsObj, userpacov, pacovsObj)
-        console.log("userfunctions", userfunctions)
+        const user_representations = dirtyLogic.makeUserRelationsList(relationsObj, userpacov, pacovsObj)
+        console.log("userfunctions", user_representations)
         // Set State with prepared data
         this.props.modifyState({
             pacovtypes: pacovtypesObj,
@@ -72,8 +74,8 @@ export default class LoaderPage extends Component {
             pacovs: pacovsObj,
             relations: relationsObj,
             userpacov: userpacov,
-            user_representations: userfunctions,
-            selected_function: userfunctions[0],
+            user_representations: user_representations,
+            selected_representation: user_representations[0],
             loading: false
         })
         

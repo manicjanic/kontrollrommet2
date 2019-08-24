@@ -19,7 +19,7 @@ const NavbarUserdropdown = (props) => {
                 <span> 
                     Your are currently representing
                     <div>
-                        <select value={props.selected_function.value} onChange={props.changeDropdownSelection}>
+                        <select value={props.selected_representation.value} onChange={props.changeDropdownSelection}>
                                 <DropdownList menuobjlist={menuobjlist}/>
                         </select>
                     </div>
@@ -46,7 +46,7 @@ const NavbarUserdropdown = (props) => {
                 <Greeting userpacov={props.userpacov}/>
                 <Dropdown 
                     menuobjlist={props.menuobjlist}
-                    selected_function={props.selected_function}
+                    selected_representation={props.selected_representation}
                     changeDropdownSelection={props.changeDropdownSelection}
                 />
             </Navbar.Text>
