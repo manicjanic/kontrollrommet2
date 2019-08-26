@@ -1,6 +1,6 @@
 import React from 'react';
+import BootstrapTable from 'react-bootstrap-table-next'
 import {Table} from 'react-bootstrap'
-import "bootstrap/dist/css/bootstrap.min.css";
 
 const MeetingList = (props) => {  
     
@@ -11,32 +11,23 @@ const MeetingList = (props) => {
     
     // JSX Elements
     const MainTable = (props) => {
-        return props.my_Meetings.map((meeting, i) => {
+        return props.meetinglist.map((meeting) => {
+            console.log("Meeting", meeting)
             return <TableRow 
                 meeting={meeting}
-                key={i}
-                onSelectMeeting={props.onSelectMeeting}
             />;
         })
     }
 
     const TableRow = (props) => {
         return (
-            <tr onClick={() => rowClick(props.meeting.id)}>
-                <td>{props.meeting.peppar_name}</td>
-                <td>{props.meeting.peppar_dateA}</td>
+            <tr key={props.meeting.uuid} value={props.meeting.uuid}>
+                <td>{props.meeting.text}</td>
             </tr>
         )
     }
 
-    // Event Handlers
-    const rowClick = (id) => {
-        console.log("Clicked", id)
-        props.onSelectMeeting(id)
-    }
-
     return (
-        <div className="container">
             <Table striped bordered hover>
             <thead>
                 <tr>
@@ -45,12 +36,10 @@ const MeetingList = (props) => {
             </thead>
                 <tbody>
                     <MainTable 
-                        my_Meetings={props.my_Meetings}
-                        setMeetingCard={props.setMeetingCard}
+                        meetinglist={props.meetinglist}
                     />
                 </tbody>
             </Table>
-        </div>
     )
     
 }

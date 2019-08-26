@@ -1,4 +1,3 @@
-import {dirtyLogic} from '../_services/dirtylogic'
 
 const meetingpacov = {
     uuid: "",

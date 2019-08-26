@@ -5,20 +5,26 @@ const postLogin = (username, password) => {
     return postalService.post(payload, "userlogin/")
 }
 
-const getPacovs = () => {
-    return postalService.get_auth("api/user/pacovs/")    
+const getPacovs = async () => {
+    const returnobj = await postalService.get_auth("api/user/pacovs/") 
+    return returnobj.data    
 }
 
-const getRelations = () => {
-    return postalService.get_auth("api/user/relations/")    
+const getRelations = async () => {
+    const returnobj = await postalService.get_auth("api/user/relations/") 
+    return returnobj.data   
 }
 
-const getPacovTypes = () => {
-    return postalService.get_auth("api/catalog/pacovtype/")    
+const getPacovTypes = async () => {
+    const returnobj = await postalService.get_auth("api/catalog/pacovtype/")
+    console.log("returnobj", returnobj.data)
+    return returnobj.data   
 }
 
-const getRelationTypes = () => {
-    return postalService.get_auth("api/catalog/relationtype/")    
+const getRelationTypes = async () => {
+    const returnobj = await postalService.get_auth("api/catalog/relationtype/")
+    console.log("returnobj", returnobj.data)
+    return returnobj.data    
 }
 
 export const dataService = {

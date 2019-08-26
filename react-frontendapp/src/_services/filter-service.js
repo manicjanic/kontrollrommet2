@@ -1,23 +1,29 @@
 //Search Functions
+
+// PacovType
 const findPacovType = (types, typeid) => {
     console.log("running findPacovType with this data:", typeid)
     const pacovtype = types[typeid]
     return pacovtype
 }
 
+// RelationType
 const findRelationType = (types, typeid) => {
     console.log("running findPacovType with this data:", typeid)
     const pacovtype = types[typeid]
     return pacovtype
 }
 
-const findUserPacov = (pacovs) => {
-    console.log("running findUserPacov with this data:", pacovs)
-    const pacovslist = Object.values(pacovs);
-    let user_pacov = pacovslist.find(pacov => {
-        return pacov.level === "0"
-    })
-    return user_pacov
+// Pacovs
+const findPacovsByLevel = (pacovs, level) => {
+    console.log("running findPacovsByLevel with this data:", pacovs, level)
+    let resultobj = {}
+    for (let pacov in pacovs) {
+        if (pacovs[pacov].level === level) {
+            resultobj[pacov] = pacovs[pacov]
+        }
+    }
+    return resultobj
 }
 
 const findPacovByUUID = (pacovs, uuid) => {
@@ -26,7 +32,6 @@ const findPacovByUUID = (pacovs, uuid) => {
     return pacov
 }
 
-// Returns new object with filtered result 
 const findPacovsByType = (pacovs, typeid) => {
     console.log("running findPacovsByType with this data:", pacovs, typeid)
     let resultobj = {}
@@ -38,6 +43,17 @@ const findPacovsByType = (pacovs, typeid) => {
     return resultobj
 }
 
+// Relations
+const findRelationsByLevel = (relations, level) => {
+    console.log("running findRelationsByLevel with this data:", relations, level)
+    let resultobj = {}
+    for (let relation in relations) {
+        if (relations[relation].level === level) {
+            resultobj[relation] = relations[relation]
+        }
+    }
+    return resultobj
+}
 
 const findRelationByUUID = (relations, uuid) => {
     console.log("running findRelationByUUID with this data:", uuid, relations)
@@ -45,7 +61,6 @@ const findRelationByUUID = (relations, uuid) => {
     return relation
 }
 
-// Returns new object with filtered result
 const findRelationsByType = (relations, typeid) => {
     console.log("running findRelationsByType with this data:", relations, typeid)
     let resultobj = {}
@@ -57,7 +72,6 @@ const findRelationsByType = (relations, typeid) => {
     return resultobj
 }
 
-// Returns new object,
 const findRelationsToPacov = (relations, pacov) => {
     console.log("running findRelationsToPacov with this data:", relations, pacov)
     let resultobj = {}
@@ -68,7 +82,6 @@ const findRelationsToPacov = (relations, pacov) => {
     }
     return resultobj
 }
-
 
 const expandPacovsInRelations = (pacovs, relations) => {
     console.log("running expandPacovsInRelations with this data:", pacovs, relations)
@@ -118,11 +131,12 @@ const allignRelationsByPacov = (relations, pacov) => {
 export const filterService = {
     findPacovType,
     findRelationType,
-    findUserPacov,
+    findPacovsByLevel,
     findPacovByUUID,
     findPacovsByType,
     findRelationByUUID,
     findRelationsByType,
+    findRelationsByLevel,
     findRelationsToPacov,
     expandPacovsInRelations,
     expandTypeInPacov,

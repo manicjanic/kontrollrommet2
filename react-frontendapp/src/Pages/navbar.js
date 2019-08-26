@@ -16,14 +16,14 @@ export default class Navbar extends Component {
 
     // Make derived data from State and construct dropdown content
     makeDropdownContent = () => {
-            let menuobjlist = []
+            let menuobj_list = []
             this.props.user_representations.forEach(user_representation  => {
-                menuobjlist.push({
-                    text: user_representation.organization + " as " + user_representation.userrole,
-                    value: user_representation.value
-                })   
+                let menuobj = {}
+                menuobj.text = user_representation.organization + " as " + user_representation.userrole
+                menuobj.value = user_representation.value
+                menuobj_list.push(menuobj)   
             });
-        return menuobjlist
+        return menuobj_list
     }
 
     render() {

@@ -35,8 +35,8 @@ function handleError(error) {
     return responseobj
 }
 function handleResponse(response) {
-    console.log("Response", response)
     const {data, status} = response
     const responseobj = {error: false, data: data, status: status}
+    console.log("Responseobj", responseobj)
     return responseobj
 }
