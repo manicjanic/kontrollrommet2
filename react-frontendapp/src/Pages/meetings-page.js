@@ -6,46 +6,90 @@ import { PrivateRoute } from '../_components';
 import {ConstructionService} from '../_services/construction-service'
 
 import MeetingRequestForm from "../Components/meetingrequest-form"
-import MeetingList from "../Components/meetings-list"
+import MeetingsTable from "../Components/meetings-table"
 import MeetingCard from "../Components/meeting-card"
 
 export default class MeetingsPage extends Component {
 
     state = {
-        meetingobjlist: ConstructionService.constructMeetingObjList(this.props.pacovs, this.props.relations)
+        meetingobjlist: ConstructionService.constructMeetingObjList(this.props.pacovs, this.props.relations),
+        selected_meeting_uuid: ""
+    }
+
+    // Callback for choosing selected meeting
+    changeMeetingSelection = (uuid) => {
+        this.setState({selected_meeting_uuid: uuid})
     }
 
     //Make derived data from State
-    makeListContent() {
-        let listobj_list = []
+    makeTableData() {
+        let tableobj = []
         this.state.meetingobjlist.forEach((meetingobj) => {
             // Constuct Listobj
-            let listobj = {}
-            let date = new Date(meetingobj.suggested_date)
-            listobj.text = meetingobj.type + " i " + meetingobj.organization.name + ", " + date.toLocaleDateString()
+            let rowobj = {}
+            let date = ""
+            if (!meetingobj.suggested_date) {date = "no date"}
+            else {date = new Date(meetingobj.suggested_date).toLocaleDateString()}
+            // If no Meeting type, set generic text
+            if (!meetingobj.type) {meetingobj.type = "Meeting"}
+            rowobj.text = meetingobj.type + " i " + meetingobj.organization.name
             if (meetingobj.status === "DRAFT") {
-                listobj.text += " (Draft)"
+                rowobj.text += " (Draft)"
             }
-            listobj.value = meetingobj.uuid
+            rowobj.date = date
+            rowobj.id = meetingobj.uuid
             // Add Listobj
-            listobj_list.push(listobj)   
+            tableobj.push(rowobj)   
         })   
-        console.log ("listobjlist", listobj_list)
-        return listobj_list    
+        console.log ("tableobj", tableobj)
+        return tableobj    
     }
     
     makeMeetingCardData() {
-        return ""
+        if (this.state.selected_meeting_uuid) {
+            let cardobj = {}
+            let meetingobj = this.state.meetingobjlist.find(m => m.uuid === this.state.selected_meeting_uuid)
+            let date = ""
+            if (!meetingobj.suggested_date) {date = "no date"}
+            else {date = new Date(meetingobj.suggested_date).toLocaleDateString()}
+            cardobj.headline = meetingobj.type + " i " + meetingobj.organization.name + " - " + date
+            cardobj.participants = []
+            meetingobj.participants.forEach(participant => {
+                let listobj = {}
+                listobj.text = participant.person_pacov.name
+                listobj.id = participant.person_pacov.uuid
+                cardobj.participants.push(listobj)
+            })
+            cardobj.topics = []
+            const orderedtopics = meetingobj.topics.sort((a, b) => a.listposition - b.listposition)
+            orderedtopics.forEach(topic => {
+                let listobj = {}
+                listobj.text = topic.topic_pacov.name
+                listobj.id = topic.listposition
+                cardobj.topics.push(listobj)
+            })
+
+            return cardobj
+        }
+        return undefined
     }
+   
+    // Layout
     MainPageLayout = () => {
         return (
             <div>
                 <Row>
                     <Col>
-                        <MeetingList meetinglist={this.makeListContent()} />
+                        <MeetingsTable 
+                            tabledata={this.makeTableData()} 
+                            changeMeetingSelection={this.changeMeetingSelection}
+                        />
                     </Col>
                     <Col>
-                        <MeetingCard meetingcarddata={this.makeMeetingCardData()}/>
+                        <MeetingCard 
+                            meetingcarddata={this.makeMeetingCardData()}
+                            is_selected={this.state.selected_meeting_uuid ? true : false}
+                        />
                     </Col>
                 </Row>
                 <Row>
@@ -57,6 +101,7 @@ export default class MeetingsPage extends Component {
         )
     }
 
+    // Layout
     NewMeetingRequestLayout() {
         console.log("Running new meeting request layout")
         return (

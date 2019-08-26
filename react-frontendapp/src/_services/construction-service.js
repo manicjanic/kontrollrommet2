@@ -87,6 +87,7 @@ const constructMeetingObjList = (pacovs, relations) => {
         let request_relation = Object.values(filterService.findRelationsByType(meetingrelations,19))[0]
         let organization_relation = Object.values(filterService.findRelationsByType(meetingrelations,20))[0]
         let request_pacov = filterService.findPacovByUUID(pacovs, request_relation.pacovB)
+        let topic_relations = filterService.findRelationsByType(meetingrelations, 21)
         let requestpacov_relations = filterService.findRelationsToPacov(relations, request_pacov)
         // (Align)
         requestpacov_relations = filterService.allignRelationsByPacov(requestpacov_relations, request_pacov)                                
@@ -118,6 +119,14 @@ const constructMeetingObjList = (pacovs, relations) => {
                 invite_accepted: false
             }
             meetingobj.participants.push(participant)
+        }
+        meetingobj.topics = []
+        for (let topic_relation in topic_relations) {
+            let topic = {
+                topic_pacov: filterService.findPacovByUUID(pacovs, topic_relations[topic_relation].pacovB),
+                listposition: parseInt(topic_relations[topic_relation].idcode)
+            }
+            meetingobj.topics.push(topic)
         }
         // Add to List
         resultlist.push(meetingobj)

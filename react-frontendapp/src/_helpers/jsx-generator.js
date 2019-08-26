@@ -1,15 +1,16 @@
 import React from 'react';
 
-// itemlist = objectlist with data
-// outputkey = key in object for the data that is to be displayed
+// Simple repeatable jsx components 
+// itemlist = Array of objects
 // idkey = key in object that is used for id purposes
-// Takes a list of items, writes up data on specific key from each item in a commalist.
-const commalist = (Obj) => {
-    const { itemlist, outputkey } = Obj
+
+// Takes a list of items, writes them as one text with commas.
+const commalist = (props) => {
+    const { itemlist } = props
     const length = itemlist.length
     let result_string = ""
     itemlist.forEach((item ,i) => {
-        result_string += item[outputkey]
+        result_string += item.text
         if (length !== i+1) {
             result_string += ", "
         }
@@ -17,19 +18,11 @@ const commalist = (Obj) => {
     return (<span>{result_string}</span>)
 }
 
-const list = (Obj) => {
-    const { itemlist, outputkey, idkey } = Obj
-    console.log("list working", itemlist, outputkey, idkey)
-    const List = (props) => {
-        console.log("itemlist", props.itemlist)
-        return props.itemlist.map(item => {
-            return (<li key={item[props.idkey]} value={item[props.idkey]}>{item[outputkey]}</li>)
-        })
-    }
-    
+
+const list = (props) => {
     return (
         <ul>
-            <List itemlist={itemlist} idkey={idkey}/>
+            {props.itemlist.map(item => <li key={item.id} value={item.id}>{item.text}</li>)}
         </ul>
     )
 }

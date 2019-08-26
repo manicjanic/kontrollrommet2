@@ -16,12 +16,12 @@ const MeetingCard = (props) => {
     const Agendalist = (props)  => 
         jsxGenerator.list({itemlist: props.agenda, outputkey: "peppar_name", idkey: "id"})
 
-    const Inviteds = (props) => {
-        if (props.meetingcarddata.inviteds.length) {
+    const Participants = (props) => {
+        if (props.meetingcarddata.participants.length) {
             return (
                 <span>
                     <span style={{fontWeight: 'bold'}}>Inviterte: </span> 
-                    <Invitedlist inviteds={props.meetingcarddata.inviteds}/>
+                    {jsxGenerator.commalist({itemlist: props.meetingcarddata.participants})}
                 </span>
             )    
                 
@@ -41,15 +41,14 @@ const MeetingCard = (props) => {
         return ""    
     }
 
-    if (props.meetingcarddata) {
+    if (props.meetingcarddata.is_selected) {
         return (
             <Card>
                 <Card.Body>
                     <Card.Title>{props.meetingcarddata.headline}</Card.Title>
-                    <Inviteds meetingcarddata={props.meetingcarddata}/>
+                    <Participants meetingcarddata={props.meetingcarddata}/>
                     <br/>
                     <br/>
-                    <Topics meetingcarddata={props.meetingcarddata}/>
                     <Button variant="primary" onClick={() => props.onStartMeeting(props.meetingcarddata.id)}>Start Møte</Button>
                 </Card.Body>                    
             </Card>

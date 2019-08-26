@@ -5,19 +5,26 @@ import {jsxGenerator} from '../_helpers/jsx-generator'
 
 const MeetingCard = (props) => {
     
-    const Invitedlist = (props) => 
-        jsxGenerator.commalist({itemlist: props.inviteds, outputkey: "peppar_name"}) 
-    
-    const Agendalist = (props)  => 
-        jsxGenerator.list({itemlist: props.agenda, outputkey: "peppar_name", idkey: "id"})
-
-    const Inviteds = (props) => {
-        if (props.meetingcarddata.inviteds.length) {
+    const Participants = (props) => {
+        if (props.meetingcarddata.participants.length) {
             return (
                 <span>
                     <span style={{fontWeight: 'bold'}}>Inviterte: </span> 
-                    <Invitedlist inviteds={props.meetingcarddata.inviteds}/>
+                    <jsxGenerator.commalist itemlist={props.meetingcarddata.participants}/>
                 </span>
+            )    
+                
+        }
+        return ""    
+    }
+
+    const Topics = (props) => {
+        if (props.meetingcarddata.topics.length) {
+            return (
+                <div>
+                    <div style={{fontWeight: 'bold'}}>Agenda: </div> 
+                    <jsxGenerator.list itemlist={props.meetingcarddata.topics}/>
+                </div>
             )    
                 
         }
@@ -29,10 +36,10 @@ const MeetingCard = (props) => {
             <Card>
                 <Card.Body>
                     <Card.Title>{props.meetingcarddata.headline}</Card.Title>
-                    <Inviteds meetingcarddata={props.meetingcarddata}/>
-                    <br/>
+                    <Participants meetingcarddata={props.meetingcarddata}/>
                     <br/>
                     <Topics meetingcarddata={props.meetingcarddata}/>
+                    <br/>
                     <Button variant="primary" onClick={() => props.onStartMeeting(props.meetingcarddata.id)}>Start Møte</Button>
                 </Card.Body>                    
             </Card>
