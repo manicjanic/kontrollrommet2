@@ -2,15 +2,16 @@ import uuid as uuid_field
 from django.db import models
 from django.contrib.postgres.fields import JSONField
 
-from catalog.models import PACOVType
-from catalog.models import RelationType
+from catalog.models import PACOVType, PACOVSubType
+from catalog.models import RelationType, RelationSubType
 
 # PACOV CORE MODEL
 class PACOV(models.Model):
     #Unique identification
     uuid = models.UUIDField(default=uuid_field.uuid4, unique=True, editable=False)
     # Type specification of PEPPAR
-    type = models.ForeignKey(PACOVType, on_delete=models.CASCADE, related_name='pacov_type', blank=False, null=False)
+    type = models.ForeignKey(PACOVType, on_delete=models.CASCADE, blank=False, null=False)
+    subtype = models.ForeignKey(PACOVSubType, on_delete=models.CASCADE, blank=True, null=True)
     # The Name Element
     name = models.CharField(max_length=500, blank=True)
     # The two Time Elements
@@ -34,13 +35,13 @@ class PACOV(models.Model):
     def save(self, *args, **kwargs):
         if not self.name:
             if self.dateA:
-                self.name = self.type.name + " " + str(self.dateA.year) 
+                self.name = self.subtype.name + " " + str(self.dateA.year) 
             else:
-                self.name = self.type.name 
+                self.name = self.subtype.name 
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.name + " (" + self.type.type + ")"
+        return self.name + " (" + self.subtype + ")"
 
 
 # PACOV RELATIONAL MODEL
@@ -48,7 +49,8 @@ class Relation(models.Model):
     #Unique identification
     uuid = models.UUIDField(default=uuid_field.uuid4, unique=True, editable=False)
     # Type specification of Relation
-    type = models.ForeignKey(RelationType, on_delete=models.CASCADE, related_name='relation_type', blank=False, null=False)
+    type = models.ForeignKey(RelationType, on_delete=models.CASCADE, blank=False, null=False)
+    subtype = models.ForeignKey(PACOVSubType, on_delete=models.CASCADE, blank=True, null=True)
     # Name
     name = models.CharField(max_length=500, blank=True )
     #PACOVs connected

@@ -10,18 +10,25 @@ export default class LoaderPage extends Component {
         // Get the data async in one promise
         const [
             pacovtypes_list, 
-            relationtypes_list, 
+            relationtypes_list,
+            pacovsubtypes_list,
+            relationsubtypes_list, 
             pacovs_list, 
             relations_list,
         ] = await Promise.all([
             dataService.getPacovTypes(),
             dataService.getRelationTypes(),
+            dataService.getPacovSubTypes(),
+            dataService.getRelationSubTypes(),
             dataService.getPacovs(), 
             dataService.getRelations(),
         ]);
         // Construct data for use in Frontend State
         let pacovtypes = ConstructionService.constructCatalogListObject(pacovtypes_list)
         let relationtypes = ConstructionService.constructCatalogListObject(relationtypes_list)
+        let pacovsubtypes = ConstructionService.constructCatalogListObject(pacovsubtypes_list)
+        let relationsubtypes = ConstructionService.constructCatalogListObject(relationsubtypes_list)
+
         let pacovs = ConstructionService.constructPacovsListObject(pacovs_list)
         let relations = ConstructionService.constructPacovsListObject(relations_list)
         // Find userpacov and Extract for State
@@ -32,6 +39,8 @@ export default class LoaderPage extends Component {
         this.props.modifyState({
             pacovtypes: pacovtypes,
             relationtypes: relationtypes,
+            pacovsubtypes: pacovsubtypes,
+            relationsubtypes: relationsubtypes,
             pacovs: pacovs, 
             relations: relations,
             userpacov: userpacov,

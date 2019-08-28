@@ -14,17 +14,17 @@ class PACOVType(models.Model):
     ]
 
     name = models.CharField(max_length=50)
-    type = models.CharField(max_length=8, choices=PACOV_TYPE, null=False)
+    pacov_type = models.CharField(max_length=8, choices=PACOV_TYPE, null=False)
     sub_data = JSONField(null=True, blank=True)
     description= models.TextField(blank=True, null=True)
     
     class Meta:
-        ordering = ['type']
+        ordering = ['pacov_type']
 
     def __str__(self):
         return self.type + "/" + self.name
 
-# PACOV Sub-Types
+# Default Schemes for all types
 class DefaultScheme(models.Model):
     scheme = JSONField(null=True, blank=True)
 
@@ -57,12 +57,12 @@ class RelationType(models.Model):
     ]
 
     name = models.CharField(max_length=50)
-    type = models.CharField(max_length=7, choices=RELATION_TYPE)
+    relation_type = models.CharField(max_length=7, choices=RELATION_TYPE)
     sub_data = JSONField(null=True, blank=True)
     description= models.TextField(blank=True, null=True)
 
     class Meta:
-        ordering = ['type']
+        ordering = ['relation_type']
 
     def __str__(self):
         return self.name + "/" + self.type

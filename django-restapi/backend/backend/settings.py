@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import psycopg2.extensions
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -85,15 +86,17 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
+# Set up for local postgresql functionality
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'hlfgipjo',
-        'USER' : 'hlfgipjo',
-        'PASSWORD' : 'Sc7HsbZ9ObpH5GayxD70kB3P-8OBX6mf',
-        'HOST' : 'balarama.db.elephantsql.com',
-        'PORT' : '5432'
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'kontrollrommetdb',
+        'USER' : 'Janic',
+        'PASSWORD' : '',
+        'HOST' : 'localhost',
+        'PORT' : '',
     }
+
 }
 
 

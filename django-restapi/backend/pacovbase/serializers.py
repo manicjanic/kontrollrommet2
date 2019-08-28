@@ -6,7 +6,7 @@ class PACOVSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PACOV
-        fields = ('uuid', 'name', 'type', 'dateA', 'dateB', 'idcode', 'question', 'specific_data')
+        fields = ('uuid', 'name', 'type', 'subtype', 'dateA', 'dateB', 'idcode', 'question', 'specific_data')
         read_only_fields = ('uuid', 'name')
 
     def create(self, validated_data):
@@ -38,7 +38,7 @@ class RelationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Relation
-        fields = ('uuid', 'name', 'type', 'pacovA', 'pacovB', 'dateA', 'dateB', 'idcode', 'question', 'specific_data')
+        fields = ('uuid', 'name', 'type', 'subtype', 'pacovA', 'pacovB', 'dateA', 'dateB', 'idcode', 'question', 'specific_data')
         read_only_fields = ( 'uuid', )
 
     # Establish a fields argument to dynamically choose wich fields to serialize

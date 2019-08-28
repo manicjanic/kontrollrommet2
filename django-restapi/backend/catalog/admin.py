@@ -3,10 +3,10 @@ from django.contrib import admin
 from .models import PACOVType, RelationType, PACOVSubType, RelationSubType, DefaultScheme
 
 class PACOVTypeAdmin(admin.ModelAdmin):
-    list_display = ('name', 'type',)    
+    list_display = ('name', 'pacov_type',)    
 
 class RelationTypeAdmin(admin.ModelAdmin):
-    list_display = ('name', 'type')    
+    list_display = ('name', 'relation_type')    
 
 class PACOVSubTypeAdmin(admin.ModelAdmin):
     list_display = ('name', 'maintype', 'defaultscheme')    

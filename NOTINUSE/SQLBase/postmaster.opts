@@ -1,0 +1,1 @@
+/Applications/Postgres.app/Contents/Versions/11/bin/postgres "-D" "/Users/Janic/Coding_projects/kontrollrommet2/SQLBase" "-p" "5432"

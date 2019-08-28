@@ -1,0 +1,25 @@
+2019-08-28 15:09:01.845 CEST [23375] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2019-08-28 15:09:01.845 CEST [23375] LOG:  listening on IPv6 address "::1", port 5432
+2019-08-28 15:09:01.846 CEST [23375] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2019-08-28 15:09:01.865 CEST [23376] LOG:  database system was shut down at 2019-08-28 15:09:01 CEST
+2019-08-28 15:09:01.878 CEST [23375] LOG:  database system is ready to accept connections
+2019-08-28 15:46:07.494 CEST [23375] LOG:  received fast shutdown request
+2019-08-28 15:46:07.495 CEST [23375] LOG:  aborting any active transactions
+2019-08-28 15:46:07.497 CEST [23375] LOG:  background worker "logical replication launcher" (PID 23382) exited with exit code 1
+2019-08-28 15:46:07.497 CEST [23377] LOG:  shutting down
+2019-08-28 15:46:07.507 CEST [23375] LOG:  database system is shut down
+2019-08-28 17:03:29.341 CEST [24924] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2019-08-28 17:03:29.341 CEST [24924] LOG:  listening on IPv6 address "::1", port 5432
+2019-08-28 17:03:29.342 CEST [24924] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2019-08-28 17:03:29.357 CEST [24925] LOG:  database system was shut down at 2019-08-28 15:46:07 CEST
+2019-08-28 17:03:29.365 CEST [24924] LOG:  database system is ready to accept connections
+2019-08-28 17:06:04.840 CEST [25026] FATAL:  role "janic" does not exist
+2019-08-28 17:06:12.815 CEST [25040] FATAL:  role "KontrollRommetSQLBase" does not exist
+2019-08-28 18:34:25.495 CEST [24924] LOG:  received fast shutdown request
+2019-08-28 18:34:25.496 CEST [24924] LOG:  aborting any active transactions
+2019-08-28 18:34:25.496 CEST [25382] FATAL:  terminating connection due to administrator command
+2019-08-28 18:34:25.496 CEST [25384] FATAL:  terminating connection due to administrator command
+2019-08-28 18:34:25.497 CEST [25344] FATAL:  terminating connection due to administrator command
+2019-08-28 18:34:25.498 CEST [24924] LOG:  background worker "logical replication launcher" (PID 24931) exited with exit code 1
+2019-08-28 18:34:25.500 CEST [24926] LOG:  shutting down
+2019-08-28 18:34:25.511 CEST [24924] LOG:  database system is shut down
