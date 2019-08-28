@@ -14,7 +14,7 @@ class PACOVType(models.Model):
     ]
 
     name = models.CharField(max_length=50)
-    type = models.CharField(max_length=8, choices=PACOV_TYPE)
+    type = models.CharField(max_length=8, choices=PACOV_TYPE, null=False)
     sub_data = JSONField(null=True, blank=True)
     description= models.TextField(blank=True, null=True)
     
@@ -23,6 +23,22 @@ class PACOVType(models.Model):
 
     def __str__(self):
         return self.type + "/" + self.name
+
+# PACOV Sub-Types
+class DefaultScheme(models.Model):
+    scheme = JSONField(null=True, blank=True)
+
+    def __str__(self):
+        return str(self.scheme)
+
+# PACOV Sub-Types
+class PACOVSubType(models.Model):
+    maintype = models.ForeignKey(PACOVType, on_delete=models.CASCADE, blank=False, null=False)
+    name = models.CharField(max_length=50)
+    defaultscheme = models.ForeignKey(DefaultScheme, on_delete=models.CASCADE, blank=True, null=True)
+
+    def __str__(self):
+        return self.maintype.name + ": " + self.name
 
 # Relation Types
 class RelationType(models.Model):
@@ -51,3 +67,11 @@ class RelationType(models.Model):
     def __str__(self):
         return self.name + "/" + self.type
 
+# PACOV Sub-Types
+class RelationSubType(models.Model):
+    maintype = models.ForeignKey(PACOVType, on_delete=models.CASCADE, blank=False, null=False)
+    name = models.CharField(max_length=50)
+    defaultscheme = models.ForeignKey(DefaultScheme, on_delete=models.CASCADE, blank=True, null=True)
+    
+    def __str__(self):
+        return self.maintype.name + ": " + self.name

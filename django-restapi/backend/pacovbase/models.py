@@ -1,6 +1,6 @@
 import uuid as uuid_field
 from django.db import models
-from jsonfield import JSONField
+from django.contrib.postgres.fields import JSONField
 
 from catalog.models import PACOVType
 from catalog.models import RelationType
@@ -30,10 +30,13 @@ class PACOV(models.Model):
     class Meta:
         ordering = ['type']
 
-    #Constructing the Name field based on data in other fields
+    #If no Name has been made before this step, name field is created based on data in other fields
     def save(self, *args, **kwargs):
         if not self.name:
-            self.name = self.type.name
+            if self.dateA:
+                self.name = self.type.name + " " + str(self.dateA.year) 
+            else:
+                self.name = self.type.name 
         super().save(*args, **kwargs)
 
     def __str__(self):

@@ -6,6 +6,7 @@ from user import views as user
 from pacovbase import views as base_views
 from catalog import views as catalog_views 
 from user_views import views as user_views
+from user_views import register_views as register_views
 
 # FULL CALLS FOR TESTING PURPOSES ONLY
 test_router = routers.DefaultRouter()
@@ -18,7 +19,10 @@ user_router.register(r'relations', user_views.RelationInsightView, 'user_relatio
 # CATALOG calls
 catalog_router = routers.DefaultRouter()
 catalog_router.register(r'pacovtype', catalog_views.PACOVTypeView, 'pacovtype')     
-catalog_router.register(r'relationtype', catalog_views.RelationTypeView, 'relationtype')     
+catalog_router.register(r'relationtype', catalog_views.RelationTypeView, 'relationtype')
+# REGISTRATION calls
+# register_router = routers.DefaultRouter()
+# register_router.register(r'pacov', register_views.RegisterPacovView, 'pacov')
 
 urlpatterns = [
     #Full Calls FOR TESTING
@@ -29,10 +33,12 @@ urlpatterns = [
     path('api/catalog/', include(catalog_router.urls)),
     #API USER calls
     path('api/user/', include(user_router.urls)),
-    path('api/user/me', user_views.PACOVLevelZero.as_view(), name='me'),
+    # REGISTRATION calls
+#    path('api/user/register/', include(register_router.urls)),
     #Standalone calls
     path('usercreate/', user.UserCreate.as_view(), name='user_create'),
-    path("userlogin/", user.UserLoginView.as_view(), name="user_login"),               
+    path('userlogin/', user.UserLoginView.as_view(), name="user_login"),
+    path('api/user/register/pacov', register_views.RegisterPacovView.as_view(), name='registerpacov')               
 ]
 
 """backend URL Configuration
