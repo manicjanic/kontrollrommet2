@@ -2,15 +2,15 @@ import uuid as uuid_field
 from django.db import models
 from django.contrib.postgres.fields import JSONField
 
-from catalog.models import PACOVType, PACOVSubType
-from catalog.models import RelationType, RelationSubType
+from catalog.models import CoreType, PACOVSubType
+from catalog.models import CoreRelationType, RelationSubType
 
 # PACOV CORE MODEL
 class PACOV(models.Model):
     #Unique identification
     uuid = models.UUIDField(default=uuid_field.uuid4, unique=True, editable=False)
     # Type specification of PEPPAR
-    type = models.ForeignKey(PACOVType, on_delete=models.CASCADE, blank=False, null=False)
+    type = models.ForeignKey(CoreType, on_delete=models.CASCADE, blank=False, null=False)
     subtype = models.ForeignKey(PACOVSubType, on_delete=models.CASCADE, blank=True, null=True)
     # The Name Element
     name = models.CharField(max_length=500, blank=True)
@@ -35,13 +35,13 @@ class PACOV(models.Model):
     def save(self, *args, **kwargs):
         if not self.name:
             if self.dateA:
-                self.name = self.subtype.name + " " + str(self.dateA.year) 
+                self.name = self.type.name + " " + str(self.dateA.year) 
             else:
-                self.name = self.subtype.name 
+                self.name = self.type.name 
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.name + " (" + self.subtype + ")"
+        return self.name + " (" + self.type.name + ")"
 
 
 # PACOV RELATIONAL MODEL
@@ -49,7 +49,7 @@ class Relation(models.Model):
     #Unique identification
     uuid = models.UUIDField(default=uuid_field.uuid4, unique=True, editable=False)
     # Type specification of Relation
-    type = models.ForeignKey(RelationType, on_delete=models.CASCADE, blank=False, null=False)
+    type = models.ForeignKey(CoreRelationType, on_delete=models.CASCADE, blank=False, null=False)
     subtype = models.ForeignKey(PACOVSubType, on_delete=models.CASCADE, blank=True, null=True)
     # Name
     name = models.CharField(max_length=500, blank=True )

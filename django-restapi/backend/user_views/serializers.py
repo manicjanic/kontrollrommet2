@@ -3,13 +3,13 @@ from django.shortcuts import get_object_or_404
 
 from .models import PACOVInsight, RelationInsight
 from pacovbase.models import PACOV, Relation
-from catalog.models import PACOVType, RelationType
+from catalog.models import CoreType, CoreRelationType
 
 # PACOV Insight by User
 class PACOVInsightSerializer(serializers.ModelSerializer):
     # Representation of data from related the PACOV
     uuid = serializers.SlugRelatedField(source='pacov', slug_field='uuid', queryset=PACOV.objects.all())
-    type = serializers.SlugRelatedField(source='pacov.type', slug_field='id', queryset=PACOVType.objects.all())
+    type = serializers.SlugRelatedField(source='pacov.type', slug_field='id', queryset=CoreType.objects.all())
     # Method field that builds and object with visible data, based on type and user's insight level
     added_data = serializers.SerializerMethodField()
     

@@ -1,15 +1,15 @@
 from rest_framework import viewsets         
 
-from .serializers import PACOVTypeSerializer, PACOVSubTypeSerializer, RelationTypeSerializer, RelationSubTypeSerializer
-from .models import PACOVType, PACOVSubType, RelationType, RelationSubType
+from .serializers import CoreTypeSerializer, PACOVSubTypeSerializer, CoreRelationTypeSerializer, RelationSubTypeSerializer
+from .models import CoreType, PACOVSubType, CoreRelationType, RelationSubType
 
-class PACOVTypeView(viewsets.ModelViewSet):
-    serializer_class = PACOVTypeSerializer          
-    queryset = PACOVType.objects.all()              
+class CoreTypeView(viewsets.ModelViewSet):
+    serializer_class = CoreTypeSerializer          
+    queryset = CoreType.objects.all()              
 
-class RelationTypeView(viewsets.ModelViewSet):
-    serializer_class = RelationTypeSerializer          
-    queryset = RelationType.objects.all()              
+class CoreRelationTypeView(viewsets.ModelViewSet):
+    serializer_class = CoreRelationTypeSerializer          
+    queryset = CoreRelationType.objects.all()              
 
 class PACOVSubTypeView(viewsets.ModelViewSet):
     serializer_class = PACOVSubTypeSerializer          

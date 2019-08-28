@@ -1,15 +1,15 @@
 from rest_framework import serializers
 
-from .models import PACOVType, PACOVSubType, RelationType, RelationSubType, DefaultScheme
+from .models import CoreType, PACOVSubType, CoreRelationType, RelationSubType, DefaultScheme
 
-class PACOVTypeSerializer(serializers.ModelSerializer):
+class CoreTypeSerializer(serializers.ModelSerializer):
     class Meta:
-        model = PACOVType
+        model = CoreType
         fields = ('__all__')
 
-class RelationTypeSerializer(serializers.ModelSerializer):
+class CoreRelationTypeSerializer(serializers.ModelSerializer):
     class Meta:
-        model = RelationType
+        model = CoreRelationType
         fields = ( '__all__' )
 
 class PACOVSubTypeSerializer(serializers.ModelSerializer):

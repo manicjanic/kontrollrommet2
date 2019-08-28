@@ -18,8 +18,8 @@ user_router.register(r'pacovs', user_views.PACOVInsightView, 'user_pacovs')
 user_router.register(r'relations', user_views.RelationInsightView, 'user_relations')     
 # CATALOG calls
 catalog_router = routers.DefaultRouter()
-catalog_router.register(r'pacovtype', catalog_views.PACOVTypeView, 'pacovtype')     
-catalog_router.register(r'relationtype', catalog_views.RelationTypeView, 'relationtype')
+catalog_router.register(r'pacovtype', catalog_views.CoreTypeView, 'pacovtype')     
+catalog_router.register(r'relationtype', catalog_views.CoreRelationTypeView, 'relationtype')
 catalog_router.register(r'pacovsubtype', catalog_views.PACOVSubTypeView, 'pacovsubtype')     
 catalog_router.register(r'relationsubtype', catalog_views.RelationSubTypeView, 'relationsubtype')
 # REGISTRATION calls

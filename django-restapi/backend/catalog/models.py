@@ -2,8 +2,8 @@ from django.db import models
 from jsonfield import JSONField
 
 
-# PACOV Types
-class PACOVType(models.Model):
+# Core Types
+class CoreType(models.Model):
     # The six types in the PACOV model    
     PACOV_TYPE = [
         ('PERSON', 'PERSON'),
@@ -22,26 +22,10 @@ class PACOVType(models.Model):
         ordering = ['pacov_type']
 
     def __str__(self):
-        return self.type + "/" + self.name
+        return self.pacov_type + "/" + self.name
 
-# Default Schemes for all types
-class DefaultScheme(models.Model):
-    scheme = JSONField(null=True, blank=True)
-
-    def __str__(self):
-        return str(self.scheme)
-
-# PACOV Sub-Types
-class PACOVSubType(models.Model):
-    maintype = models.ForeignKey(PACOVType, on_delete=models.CASCADE, blank=False, null=False)
-    name = models.CharField(max_length=50)
-    defaultscheme = models.ForeignKey(DefaultScheme, on_delete=models.CASCADE, blank=True, null=True)
-
-    def __str__(self):
-        return self.maintype.name + ": " + self.name
-
-# Relation Types
-class RelationType(models.Model):
+# Core Relation Types
+class CoreRelationType(models.Model):
     
     RELATION_TYPE = [
         ('PER-OBJ', '(PER-OBJ)'),
@@ -57,21 +41,38 @@ class RelationType(models.Model):
     ]
 
     name = models.CharField(max_length=50)
-    relation_type = models.CharField(max_length=7, choices=RELATION_TYPE)
+    pacovrelation_type = models.CharField(max_length=7, choices=RELATION_TYPE)
     sub_data = JSONField(null=True, blank=True)
     description= models.TextField(blank=True, null=True)
 
     class Meta:
-        ordering = ['relation_type']
+        ordering = ['pacovrelation_type']
 
     def __str__(self):
-        return self.name + "/" + self.type
+        return self.name + "/" + self.pacovrelation_type
+
+
+# Default Schemes for all types
+class DefaultScheme(models.Model):
+    scheme = JSONField(null=True, blank=True)
+
+    def __str__(self):
+        return str(self.scheme)
 
 # PACOV Sub-Types
+class PACOVSubType(models.Model):
+    coretype = models.ForeignKey(CoreType, on_delete=models.CASCADE, blank=False, null=False)
+    name = models.CharField(max_length=50)
+    defaultscheme = models.ForeignKey(DefaultScheme, on_delete=models.CASCADE, blank=True, null=True)
+
+    def __str__(self):
+        return self.coretype.name + ": " + self.name
+
+# PACOV Relational Sub-Types
 class RelationSubType(models.Model):
-    maintype = models.ForeignKey(PACOVType, on_delete=models.CASCADE, blank=False, null=False)
+    coretype = models.ForeignKey(CoreType, on_delete=models.CASCADE, blank=False, null=False)
     name = models.CharField(max_length=50)
     defaultscheme = models.ForeignKey(DefaultScheme, on_delete=models.CASCADE, blank=True, null=True)
     
     def __str__(self):
-        return self.maintype.name + ": " + self.name
+        return self.coretype.name + ": " + self.name
