@@ -25,8 +25,8 @@ class App extends Component {
     // Defining Central State
     state = {
         db: new DB('pacovbase'),
-        pacovtypes: {},
-        relationtypes: {},
+        category: {},
+        relationtype: {},
         pacovs: {},
         relations: {},
         
@@ -63,6 +63,7 @@ class App extends Component {
                     <MeetingsPage {...props} 
                         pacovs={this.state.pacovs}
                         relations={this.state.relations}
+                        schemes={this.state.defaultschemes}
                     />
                 }/>
                 <Route exact path='/pacovs' component={(props) => <ListPacovsPage {...props} pacovs={this.state.pacovs}/>}/>

@@ -20,8 +20,8 @@ user_router.register(r'relations', user_views.RelationInsightView, 'user_relatio
 catalog_router = routers.DefaultRouter()
 catalog_router.register(r'pacovtype', catalog_views.CoreTypeView, 'pacovtype')     
 catalog_router.register(r'relationtype', catalog_views.CoreRelationTypeView, 'relationtype')
-catalog_router.register(r'pacovsubtype', catalog_views.PACOVSubTypeView, 'pacovsubtype')     
-catalog_router.register(r'relationsubtype', catalog_views.RelationSubTypeView, 'relationsubtype')
+catalog_router.register(r'category', catalog_views.CategoryView, 'category')     
+catalog_router.register(r'defaultscheme', catalog_views.DefaultSchemeView, 'defaultscheme')     
 # REGISTRATION calls
 # register_router = routers.DefaultRouter()
 # register_router.register(r'pacov', register_views.RegisterPacovView, 'pacov')
@@ -37,10 +37,13 @@ urlpatterns = [
     path('api/user/', include(user_router.urls)),
     # REGISTRATION calls
 #    path('api/user/register/', include(register_router.urls)),
-    #Standalone calls
+    #Standalone calls for user database
     path('usercreate/', user.UserCreate.as_view(), name='user_create'),
     path('userlogin/', user.UserLoginView.as_view(), name="user_login"),
-    path('api/user/register/pacov', register_views.RegisterPacovView.as_view(), name='registerpacov')               
+    #Standalone calls for register new entries, following user
+    path('api/user/pacov/register', register_views.RegisterPacovView.as_view(), name='registerpacov'),               
+    path('api/user/relation/register', register_views.RegisterRelationView.as_view(), name='registerpacov')               
+
 ]
 
 """backend URL Configuration

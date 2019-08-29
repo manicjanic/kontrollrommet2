@@ -7,13 +7,6 @@ import NavbarUserdropdown from '../Components/navbar-userdropdown'
 
 export default class Navbar extends Component {
     
-    changeDropdownSelection = (e) => {
-        let selected = this.props.user_representations.find(user_representation => 
-            e.target.value === user_representation.value
-        )
-        this.props.modifyState({selected_representation: selected}) 
-    }
-
     // Make derived data from State and construct dropdown content
     makeDropdownContent = () => {
             let menuobj_list = []
@@ -26,6 +19,14 @@ export default class Navbar extends Component {
         return menuobj_list
     }
 
+    // Callback for handling changes in User Representation Dropdown
+    changeDropdownSelection = (e) => {
+        let selected = this.props.user_representations.find(user_representation => 
+            e.target.value === user_representation.value
+        )
+        this.props.modifyState({selected_representation: selected}) 
+    }
+
     render() {
         return (
             <div>
@@ -33,7 +34,10 @@ export default class Navbar extends Component {
                     <LinkContainer to="/">
                     <BootNavbar.Brand>Kontrollrommet</BootNavbar.Brand>
                     </LinkContainer>
-                    <NavbarMenu is_loggedin={this.props.is_loggedin}/>
+                    <NavbarMenu
+                         is_loggedin={this.props.is_loggedin}
+                    />
+                    
                     <NavbarUserdropdown 
                         is_loggedin={this.props.is_loggedin}
                         userpacov={this.props.userpacov}

@@ -4,7 +4,7 @@ from .models import PACOV, Relation
 
 # Register your models here.
 class PACOVAdmin(admin.ModelAdmin):
-    list_display = ('name', 'type',)
+    list_display = ('name', 'category',)
 
 class RelationAdmin(admin.ModelAdmin):
     list_display = ('pacovA', 'type', 'pacovB', 'name')

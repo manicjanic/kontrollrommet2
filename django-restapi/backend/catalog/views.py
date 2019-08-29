@@ -1,7 +1,7 @@
 from rest_framework import viewsets         
 
-from .serializers import CoreTypeSerializer, PACOVSubTypeSerializer, CoreRelationTypeSerializer, RelationSubTypeSerializer
-from .models import CoreType, PACOVSubType, CoreRelationType, RelationSubType
+from .serializers import CoreTypeSerializer, CategorySerializer, CoreRelationTypeSerializer, DefaultSchemeSerializer
+from .models import CoreType, Category, CoreRelationType, DefaultScheme
 
 class CoreTypeView(viewsets.ModelViewSet):
     serializer_class = CoreTypeSerializer          
@@ -11,10 +11,10 @@ class CoreRelationTypeView(viewsets.ModelViewSet):
     serializer_class = CoreRelationTypeSerializer          
     queryset = CoreRelationType.objects.all()              
 
-class PACOVSubTypeView(viewsets.ModelViewSet):
-    serializer_class = PACOVSubTypeSerializer          
-    queryset = PACOVSubType.objects.all()              
+class CategoryView(viewsets.ModelViewSet):
+    serializer_class = CategorySerializer          
+    queryset = Category.objects.all()              
 
-class RelationSubTypeView(viewsets.ModelViewSet):
-    serializer_class = RelationSubTypeSerializer          
-    queryset = RelationSubType.objects.all()              
+class DefaultSchemeView(viewsets.ModelViewSet):
+    serializer_class = DefaultSchemeSerializer   
+    queryset = DefaultScheme.objects.all()              

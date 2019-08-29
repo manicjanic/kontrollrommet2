@@ -6,17 +6,18 @@ class PACOVSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PACOV
-        fields = ('uuid', 'name', 'type', 'subtype', 'dateA', 'dateB', 'idcode', 'question', 'specific_data')
+        fields = ('uuid', 'name', 'category', 'dateA', 'dateB', 'idcode', 'question', 'specific_data')
         read_only_fields = ('uuid', 'name')
 
     def create(self, validated_data):
         # Routine for Generating name, based on specific data and type
         jsonfield = validated_data.get('specific_data')
-        if jsonfield.get('person_firstname') is not None and jsonfield.get('person_lastname') is not None:
-            validated_data.pop('name')
+        name = ""
+        if jsonfield.get('person_firstname') and jsonfield.get('person_lastname') is not None:
             name = jsonfield.get('person_firstname') + " " + jsonfield.get('person_lastname')
-            return PACOV.objects.create(name=name, **validated_data)
-        return PACOV.objects.create(**validated_data)
+        if jsonfield.get('company_name') is not None:
+            name = jsonfield.get('company_name')
+        return PACOV.objects.create(name=name, **validated_data)
 
     # Establish a fields argument to dynamically choose wich fields to serialize
     def __init__(self, *args, **kwargs):
@@ -38,7 +39,7 @@ class RelationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Relation
-        fields = ('uuid', 'name', 'type', 'subtype', 'pacovA', 'pacovB', 'dateA', 'dateB', 'idcode', 'question', 'specific_data')
+        fields = ('uuid', 'name', 'type', 'pacovA', 'pacovB', 'dateA', 'dateB', 'idcode', 'question', 'specific_data')
         read_only_fields = ( 'uuid', )
 
     # Establish a fields argument to dynamically choose wich fields to serialize

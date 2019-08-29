@@ -8,39 +8,43 @@ export default class LoaderPage extends Component {
     fetchData = async () => {
         this.setState({loading: true})
         // Get the data async in one promise
-        const [
-            pacovtypes_list, 
-            relationtypes_list,
-            pacovsubtypes_list,
-            relationsubtypes_list, 
-            pacovs_list, 
-            relations_list,
-        ] = await Promise.all([
-            dataService.getPacovTypes(),
-            dataService.getRelationTypes(),
-            dataService.getPacovSubTypes(),
-            dataService.getRelationSubTypes(),
-            dataService.getPacovs(), 
-            dataService.getRelations(),
-        ]);
+        const getlist = [{
+            name: "pacovs",
+            url: "api/user/pacovs/"
+        },{
+            name: "relations",
+            url: "api/user/relations"
+        },{
+            name: "category",
+            url: "api/catalog/category",
+        },{
+            name: "relationtype",
+            url: "api/catalog/relationtype"
+        },{
+            name: "defaultschemes",
+            url: "api/catalog/defaultscheme"
+        }
+    ]
+        const resultlist = await Promise.all(getlist.map((item) => dataService.getDataAuth(item.url)))
+        let resultobj = {}
+        getlist.forEach((element, index) => {
+            resultobj[element.name] = resultlist[index]
+        })
         // Construct data for use in Frontend State
-        let pacovtypes = ConstructionService.constructCatalogListObject(pacovtypes_list)
-        let relationtypes = ConstructionService.constructCatalogListObject(relationtypes_list)
-        let pacovsubtypes = ConstructionService.constructCatalogListObject(pacovsubtypes_list)
-        let relationsubtypes = ConstructionService.constructCatalogListObject(relationsubtypes_list)
-
-        let pacovs = ConstructionService.constructPacovsListObject(pacovs_list)
-        let relations = ConstructionService.constructPacovsListObject(relations_list)
+        let category = ConstructionService.constructCatalogListObject(resultobj.category)
+        let relationtype = ConstructionService.constructCatalogListObject(resultobj.relationtype)
+        let defaultschemes = resultobj.defaultschemes
+        let pacovs = ConstructionService.constructPacovsListObject(resultobj.pacovs)
+        let relations = ConstructionService.constructPacovsListObject(resultobj.relations)
         // Find userpacov and Extract for State
         const userpacov = Object.values(filterService.findPacovsByLevel(pacovs, "0"))[0]
         // Make Lists for State
         const userrepresentations_list = ConstructionService.constructUserRepresentationsList(relations, userpacov, pacovs)
         // Set State with prepared data
         this.props.modifyState({
-            pacovtypes: pacovtypes,
-            relationtypes: relationtypes,
-            pacovsubtypes: pacovsubtypes,
-            relationsubtypes: relationsubtypes,
+            category: category,
+            relationtype: relationtype,
+            defaultschemes: defaultschemes,
             pacovs: pacovs, 
             relations: relations,
             userpacov: userpacov,

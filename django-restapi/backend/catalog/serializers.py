@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import CoreType, PACOVSubType, CoreRelationType, RelationSubType, DefaultScheme
+from .models import CoreType, Category, CoreRelationType, DefaultScheme
 
 class CoreTypeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -12,14 +12,13 @@ class CoreRelationTypeSerializer(serializers.ModelSerializer):
         model = CoreRelationType
         fields = ( '__all__' )
 
-class PACOVSubTypeSerializer(serializers.ModelSerializer):
-    defaultscheme = serializers.SlugRelatedField(read_only=True, slug_field='scheme')
+class CategorySerializer(serializers.ModelSerializer):
     class Meta:
-        model = PACOVSubType
+        model = Category
         fields = ( '__all__' )
 
-class RelationSubTypeSerializer(serializers.ModelSerializer):
-    defaultscheme = serializers.SlugRelatedField(read_only=True, slug_field='scheme')
+class DefaultSchemeSerializer(serializers.ModelSerializer):
+    scheme = serializers.JSONField()
     class Meta:
-        model = RelationSubType
-        fields = ('__all__')
+        model = DefaultScheme
+        fields = ('id', 'scheme', 'category_related', 'corerelation_related' )

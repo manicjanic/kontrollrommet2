@@ -9,13 +9,13 @@ from catalog.models import CoreType, CoreRelationType
 class PACOVInsightSerializer(serializers.ModelSerializer):
     # Representation of data from related the PACOV
     uuid = serializers.SlugRelatedField(source='pacov', slug_field='uuid', queryset=PACOV.objects.all())
-    type = serializers.SlugRelatedField(source='pacov.type', slug_field='id', queryset=CoreType.objects.all())
+    category = serializers.SlugRelatedField(source='pacov.category', slug_field='id', queryset=CoreType.objects.all())
     # Method field that builds and object with visible data, based on type and user's insight level
     added_data = serializers.SerializerMethodField()
     
     class Meta:
         model = PACOVInsight
-        fields = ('level', 'uuid', 'type', 'added_data')
+        fields = ('level', 'uuid', 'category', 'added_data')
 
     #Method for making dynamic object with visible data
     def get_added_data(self, obj):

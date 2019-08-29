@@ -174,3 +174,21 @@ function htmlSwitcher(_truetext, _falsetext, _truth) {
         });
     }
 
+
+
+
+    const [
+        pacovs_list, 
+        relations_list,
+        pacovtypes_list, 
+        relationtypes_list,
+        pacovsubtypes_list,
+        relationsubtypes_list, 
+    ] = await Promise.all([
+        dataService.getCategory(),
+        dataService.getRelationType(),
+        dataService.getPacovSubTypes(),
+        dataService.getRelationSubTypes(),
+        dataService.getPacovs(), 
+        dataService.getRelations(),
+    ]);

@@ -4,6 +4,8 @@ import { LinkContainer } from 'react-router-bootstrap'
 
 import { PrivateRoute } from '../_components';
 import {ConstructionService} from '../_services/construction-service'
+import {filterService} from '../_services/filter-service'
+import {ID as SET_ID, KEY} from '../_helpers/lookup-table'
 
 import MeetingRequestForm from "../Components/meetingrequest-form"
 import MeetingsTable from "../Components/meetings-table"
@@ -13,7 +15,8 @@ export default class MeetingsPage extends Component {
 
     state = {
         meetingobjlist: ConstructionService.constructMeetingObjList(this.props.pacovs, this.props.relations),
-        selected_meeting_uuid: ""
+        selected_meeting_uuid: "",
+        meeting_scheme: filterService.findCategoryScheme(this.props.schemes, SET_ID.MEETING_ID)
     }
 
     // Callback for choosing selected meeting
@@ -27,15 +30,11 @@ export default class MeetingsPage extends Component {
         this.state.meetingobjlist.forEach((meetingobj) => {
             // Constuct Listobj
             let rowobj = {}
-            let date = ""
-            if (!meetingobj.suggested_date) {date = "no date"}
-            else {date = new Date(meetingobj.suggested_date).toLocaleDateString()}
+            let date = meetingobj.suggested_date? new Date(meetingobj.suggested_date).toLocaleDateString() : "no date specified"
             // If no Meeting type, set generic text
             if (!meetingobj.type) {meetingobj.type = "Meeting"}
-            rowobj.text = meetingobj.type + " i " + meetingobj.organization.name
-            if (meetingobj.status === "DRAFT") {
-                rowobj.text += " (Draft)"
-            }
+            rowobj.text = meetingobj.type + (meetingobj.organization? " i " + meetingobj.organization.name : "")
+            if (meetingobj.status === "DRAFT") {rowobj.text += " (Draft)"}
             rowobj.date = date
             rowobj.id = meetingobj.uuid
             // Add Listobj

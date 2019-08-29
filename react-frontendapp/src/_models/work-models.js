@@ -38,10 +38,10 @@ const Meetingobj = {
         person_pacov: "uuid",
         invite_accepted: false
     }],
-    agendapoints: {
-        name: "",
+    meetingtopics: {
+        topic_pacov: "uuid",
         listposition: 0,
-        desciption: ""      
+        description: ""      
     }
 }
 

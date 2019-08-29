@@ -2,22 +2,21 @@ import uuid as uuid_field
 from django.db import models
 from django.contrib.postgres.fields import JSONField
 
-from catalog.models import CoreType, PACOVSubType
-from catalog.models import CoreRelationType, RelationSubType
+from catalog.models import CoreType, Category
+from catalog.models import CoreRelationType
 
 # PACOV CORE MODEL
 class PACOV(models.Model):
     #Unique identification
     uuid = models.UUIDField(default=uuid_field.uuid4, unique=True, editable=False)
-    # Type specification of PEPPAR
-    type = models.ForeignKey(CoreType, on_delete=models.CASCADE, blank=False, null=False)
-    subtype = models.ForeignKey(PACOVSubType, on_delete=models.CASCADE, blank=True, null=True)
+    # Category Specification
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, blank=True, null=True)
     # The Name Element
     name = models.CharField(max_length=500, blank=True)
     # The two Time Elements
     dateA = models.DateTimeField(blank=True, null=True)
     dateB = models.DateTimeField(blank=True, null=True)
-    # Unique identifier Element
+    # Identifier Element
     idcode = models.CharField(max_length=25, blank=True)
     # A question
     question = models.BooleanField(blank=True, null=True)
@@ -29,19 +28,19 @@ class PACOV(models.Model):
     timestamp_updated = models.DateTimeField(auto_now=True, editable=False)
 
     class Meta:
-        ordering = ['type']
+        ordering = ['category']
 
     #If no Name has been made before this step, name field is created based on data in other fields
     def save(self, *args, **kwargs):
         if not self.name:
             if self.dateA:
-                self.name = self.type.name + " " + str(self.dateA.year) 
+                self.name = self.category.name + " of " + str(self.dateA.year) 
             else:
-                self.name = self.type.name 
+                self.name = "A " + self.category.name 
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.name + " (" + self.type.name + ")"
+        return self.name + " (" + self.category.coretype.pacov_type + ")"
 
 
 # PACOV RELATIONAL MODEL
@@ -50,7 +49,6 @@ class Relation(models.Model):
     uuid = models.UUIDField(default=uuid_field.uuid4, unique=True, editable=False)
     # Type specification of Relation
     type = models.ForeignKey(CoreRelationType, on_delete=models.CASCADE, blank=False, null=False)
-    subtype = models.ForeignKey(PACOVSubType, on_delete=models.CASCADE, blank=True, null=True)
     # Name
     name = models.CharField(max_length=500, blank=True )
     #PACOVs connected
@@ -73,7 +71,6 @@ class Relation(models.Model):
     class Meta:
         ordering = ['type']
         unique_together = ['pacovA', 'pacovB', 'type']
-
 
     #Function to define default value of name
     def save(self, *args, **kwargs):
