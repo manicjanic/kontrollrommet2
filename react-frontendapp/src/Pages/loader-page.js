@@ -2,56 +2,57 @@ import React, { Component } from 'react';
 import {dataService} from '../_services/data-service'
 import {filterService} from '../_services/filter-service'
 import {ConstructionService} from '../_services/construction-service'
+import {ProductionService} from '../_services/production-service'
 
 export default class LoaderPage extends Component {
     
     fetchData = async () => {
         this.setState({loading: true})
-        // Get the data async in one promise
+        // List over datas to get from server
         const getlist = [{
             name: "pacovs",
-            url: "api/user/pacovs/"
-        },{
+            idkey: "uuid",
+            url: "api/user/pacovs/"},{
             name: "relations",
-            url: "api/user/relations"
-        },{
+            idkey: "uuid",
+            url: "api/user/relations"},{
             name: "category",
-            url: "api/catalog/category",
-        },{
+            idkey: "id",
+            url: "api/catalog/category",},{
             name: "relationtype",
-            url: "api/catalog/relationtype"
-        },{
+            idkey: "id",
+            url: "api/catalog/relationtype" },{
             name: "defaultschemes",
-            url: "api/catalog/defaultscheme"
-        }
-    ]
+            idkey: "id",
+            url: "api/catalog/defaultscheme"}
+        ]
+        // Array with all results
         const resultlist = await Promise.all(getlist.map((item) => dataService.getDataAuth(item.url)))
+        // Construct Objects for use in Frontend State 
+        console.log("resultlist", resultlist)
         let resultobj = {}
         getlist.forEach((element, index) => {
-            resultobj[element.name] = resultlist[index]
+            resultobj[element.name] = ConstructionService.constructListObj(resultlist[index], element.idkey) 
         })
-        // Construct data for use in Frontend State
-        let category = ConstructionService.constructCatalogListObject(resultobj.category)
-        let relationtype = ConstructionService.constructCatalogListObject(resultobj.relationtype)
-        let defaultschemes = resultobj.defaultschemes
-        let pacovs = ConstructionService.constructPacovsListObject(resultobj.pacovs)
-        let relations = ConstructionService.constructPacovsListObject(resultobj.relations)
+        // Flatten added_ and specific_ data in Pacovs and Relations 
+        resultobj.pacovs = ConstructionService.flattenData(resultobj.pacovs, "added_data")
+        resultobj.relations = ConstructionService.flattenData(resultobj.relations, "added_data")
+        resultobj.pacovs = ConstructionService.flattenData(resultobj.pacovs, "specific_data")
+        resultobj.relations = ConstructionService.flattenData(resultobj.relations, "specific_data")
         // Find userpacov and Extract for State
-        const userpacov = Object.values(filterService.findPacovsByLevel(pacovs, "0"))[0]
-        // Make Lists for State
-        const userrepresentations_list = ConstructionService.constructUserRepresentationsList(relations, userpacov, pacovs)
+        const userpacov = Object.values(filterService.filterPacovsByLevel(resultobj.pacovs, "0"))[0]
+        resultobj.userpacov = userpacov
+        // Make Custom Produced Objects for State
+        const {pacovs, relations} = resultobj
+        const user_roles = ProductionService.produceUserRoles(relations, userpacov, pacovs)
+        resultobj.user_roles = user_roles
+        // Set selection to first on list
+        resultobj.selected_user_role = Object.keys(user_roles)[0]        
+        // Set Loading to false in the end of State alteration
+        resultobj.loading = false
         // Set State with prepared data
-        this.props.modifyState({
-            category: category,
-            relationtype: relationtype,
-            defaultschemes: defaultschemes,
-            pacovs: pacovs, 
-            relations: relations,
-            userpacov: userpacov,
-            user_representations: userrepresentations_list,
-            selected_representation: userrepresentations_list[0],
-            loading: false
-        })
+        this.props.alterState(resultobj)
+        // Move to Home Page
         this.props.history.push('/')    
     }
     

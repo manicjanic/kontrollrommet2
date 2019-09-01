@@ -2,15 +2,15 @@
 const meetingpacov = {
     uuid: "",
     type: 34,
-    dateA: Date, //Meeting start
-    dateB: Date, //Meeting end
+    started: Date, //Meeting start
+    ended: Date, //Meeting end
     meeting_type: "",
 }
 
 const requestpacov = {
     type: 9,
-    dateA: Date, //Request sent (if not, meeting call is a draft)
-    dateB: Date, 
+    started: Date, //Request sent (if not, meeting call is a draft)
+    ended: Date, 
     suggested_date: Date,
 }
 const meetingrelation = {		
@@ -19,8 +19,8 @@ const meetingrelation = {
     type: 20,      
     pacovA: "",
     pacovB: "",
-    dateA: null,
-    dateB: null,
+    started: null,
+    ended: null,
     idcode: "",
     question: null,
     specific_data: null,

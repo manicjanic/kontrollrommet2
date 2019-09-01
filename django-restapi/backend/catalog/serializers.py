@@ -8,17 +8,21 @@ class CoreTypeSerializer(serializers.ModelSerializer):
         fields = ('__all__')
 
 class CoreRelationTypeSerializer(serializers.ModelSerializer):
+    defaultscheme = serializers.SlugRelatedField(many=False, read_only=True, slug_field='scheme')
     class Meta:
         model = CoreRelationType
         fields = ( '__all__' )
 
 class CategorySerializer(serializers.ModelSerializer):
+    defaultscheme = serializers.SlugRelatedField(many=False, read_only=True, slug_field='scheme')
+
     class Meta:
         model = Category
-        fields = ( '__all__' )
+        fields = ('id', 'name', 'defaultscheme')
 
 class DefaultSchemeSerializer(serializers.ModelSerializer):
     scheme = serializers.JSONField()
     class Meta:
         model = DefaultScheme
         fields = ('id', 'scheme', 'category_related', 'corerelation_related' )
+

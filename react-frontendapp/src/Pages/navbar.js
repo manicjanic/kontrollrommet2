@@ -3,48 +3,64 @@ import { Navbar as BootNavbar} from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 
 import NavbarMenu from '../Components/navbar-menu'
-import NavbarUserdropdown from '../Components/navbar-userdropdown'
+import Dropdown from '../_components/Dropdown'
 
 export default class Navbar extends Component {
     
     // Make derived data from State and construct dropdown content
     makeDropdownContent = () => {
-            let menuobj_list = []
-            this.props.user_representations.forEach(user_representation  => {
-                let menuobj = {}
-                menuobj.text = user_representation.organization + " as " + user_representation.userrole
-                menuobj.value = user_representation.value
-                menuobj_list.push(menuobj)   
-            });
+        let menuobj_list = []
+        const {user_roles} = this.props
+        console.log("user roles", user_roles)
+        for (let key in user_roles) {
+            let menuobj = {}
+            menuobj.text = user_roles[key].collective_entity.name + " as " + user_roles[key].role_type_name
+            menuobj.value = key
+            menuobj_list.push(menuobj)   
+        };
         return menuobj_list
     }
 
     // Callback for handling changes in User Representation Dropdown
     changeDropdownSelection = (e) => {
-        let selected = this.props.user_representations.find(user_representation => 
-            e.target.value === user_representation.value
+        let selected = this.props.user_roles.find(user_role => 
+            e.target.value === user_role.value
         )
-        this.props.modifyState({selected_representation: selected}) 
+        this.props.alterState({selected_user_role: selected}) 
+    }
+
+    renderLogo = () => (
+        <LinkContainer to="/">
+            <BootNavbar.Brand>Kontrollrommet</BootNavbar.Brand>
+        </LinkContainer>
+    )
+
+    renderGreeting = () => {
+        const { userpacov } = this.props
+        return <span>Hello, {userpacov.name}. You are currently representing</span>
     }
 
     render() {
+        const { is_loggedin } = this.props
         return (
             <div>
                 <BootNavbar bg="light" expand="lg">
-                    <LinkContainer to="/">
-                    <BootNavbar.Brand>Kontrollrommet</BootNavbar.Brand>
-                    </LinkContainer>
+                    {this.renderLogo()}
                     <NavbarMenu
                          is_loggedin={this.props.is_loggedin}
                     />
-                    
-                    <NavbarUserdropdown 
-                        is_loggedin={this.props.is_loggedin}
-                        userpacov={this.props.userpacov}
-                        menuobjlist={this.makeDropdownContent()}
-                        selected_representation={this.props.selected_representation}
-                        changeDropdownSelection={this.changeDropdownSelection}
-                        />
+                    <span>
+                        <div>
+                            {is_loggedin? this.renderGreeting() : ""}
+                        </div>
+                        <div>
+                            <Dropdown 
+                                menuobjlist={this.makeDropdownContent()}
+                                selected={this.props.selected_user_role}
+                                handleSelection={this.changeDropdownSelection}
+                            /> 
+                        </div>
+                    </span>
                 </BootNavbar>
             </div>
         )

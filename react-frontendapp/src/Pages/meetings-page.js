@@ -1,22 +1,27 @@
 import React, { Component } from 'react';
-import {Button, Container, Row, Col} from 'react-bootstrap'
-import { LinkContainer } from 'react-router-bootstrap'
+import {Container} from 'react-bootstrap'
 
-import { PrivateRoute } from '../_components';
-import {ConstructionService} from '../_services/construction-service'
-import {filterService} from '../_services/filter-service'
-import {ID as SET_ID, KEY} from '../_helpers/lookup-table'
+import { PrivateRoute } from '../_helpers/PrivateRoute'
+import {ProductionService} from '../_services/production-service'
 
-import MeetingRequestForm from "../Components/meetingrequest-form"
-import MeetingsTable from "../Components/meetings-table"
-import MeetingCard from "../Components/meeting-card"
+import Dashboard from '../Modes/meetings/dashboard'
+import NewMeetingrequest from '../Modes/meetings/new-meetingrequest'
 
 export default class MeetingsPage extends Component {
 
     state = {
-        meetingobjlist: ConstructionService.constructMeetingObjList(this.props.pacovs, this.props.relations),
-        selected_meeting_uuid: "",
-        meeting_scheme: filterService.findCategoryScheme(this.props.schemes, SET_ID.MEETING_ID)
+        meetings: {},
+        selected_meeting_uuid: ""
+    }
+
+    componentDidMount(){
+        this.getMeetings()
+    }
+
+    getMeetings = () => {
+        const {pacovs, userpacov, relations} = this.props
+        const mymeetings = ProductionService.produceUserMeetings(relations, userpacov, pacovs) 
+        this.setState({meetings: mymeetings}) 
     }
 
     // Callback for choosing selected meeting
@@ -24,98 +29,20 @@ export default class MeetingsPage extends Component {
         this.setState({selected_meeting_uuid: uuid})
     }
 
-    //Make derived data from State
-    makeTableData() {
-        let tableobj = []
-        this.state.meetingobjlist.forEach((meetingobj) => {
-            // Constuct Listobj
-            let rowobj = {}
-            let date = meetingobj.suggested_date? new Date(meetingobj.suggested_date).toLocaleDateString() : "no date specified"
-            // If no Meeting type, set generic text
-            if (!meetingobj.type) {meetingobj.type = "Meeting"}
-            rowobj.text = meetingobj.type + (meetingobj.organization? " i " + meetingobj.organization.name : "")
-            if (meetingobj.status === "DRAFT") {rowobj.text += " (Draft)"}
-            rowobj.date = date
-            rowobj.id = meetingobj.uuid
-            // Add Listobj
-            tableobj.push(rowobj)   
-        })   
-        console.log ("tableobj", tableobj)
-        return tableobj    
-    }
-    
-    makeMeetingCardData() {
-        if (this.state.selected_meeting_uuid) {
-            let cardobj = {}
-            let meetingobj = this.state.meetingobjlist.find(m => m.uuid === this.state.selected_meeting_uuid)
-            let date = ""
-            if (!meetingobj.suggested_date) {date = "no date"}
-            else {date = new Date(meetingobj.suggested_date).toLocaleDateString()}
-            cardobj.headline = meetingobj.type + " i " + meetingobj.organization.name + " - " + date
-            cardobj.participants = []
-            meetingobj.participants.forEach(participant => {
-                let listobj = {}
-                listobj.text = participant.person_pacov.name
-                listobj.id = participant.person_pacov.uuid
-                cardobj.participants.push(listobj)
-            })
-            cardobj.topics = []
-            const orderedtopics = meetingobj.topics.sort((a, b) => a.listposition - b.listposition)
-            orderedtopics.forEach(topic => {
-                let listobj = {}
-                listobj.text = topic.topic_pacov.name
-                listobj.id = topic.listposition
-                cardobj.topics.push(listobj)
-            })
-
-            return cardobj
-        }
-        return undefined
-    }
-   
-    // Layout
-    MainPageLayout = () => {
-        return (
-            <div>
-                <Row>
-                    <Col>
-                        <MeetingsTable 
-                            tabledata={this.makeTableData()} 
-                            changeMeetingSelection={this.changeMeetingSelection}
-                        />
-                    </Col>
-                    <Col>
-                        <MeetingCard 
-                            meetingcarddata={this.makeMeetingCardData()}
-                            is_selected={this.state.selected_meeting_uuid ? true : false}
-                        />
-                    </Col>
-                </Row>
-                <Row>
-                    <LinkContainer to="/meetings/newmeetingrequest">
-                        <Button variant="primary">New Meeting Request</Button>
-                    </LinkContainer>
-                </Row>
-            </div>
-        )
-    }
-
-    // Layout
-    NewMeetingRequestLayout() {
-        console.log("Running new meeting request layout")
-        return (
-            <div>
-                <MeetingRequestForm/>
-            </div>
-        )
-    }
-
     render() {
         return (
-            <div>
-                <PrivateRoute exact path="/meetings" component={this.MainPageLayout} />
-                <PrivateRoute exact path="/meetings/newmeetingrequest" component={this.NewMeetingRequestLayout} />
-            </div>
+            <Container className="meetings-container">
+                <PrivateRoute exact path="/meetings" component={(props) => <Dashboard {...props} 
+                    meetings={this.state.meetings}
+                    selected_meeting_uuid={this.state.selected_meeting_uuid}
+                    changeMeetingSelection={this.changeMeetingSelection}
+                />}/>
+                <PrivateRoute exact path="/meetings/newmeetingrequest" component={(props) => <NewMeetingrequest {...props} 
+                    meeting_scheme={this.state.meeting_scheme}
+                    topics={this.state.topics}
+                    persons={this.state.persons}
+                />}/>
+            </Container>
         )
     }
 }

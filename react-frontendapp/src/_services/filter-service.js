@@ -1,28 +1,36 @@
 //Search Functions
 
-// PacovCategory
+// Find PacovCategory, takes listobj, returns object
 const findPacovCategory = (categorys, categoryid) => {
     console.log("running findPacovCategory with this data:", categoryid)
     const pacovcategory = categorys[categoryid]
     return pacovcategory
 }
 
-// RelationType
+// Find RelationType, takes listobj, returns object
 const findRelationType = (types, typeid) => {
     console.log("running findRelationType with this data:", typeid)
     const pacovtype = types[typeid]
     return pacovtype
 }
 
-// Find Category Scheme
-const findCategoryScheme = (schemes, categoryid) => {
-    console.log("running findCategoryScheme with this data:", schemes, categoryid)
-    const result = schemes.find(scheme => scheme.category_related.includes(categoryid))
-    return result
+// Find Pacov by UUID, takes listobj, returns object
+const findPacovByUUID = (pacovs, uuid) => {
+    console.log("running findPacovByUUID with this data:", pacovs, uuid)
+    const pacov = pacovs[uuid]
+    return pacov
 }
-// Pacovs
-const findPacovsByLevel = (pacovs, level) => {
-    console.log("running findPacovsByLevel with this data:", pacovs, level)
+
+// Find Relation by UUID, takes listobj, returns object
+const findRelationByUUID = (relations, uuid) => {
+    console.log("running findRelationByUUID with this data:", uuid, relations)
+    const relation = relations[uuid]
+    return relation
+}
+
+// Filter Pacovs by Level, takes listobj, returns listobj
+const filterPacovsByLevel = (pacovs, level) => {
+    console.log("running filterPacovsByLevel with this data:", pacovs, level)
     let resultobj = {}
     for (let pacov in pacovs) {
         if (pacovs[pacov].level === level) {
@@ -32,14 +40,9 @@ const findPacovsByLevel = (pacovs, level) => {
     return resultobj
 }
 
-const findPacovByUUID = (pacovs, uuid) => {
-    console.log("running findPacovByUUID with this data:", pacovs, uuid)
-    const pacov = pacovs[uuid]
-    return pacov
-}
-
-const findPacovsByCategory = (pacovs, categoryid) => {
-    console.log("running findPacovsByCategory with this data:", pacovs, categoryid)
+// Filter Pacovs by Category, takes listobj, returns listobj
+const filterPacovsByCategory = (pacovs, categoryid) => {
+    console.log("running filterPacovsByCategory with this data:", pacovs, categoryid)
     let resultobj = {}
     for (let pacov in pacovs) {
         if (pacovs[pacov].category === categoryid) {
@@ -49,7 +52,7 @@ const findPacovsByCategory = (pacovs, categoryid) => {
     return resultobj
 }
 
-// Relations
+// Filter Relations by Level, takes listobj, returns listobj
 const findRelationsByLevel = (relations, level) => {
     console.log("running findRelationsByLevel with this data:", relations, level)
     let resultobj = {}
@@ -61,14 +64,9 @@ const findRelationsByLevel = (relations, level) => {
     return resultobj
 }
 
-const findRelationByUUID = (relations, uuid) => {
-    console.log("running findRelationByUUID with this data:", uuid, relations)
-    const relation = relations[uuid]
-    return relation
-}
-
-const findRelationsByType = (relations, typeid) => {
-    console.log("running findRelationsByType with this data:", relations, typeid)
+// Filter Relations by type, takes listobj, returns listobj
+const filterRelationsByType = (relations, typeid) => {
+    console.log("running filterRelationsByType with this data:", relations, typeid)
     let resultobj = {}
     for (let relation in relations) {
         if (relations[relation].type === typeid) {
@@ -78,63 +76,19 @@ const findRelationsByType = (relations, typeid) => {
     return resultobj
 }
 
-// Finds the relations containing a PACOV, the alligns the relations to PAVOV is A
+// Filter relations containing Pacov and allign so PAVOV is A
 const findRelationsToPacov = (relations, pacov) => {
     console.log("running findRelationsToPacov with this data:", relations, pacov)
     let resultobj = {}
-    for (let relation in relations) {
-        if (pacov.uuid === relations[relation].pacovA) {
-            resultobj[relation] = relations[relation]
+    for (let key in relations) {
+        if (pacov.uuid === relations[key].pacovA) {
+            resultobj[key] = relations[key]
         }
-        if (pacov.uuid === relations[relation].pacovB) {
-            resultobj[relation] = relations[relation]
-            resultobj[relation].pacovA = relations[relation].pacovB
-            resultobj[relation].pacovB = relations[relation].pacovA
-        }
-    }
-    return resultobj
-}
-
-const expandPacovsInRelations = (pacovs, relations) => {
-    console.log("running expandPacovsInRelations with this data:", pacovs, relations)
-    const resultobj = relations
-    for (let relation in relations) {
-        resultobj[relation].pacovA = pacovs[resultobj[relation].pacovA]
-        resultobj[relation].pacovB = pacovs[resultobj[relation].pacovB]
-    }
-    return resultobj
-}
-
-const expandTypeInPacov = (pacovtypes, pacov) => {
-    console.log("running expandTypeInPacov with this data:", pacovtypes, pacov)
-    const pacovobj = pacov
-    pacovobj.type = pacovtypes[pacov.type]
-    return pacovobj
-}
-
-const expandTypeInRelation = (relationtypes, relation) => {
-    console.log("running expandTypeInRelation with this data:", relationtypes, relation)
-    const relationobj = relation
-    relationobj.type = relationtypes[relation.type]
-    return relationobj
-}
-
-// Takes relations, keeps the ones where either A og B is pacov, 
-// alligns them so that pacov is in A
-// Returns Obj
-const allignRelationsByPacov = (relations, pacov) => {
-    console.log("running allignRelationsByPacov with this data:", relations, pacov)
-    let resultobj = {}
-    for (let relation in relations) {
-        if (pacov.uuid === relations[relation].pacovA) {
-            resultobj[relation] = relations[relation]
-        }
-        else if (pacov.uuid === relations[relation].pacovB) {
-            resultobj[relation] = relations[relation]
-            let tempA = relations[relation].pacovA
-            let tempB = relations[relation].pacovB
-            resultobj[relation].pacovA = tempB
-            resultobj[relation].pacovB = tempA
+        if (pacov.uuid === relations[key].pacovB) {
+            resultobj[key] = relations[key]
+            let pacovB = relations[key].pacovB
+            resultobj[key].pacovB = relations[key].pacovA
+            resultobj[key].pacovA = pacovB 
         }
     }
     return resultobj
@@ -143,16 +97,11 @@ const allignRelationsByPacov = (relations, pacov) => {
 export const filterService = {
     findPacovCategory,
     findRelationType,
-    findCategoryScheme,
-    findPacovsByLevel,
+    filterPacovsByLevel,
     findPacovByUUID,
-    findPacovsByCategory,
+    filterPacovsByCategory,
     findRelationByUUID,
-    findRelationsByType,
+    filterRelationsByType,
     findRelationsByLevel,
     findRelationsToPacov,
-    expandPacovsInRelations,
-    expandTypeInPacov,
-    expandTypeInRelation,
-    allignRelationsByPacov 
 }

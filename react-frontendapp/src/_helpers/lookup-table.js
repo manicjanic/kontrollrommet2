@@ -1,6 +1,7 @@
 const ID = {
     // PACOV Core Type IDs
     // PACOV Category IDs
+    PERSON_ID: 5,
     MEETING_ID: 2,
     TOPIC_ID: 8,
     COMPANY_ID: 3,
@@ -12,7 +13,8 @@ const ID = {
     EVENT_IN_QUESTION_ID: 7,
     HOST_ID: 9,
     PARTICIPANT_ID: 8,
-    MEETING_TOPIC_ID: 10,
+    MEETING_TOPIC_ID: 6,
+    REQUEST_TOPIC_ID: 10,
     EXECUTIVE_ENTITY_ID: 11,
     ROLE_ID: 3,
     OWNERSHIP_ID: 2

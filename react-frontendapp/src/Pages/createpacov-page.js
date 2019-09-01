@@ -6,7 +6,7 @@ export default class CreatePacovPage extends Component {
             peppar_type: undefined,
             peppar_name: "",
             peppar_uuid: "",
-            dateA: undefined,
+            started: undefined,
             specific_data: undefined
         }
     }

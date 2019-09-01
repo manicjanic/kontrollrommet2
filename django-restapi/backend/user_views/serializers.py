@@ -22,8 +22,8 @@ class PACOVInsightSerializer(serializers.ModelSerializer):
         if obj.level == '0':
             return {
                 'name' : obj.pacov.name,
-                'dateA' : obj.pacov.dateA,
-                'dateB' : obj.pacov.dateB,
+                'started' : obj.pacov.started,
+                'ended' : obj.pacov.ended,
                 'idcode' : obj.pacov.idcode,
                 'question' : obj.pacov.question,
                 'specific_data': obj.pacov.specific_data
@@ -32,8 +32,8 @@ class PACOVInsightSerializer(serializers.ModelSerializer):
         elif obj.level == '1':
             return {
                 'name' : obj.pacov.name,
-                'dateA' : obj.pacov.dateA,
-                'dateB' : obj.pacov.dateB,
+                'started' : obj.pacov.started,
+                'ended' : obj.pacov.ended,
                 'idcode' : obj.pacov.idcode,
                 'question' : obj.pacov.question,
                 'specific_data': obj.pacov.specific_data
@@ -67,8 +67,8 @@ class RelationInsightSerializer(serializers.ModelSerializer):
         # Data for Level 1
         if obj.level == '1':
             return {
-                'dateA' : obj.relation.dateA,
-                'dateB' : obj.relation.dateB,
+                'started' : obj.relation.started,
+                'ended' : obj.relation.ended,
                 'idcode' : obj.relation.idcode,
                 'question' : obj.relation.question,
                 'specific_data': obj.relation.specific_data

@@ -14,8 +14,8 @@ class PACOV(models.Model):
     # The Name Element
     name = models.CharField(max_length=500, blank=True)
     # The two Time Elements
-    dateA = models.DateTimeField(blank=True, null=True)
-    dateB = models.DateTimeField(blank=True, null=True)
+    started = models.DateTimeField(blank=True, null=True)
+    ended = models.DateTimeField(blank=True, null=True)
     # Identifier Element
     idcode = models.CharField(max_length=25, blank=True)
     # A question
@@ -33,8 +33,8 @@ class PACOV(models.Model):
     #If no Name has been made before this step, name field is created based on data in other fields
     def save(self, *args, **kwargs):
         if not self.name:
-            if self.dateA:
-                self.name = self.category.name + " of " + str(self.dateA.year) 
+            if self.started:
+                self.name = self.category.name + " of " + str(self.started.year) 
             else:
                 self.name = "A " + self.category.name 
         super().save(*args, **kwargs)
@@ -55,8 +55,8 @@ class Relation(models.Model):
     pacovA = models.ForeignKey(PACOV, related_name="pacovA", on_delete=models.CASCADE, blank=False, null=False)
     pacovB = models.ForeignKey(PACOV, related_name="pacovB", on_delete=models.CASCADE, blank=False, null=False)
     # The two Time Elements
-    dateA = models.DateTimeField(blank=True, null=True)
-    dateB = models.DateTimeField(blank=True, null=True)
+    started = models.DateTimeField(blank=True, null=True)
+    ended = models.DateTimeField(blank=True, null=True)
     # Unique identifier Element
     idcode = models.CharField(max_length=25, blank=True)
     # A question

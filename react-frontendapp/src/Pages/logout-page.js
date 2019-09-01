@@ -9,9 +9,9 @@ export default class LogoutPage extends Component {
     
     // Async Login rutine, returns responseobj
     doLogout = () => {
-        this.props.modifyState({is_loggedin: false})
+        this.props.alterState({is_loggedin: false})
         localStorage.removeItem('userobj');
-        this.props.modifyState({pacovs: {}, relations: {}})
+        this.props.alterState({pacovs: {}, relations: {}})
         this.props.history.push('/')
     }
         
