@@ -9,9 +9,8 @@ export default class Navbar extends Component {
     
     // Make derived data from State and construct dropdown content
     makeDropdownContent = () => {
-        let menuobj_list = []
         const {user_roles} = this.props
-        console.log("user roles", user_roles)
+        let menuobj_list = []
         for (let key in user_roles) {
             let menuobj = {}
             menuobj.text = user_roles[key].collective_entity.name + " as " + user_roles[key].role_type_name
@@ -21,7 +20,7 @@ export default class Navbar extends Component {
         return menuobj_list
     }
 
-    // Callback for handling changes in User Representation Dropdown
+    // Callback for handling changes in Dropdown
     changeDropdownSelection = (e) => {
         let selected = this.props.user_roles.find(user_role => 
             e.target.value === user_role.value
@@ -29,12 +28,14 @@ export default class Navbar extends Component {
         this.props.alterState({selected_user_role: selected}) 
     }
 
+    // JSX-Element
     renderLogo = () => (
         <LinkContainer to="/">
             <BootNavbar.Brand>Kontrollrommet</BootNavbar.Brand>
         </LinkContainer>
     )
-
+    
+    // JSX-Element
     renderGreeting = () => {
         const { userpacov } = this.props
         return <span>Hello, {userpacov.name}. You are currently representing</span>

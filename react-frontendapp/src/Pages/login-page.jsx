@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import {Container} from 'react-bootstrap'
+
 import {dataService} from '../_services/data-service'
 
 import LoginForm from '../Components/login-form'
@@ -15,18 +17,27 @@ export default class LoginPage extends Component {
             this.props.alterState({is_loggedin: true})
             this.props.history.push('/loader')
         }
+        // Handle Bad Response
         else {
             console.log(responseobj.status, responseobj.data[0])
         }
         return responseobj
     }
-        
+    
+    // JSX-Element
+    renderLoginForm = () => (
+        <LoginForm 
+            handleSubmit={this.attemptLogin}
+        />
+    )
+
     render() {
         return (
-            <LoginForm 
-                handleLogin={this.attemptLogin}
-            />
-
+            <div>
+                <Container className="loginpage-content">    
+                    {this.renderLoginForm()}
+                </Container>
+            </div>
         );
     }
 }

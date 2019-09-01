@@ -1,32 +1,45 @@
 import React from 'react';
+import {Form as BForm, Button} from 'react-bootstrap'
 
-// Dropdown menu element
-// takes Props: Menuobjlist, selected, handleSelection(), 
-const Dropdown = (props) => {
-            
-    if (props.menuobjlist.length) {
-        const menuobjlist = props.menuobjlist        
-        return (
-            <div>
-                <select value={props.selected.value} onChange={props.handleSelection}>
-                        <DropdownList menuobjlist={menuobjlist}/>
-                </select>
-            </div>
-        )
-    }
-    return ""
+const FormField = (props) => {
+    let {inputfield} = props
+    return (
+        <div>
+            <BForm.Label>{inputfield.label}</BForm.Label>
+            <BForm.Control
+                placeholder={inputfield.defaultvalue}
+                type={inputfield.type}
+                name={inputfield.formdatakey}
+                value={props.formdataobj[inputfield.formdatakey]}
+                onChange={props.updateValue}
+            />
+        </div>
+    )
 }
 
-// List element
-const DropdownList = (props) => {
-    const dropdown = props.menuobjlist.map(menuitem => {
-        return(
-            <option value={menuitem.value} key={menuitem.value}>
-                {menuitem.text}
-            </option>
-        )
-    })
-    return dropdown
+const ButtonElement = (props) => {
+    let {buttondata} = props
+    return <Button type={buttondata.type}>{buttondata.text}</Button>
 }
 
-export default Dropdown;
+//Form element
+// takes Props: formsetupobj, formdataobj, handleSubmit(), updateValue()
+const Form = (props) => {
+    const {formsetupobj} = props   
+    return (
+        <div>
+            <BForm onSubmit={props.handleSubmit}>
+                {formsetupobj.inputfields.map(element => <FormField 
+                    inputfield={element}
+                    formdataobj={props.formdataobj}
+                    updateValue={props.updateValue}
+                />)}             
+                {formsetupobj.buttons.map(element => <ButtonElement 
+                    buttondata={element}
+                />)}
+            </BForm>
+        </div>
+    )
+}
+
+export default Form;

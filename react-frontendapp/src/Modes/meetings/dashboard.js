@@ -7,55 +7,50 @@ import { LinkContainer } from 'react-router-bootstrap'
 // Layout
 const Dashboard = (props) => {
     
-    //Make derived data from State
+    //Make derived data from props
     const makeTableData = () => {
-        let tableobj = []
         const {meetings} = props
+        let tableobj = []
         for (let key in meetings) {
             let meeting = meetings[key]
             // Constuct Listobj
             let rowobj = {}
             let date = meeting.suggested_meetingdate? new Date(meeting.suggested_meetingdate).toLocaleDateString() : "no date specified"
             // If no Meeting type, set generic text
-            if (!meeting.meeting_type_name) {meeting.meeting_type_name = "Meeting"}
-            rowobj.text = meeting.meeting_type_name + (meeting.executive_entity? " i " + meeting.executive_entity.name : "")
+            let type = meeting.meeting_type_name? meeting.meeting_type_name : "Meeting"
+            let entity = meeting.executive_entity? ( " i " + meeting.executive_entity.name) : ""
+            rowobj.text = type + entity
             if (meeting.status === "DRAFT") {rowobj.text += " (Draft)"}
             rowobj.date = date
             rowobj.id = meeting.uuid
             // Add Listobj
-            console.log ("tableobj", tableobj)
             tableobj.push(rowobj)   
         }
         return tableobj
     }
     
+    //
     const makeMeetingCardData = () => {
-        if (props.selected_meeting_uuid) {
-            let cardobj = {}
-            let meetingobj = props.meetings[props.selected_meeting_uuid]
-            let date = ""
-            if (!meetingobj.suggested_meetingdate) {date = "no date"}
-            else {date = new Date(meetingobj.suggested_meetingdate).toLocaleDateString()}
-            cardobj.headline = meetingobj.meeting_type_name + " i " + meetingobj.executive_entity.name + " - " + date
-            cardobj.participants = []
-            meetingobj.participants.forEach(participant => {
-                let listobj = {}
-                listobj.text = participant.person_pacov.name
-                listobj.id = participant.person_pacov.uuid
-                cardobj.participants.push(listobj)
-            })
-            cardobj.topics = []
-            const orderedtopics = meetingobj.topics.sort((a, b) => a.request_listposition - b.request_listposition)
-            orderedtopics.forEach(topic => {
-                let listobj = {}
-                listobj.text = topic.request_headline
-                listobj.id = topic.request_listposition
-                cardobj.topics.push(listobj)
-            })
-
-            return cardobj
-        }
-        return undefined
+        let cardobj = {}
+        let rowdata = props.selected_meeting_row
+        let meetingobj = props.meetings[rowdata.id]
+        cardobj.headline = rowdata.text + " - " + rowdata.date
+        cardobj.participants = []
+        meetingobj.participants.forEach(participant => {
+            let listobj = {}
+            listobj.text = participant.person_pacov.name
+            listobj.id = participant.person_pacov.uuid
+            cardobj.participants.push(listobj)
+        })
+        cardobj.topics = []
+        const orderedtopics = meetingobj.topics.sort((a, b) => a.request_listposition - b.request_listposition)
+        orderedtopics.forEach(topic => {
+            let listobj = {}
+            listobj.text = topic.request_headline
+            listobj.id = topic.request_listposition
+            cardobj.topics.push(listobj)
+        })
+        return cardobj
     }
 
     return (
@@ -68,10 +63,14 @@ const Dashboard = (props) => {
                     />
                 </Col>
                 <Col>
-                    <MeetingCard 
-                        meetingcarddata={makeMeetingCardData()}
-                        is_selected={props.selected_meeting_uuid ? true : false}
-                    />
+                    {props.selected_meeting_row?
+                        <MeetingCard 
+                            meetingcarddata={makeMeetingCardData()}
+                            is_selected={props.selected_meeting_row_uuid ? true : false}
+                        />
+                    :
+                        ""
+                    }
                 </Col>
             </Row>
             <Row>

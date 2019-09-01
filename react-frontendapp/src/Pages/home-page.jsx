@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import {Container} from 'react-bootstrap'
 
 export default class HomePage extends Component {
 
-    welcomeanonomous() {
+    renderWelcomeanonomous() {
         return (
             <div>
                 Welcome to Kontrollrommet.
@@ -11,7 +12,7 @@ export default class HomePage extends Component {
         )
     }
 
-    welcomeuser() {
+    renderWelcomeuser() {
         return (
             <div>
                 You are now logged in to Kontrollrommet.
@@ -20,13 +21,14 @@ export default class HomePage extends Component {
         )
     }
 
-    render() {  
-        if (this.props.is_loggedin) {
-            return <div>{this.welcomeuser()}</div>
-        }
-        else {
-            return <div>{this.welcomeanonomous()}</div>
-        }
-        
+    render() {
+        let {is_loggedin} = this.props   
+        return (
+            <div>
+                <Container className="homepage-content">
+                    {is_loggedin? this.renderWelcomeuser() : this.renderWelcomeanonomous()}
+                </Container>
+            </div>
+        )
     }
 }

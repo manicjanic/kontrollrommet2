@@ -7,7 +7,7 @@ export default class LogoutPage extends Component {
         this.doLogout();
     }
     
-    // Async Login rutine, returns responseobj
+    // Logout Routine
     doLogout = () => {
         this.props.alterState({is_loggedin: false})
         localStorage.removeItem('userobj');

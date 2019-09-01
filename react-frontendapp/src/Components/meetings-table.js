@@ -15,8 +15,8 @@ const MeetingsTable = (props) => {
     // Set up     
     const rowEvents = {
         onClick: (e, row, rowIndex) => {
-            console.log(`clicked on row with index:`, row.id)
-            props.changeMeetingSelection(row.id)
+            console.log(`clicked on row with index:`, row)
+            props.changeMeetingSelection(row)
         }
     }
     

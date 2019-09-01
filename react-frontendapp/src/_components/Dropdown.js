@@ -3,9 +3,8 @@ import React from 'react';
 // Dropdown menu element
 // takes Props: Menuobjlist, selected, handleSelection(), 
 const Dropdown = (props) => {
-            
-    if (props.menuobjlist.length) {
-        const menuobjlist = props.menuobjlist        
+    const {menuobjlist} = props                    
+    if (menuobjlist.length) {
         return (
             <div>
                 <select value={props.selected.value} onChange={props.handleSelection}>

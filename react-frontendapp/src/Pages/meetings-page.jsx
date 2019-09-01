@@ -11,22 +11,22 @@ export default class MeetingsPage extends Component {
 
     state = {
         meetings: {},
-        selected_meeting_uuid: ""
+        selected_meeting_row: undefined
     }
 
     componentDidMount(){
-        this.getMeetings()
+        this.makeMeetings()
     }
 
-    getMeetings = () => {
+    makeMeetings = () => {
         const {pacovs, userpacov, relations} = this.props
         const mymeetings = ProductionService.produceUserMeetings(relations, userpacov, pacovs) 
         this.setState({meetings: mymeetings}) 
     }
 
     // Callback for choosing selected meeting
-    changeMeetingSelection = (uuid) => {
-        this.setState({selected_meeting_uuid: uuid})
+    changeMeetingSelection = (row) => {
+        this.setState({selected_meeting_row: row})
     }
 
     render() {
@@ -34,7 +34,7 @@ export default class MeetingsPage extends Component {
             <Container className="meetings-container">
                 <PrivateRoute exact path="/meetings" component={(props) => <Dashboard {...props} 
                     meetings={this.state.meetings}
-                    selected_meeting_uuid={this.state.selected_meeting_uuid}
+                    selected_meeting_row={this.state.selected_meeting_row}
                     changeMeetingSelection={this.changeMeetingSelection}
                 />}/>
                 <PrivateRoute exact path="/meetings/newmeetingrequest" component={(props) => <NewMeetingrequest {...props} 
