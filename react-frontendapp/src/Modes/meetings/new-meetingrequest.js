@@ -5,22 +5,25 @@ import {PACOV_ID} from '../../_helpers/lookup-table'
 
 import MeetingRequestForm from '../../Components/meetingrequest-form'
 import ParticipantsList from '../../Components/participants-list'
+import TopicsList from '../../Components/topics-list'
 
 // Layout
 const NewMeetingRequest = (props) => {
-    console.log("Running new meeting request layout")
-
     // Set local state
     const [formdata, setFormdata] = useState({})
-    const [selected, setSelected] = useState({
-        participants: []
+    const [schemedata, setSchemedata] = useState({
+        meetingtypes: makeOptionsList()
+    })    
+    const [participants, setParticipants] = useState({
+        selected: [],
+        unselected: generateParticipants()
     })
-    const [choices, setChoices] = useState({
-        meetingtypes: generateOptions(), 
-        participants: generateParticipants()
+    const [topics, setTopics] = useState({
+        selected: [],
+        unselected: generateTopics()
     })
         
-    function generateOptions() {
+    function makeOptionsList() {
         let meeting_category = filterService.findPacovCategory(props.category, PACOV_ID.MEETING)
         let options = meeting_category.defaultscheme.meeting_type_choices
         let resultlist = options.map(element => {
@@ -42,38 +45,61 @@ const NewMeetingRequest = (props) => {
         return resultlist
     }
 
-    const moveItem = (value, operator) => { 
-        let current_choices = choices
-        let current_selected = selected
-        if (operator === "add") {
-            let selected_item = current_choices.participants.splice(value, 1)
-            current_selected.participants.push(selected_item[0])
-            console.log("before altering lists:", current_choices, current_selected)
+    function generateTopics() {
+        let {topics} = props
+        let resultlist = []
+        for (let key in topics) {
+            let topic = topics[key]
+            let meetingtopic = {text: topic.headline, value: topic.uuid}
+            resultlist.push(meetingtopic)   
         }
-        if (operator === "remove") {
-            let selected_item = current_selected.participants.splice(value, 1)
-            current_choices.participants.push(selected_item[0])
-            console.log("before altering lists:", current_choices, current_selected)
+        console.log("restultlist from generate participants", resultlist)
+        return resultlist
+    }
+
+    const moveItem = (value, action, name) => {
+        let list = {}
+        if (name === "participants") {list = participants}
+        if (name === "topics") {list = topics}
+        if (action === "add") {
+            let selected_item = list.unselected.splice(value, 1)
+            list.selected.push(selected_item[0])
         }
-        setChoices(prevState => ({...prevState, participants: current_choices.participants})) 
-        setSelected(prevState => ({...prevState, participants: current_selected.participants}))    
-}
+        if (action === "remove") {
+            let selected_item = list.selected.splice(value, 1)
+            list.unselected.push(selected_item[0])
+        }
+        if (name === "participants") {setParticipants({selected: list.selected, unselected: list.unselected})} 
+        if (name === "topics") {setTopics({selected: list.selected, unselected: list.unselected})}    
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
     }
 
-    const handleClickParticipants = (e) => {
+    const handleClickOnUnselectedParticipants = (e) => {
         let position = e.target.value
         console.log("position of clicked:", position)
-        moveItem(position, "add") 
+        moveItem(position, "add", "participants") 
     }
 
-    const handleClickSelecteds = (e) => {
+    const handleClickOnSelectedParticipants = (e) => {
         let position = e.target.value
         console.log("position of clicked:", position)
-        moveItem(position, "remove") 
+        moveItem(position, "remove", "participants") 
+    }
+
+    const handleClickOnUnselectedTopics = (e) => {
+        let position = e.target.value
+        console.log("position of clicked:", position)
+        moveItem(position, "add", "topics") 
+    }
+
+    const handleClickOnSelectedTopics = (e) => {
+        let position = e.target.value
+        console.log("position of clicked:", position)
+        moveItem(position, "remove", "topics") 
     }
 
     // Function for handling changes in form
@@ -89,13 +115,19 @@ const NewMeetingRequest = (props) => {
             updateValue={updateValue}
             handleSubmit={handleSubmit}
             formdata={formdata}
-            meetingtypes={choices.meetingtypes}
+            meetingtypes={schemedata.meetingtypes}
             />
             <ParticipantsList
-                participants={choices.participants}
-                selecteds={selected.participants}
-                handleClickSelecteds={handleClickSelecteds}
-                handleClickParticipants={handleClickParticipants}
+                unselected={participants.unselected}
+                selected={participants.selected}
+                handleClickOnSelected={handleClickOnSelectedParticipants}
+                handleClickOnUnselected={handleClickOnUnselectedParticipants}
+            />
+            <TopicsList
+                unselected={topics.unselected}
+                selected={topics.selected}
+                handleClickOnSelected={handleClickOnSelectedTopics}
+                handleClickOnUnselected={handleClickOnUnselectedTopics}
             />
         </div>
     )

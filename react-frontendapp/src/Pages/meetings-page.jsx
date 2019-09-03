@@ -14,12 +14,14 @@ export default class MeetingsPage extends Component {
     state = {
         meetings: {},
         persons: {},
+        topics: {},
         selected_meeting_row: undefined
     }
 
     componentDidMount(){
         this.makeMeetingsListobj()
         this.makePersonsListobj()
+        this.makeTopicsListobj()
     }
 
     // Construct special design meeting objects
@@ -33,6 +35,12 @@ export default class MeetingsPage extends Component {
         const {pacovs} = this.props
         const mypersons = filterService.filterPacovsByCategory(pacovs, PACOV_ID.PERSON) 
         this.setState({persons: mypersons}) 
+    }
+
+    makeTopicsListobj  = () => {
+        const {pacovs} = this.props
+        const mytopics = filterService.filterPacovsByCategory(pacovs, PACOV_ID.TOPIC) 
+        this.setState({topics: mytopics}) 
     }
 
     // Callback for choosing selected meeting
@@ -51,6 +59,7 @@ export default class MeetingsPage extends Component {
                 <PrivateRoute exact path="/meetings/newmeetingrequest" component={(props) => <NewMeetingrequest {...props} 
                     category={this.props.category}
                     persons={this.state.persons}
+                    topics={this.state.topics}
                 />}/>
             </Container>
         )

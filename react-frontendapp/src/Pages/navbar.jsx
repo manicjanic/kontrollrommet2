@@ -22,9 +22,9 @@ export default class Navbar extends Component {
 
     // Callback for handling changes in Dropdown
     changeDropdownSelection = (e) => {
-        let selected = this.props.user_roles.find(user_role => 
-            e.target.value === user_role.value
-        )
+        console.log("props in change selection", this.props.user_roles)
+        let value = e.target.value
+        let selected = this.props.user_roles[value]
         this.props.alterState({selected_user_role: selected}) 
     }
 
@@ -38,28 +38,42 @@ export default class Navbar extends Component {
     // JSX-Element
     renderGreeting = () => {
         const { userpacov } = this.props
-        return <span>Hello, {userpacov.name}. You are currently representing</span>
+        return (userpacov? 
+            <span>Hello, {userpacov.name}. You are currently representing</span>
+            :
+            <span>Hello, stranger.</span>
+        )
     }
 
+    renderMenu = () => {
+        return <NavbarMenu is_loggedin={this.props.is_loggedin}/>
+    }
+    
+    renderDropdown = () => {
+        let menuobjlist = this.makeDropdownContent()
+        return (menuobjlist.length? 
+            <Dropdown 
+                menuobjlist={this.makeDropdownContent()}
+                selected={this.props.selected_user_role}
+                handleSelection={this.changeDropdownSelection}
+            /> 
+            :
+            ""
+        )
+    }
     render() {
         const { is_loggedin } = this.props
         return (
             <div>
                 <BootNavbar bg="light" expand="lg">
                     {this.renderLogo()}
-                    <NavbarMenu
-                         is_loggedin={this.props.is_loggedin}
-                    />
+                    {this.renderMenu()}
                     <span>
                         <div>
                             {is_loggedin? this.renderGreeting() : ""}
                         </div>
                         <div>
-                            <Dropdown 
-                                menuobjlist={this.makeDropdownContent()}
-                                selected={this.props.selected_user_role}
-                                handleSelection={this.changeDropdownSelection}
-                            /> 
+                            {this.renderDropdown()}
                         </div>
                     </span>
                 </BootNavbar>

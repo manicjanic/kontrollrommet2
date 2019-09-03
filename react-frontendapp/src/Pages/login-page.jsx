@@ -48,7 +48,7 @@ export default class LoginPage extends Component {
         formdata[e.target.name] = e.target.value
         this.setState({formdata: formdata})    
     }
-        
+    
     // JSX-Element
     renderLoginForm = () => (
         <LoginForm 
@@ -62,15 +62,27 @@ export default class LoginPage extends Component {
     renderAlertMessage = () => {
         return <Alert variant="danger">{this.state.errormessage}</Alert>
     }
-    
+
+    // BYPASS FOR TESTING ONLY! //
+    renderBypass = () => {
+        console.log("Doing bypass of login...")
+        this.props.alterState({is_loggedin: true})
+        this.props.history.push('/loader')
+        return ""
+    }
+
+    // NB! RUNNING ON BYPASS    
     render() {
         return (
             <div>
-                <Container className="loginpage-content">    
-                    {this.renderLoginForm()}                    
+                <Container className="loginpage-content"> 
+                    {this.renderBypass()}   
                     {this.state.error? this.renderAlertMessage() : ""} 
                 </Container>
             </div>
         );
     }
 }
+
+// Activate login
+//                     {this.renderLoginForm()}                    
