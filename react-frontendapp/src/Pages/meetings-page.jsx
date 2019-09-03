@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import {Container} from 'react-bootstrap'
 
 import { PrivateRoute } from '../_helpers/PrivateRoute'
-import {ProductionService} from '../_services/production-service'
+import {productionService} from '../_services/production-service'
+import {filterService} from '../_services/filter-service' 
+import {PACOV_ID} from '../_helpers/lookup-table'
 
 import Dashboard from '../Modes/meetings/dashboard'
 import NewMeetingrequest from '../Modes/meetings/new-meetingrequest'
@@ -11,17 +13,26 @@ export default class MeetingsPage extends Component {
 
     state = {
         meetings: {},
+        persons: {},
         selected_meeting_row: undefined
     }
 
     componentDidMount(){
-        this.makeMeetings()
+        this.makeMeetingsListobj()
+        this.makePersonsListobj()
     }
 
-    makeMeetings = () => {
+    // Construct special design meeting objects
+    makeMeetingsListobj = () => {
         const {pacovs, userpacov, relations} = this.props
-        const mymeetings = ProductionService.produceUserMeetings(relations, userpacov, pacovs) 
+        const mymeetings = productionService.produceUserMeetings(relations, userpacov, pacovs) 
         this.setState({meetings: mymeetings}) 
+    }
+
+    makePersonsListobj  = () => {
+        const {pacovs} = this.props
+        const mypersons = filterService.filterPacovsByCategory(pacovs, PACOV_ID.PERSON) 
+        this.setState({persons: mypersons}) 
     }
 
     // Callback for choosing selected meeting
@@ -38,8 +49,7 @@ export default class MeetingsPage extends Component {
                     changeMeetingSelection={this.changeMeetingSelection}
                 />}/>
                 <PrivateRoute exact path="/meetings/newmeetingrequest" component={(props) => <NewMeetingrequest {...props} 
-                    meeting_scheme={this.state.meeting_scheme}
-                    topics={this.state.topics}
+                    category={this.props.category}
                     persons={this.state.persons}
                 />}/>
             </Container>

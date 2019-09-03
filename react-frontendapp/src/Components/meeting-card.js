@@ -1,16 +1,18 @@
 import React from 'react';
 import {Card, Button} from 'react-bootstrap'
-import {jsxGenerator} from '../_helpers/jsx-generator'
+import {List} from '../_components/List'
 
 
 const MeetingCard = (props) => {
     
+    const {meetingcarddata} = props
+
     const Participants = (props) => {
-        if (props.meetingcarddata.participants.length) {
+        if (meetingcarddata.participants.length) {
             return (
                 <span>
                     <span style={{fontWeight: 'bold'}}>Inviterte: </span> 
-                    <jsxGenerator.commalist itemlist={props.meetingcarddata.participants}/>
+                    <List.Inline displayobj={meetingcarddata.participants}/>
                 </span>
             )    
                 
@@ -18,12 +20,19 @@ const MeetingCard = (props) => {
         return ""    
     }
 
+    const handleClick = (e) => {
+        console.log("clicked item", e)
+    }
+
     const Topics = (props) => {
-        if (props.meetingcarddata.topics.length) {
+        if (meetingcarddata.topics.length) {
             return (
                 <div>
                     <div style={{fontWeight: 'bold'}}>Agenda: </div> 
-                    <jsxGenerator.list itemlist={props.meetingcarddata.topics}/>
+                    <List.Unordered 
+                        displayobj={meetingcarddata.topics}
+                        handleClick={handleClick}
+                    />
                 </div>
             )    
                 
@@ -31,16 +40,18 @@ const MeetingCard = (props) => {
         return ""    
     }
 
-    if (props.meetingcarddata) {
+
+
+    if (meetingcarddata) {
         return (
             <Card>
                 <Card.Body>
-                    <Card.Title>{props.meetingcarddata.headline}</Card.Title>
-                    <Participants meetingcarddata={props.meetingcarddata}/>
+                    <Card.Title>{meetingcarddata.headline}</Card.Title>
+                    <Participants meetingcarddata={meetingcarddata}/>
                     <br/>
-                    <Topics meetingcarddata={props.meetingcarddata}/>
+                    <Topics meetingcarddata={meetingcarddata}/>
                     <br/>
-                    <Button variant="primary" onClick={() => props.onStartMeeting(props.meetingcarddata.id)}>Start Møte</Button>
+                    <Button variant="primary" onClick={() => props.onStartMeeting(meetingcarddata.id)}>Start Møte</Button>
                 </Card.Body>                    
             </Card>
         )

@@ -40,11 +40,7 @@ const NavbarMenu = (props) => {
     
     // When Checks prop and sets menu based on status
     const onChangeLoggedIn = () => {
-        if (props.is_loggedin) {
-            setMenustatus(MENUSTATUS_LOGGEDIN)
-        }
-        else
-            setMenustatus(MENUSTATUS_LOGGEDOUT)
+        props.is_loggedin? setMenustatus(MENUSTATUS_LOGGEDIN) : setMenustatus(MENUSTATUS_LOGGEDOUT)
     }
     
     return (

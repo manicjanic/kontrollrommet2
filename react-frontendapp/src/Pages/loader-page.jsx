@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {dataService} from '../_services/data-service'
 import {filterService} from '../_services/filter-service'
 import {ConstructionService} from '../_services/construction-service'
-import {ProductionService} from '../_services/production-service'
+import {productionService} from '../_services/production-service'
 
     // List over datas to get from server
     const API_REQUEST_LIST = [{
@@ -40,7 +40,7 @@ export default class LoaderPage extends Component {
         stateobj.userpacov = Object.values(filterService.filterPacovsByLevel(stateobj.pacovs, "0"))[0]
         // Make Custom Produced Objects for State
         const {pacovs, relations, userpacov} = stateobj
-        stateobj.user_roles = ProductionService.produceUserRoles(relations, userpacov, pacovs)
+        stateobj.user_roles = productionService.produceUserRoles(relations, userpacov, pacovs)
         // Set selection to first on list
         stateobj.selected_user_role = Object.keys(stateobj.user_roles)[0]        
         // Set Loading to false in the end of State alteration

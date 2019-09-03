@@ -1,12 +1,11 @@
 import {filterService} from './filter-service'
-import {ID as SET_ID} from '../_helpers/lookup-table'
-import {MeetingObj} from '../_models/meetingobj'
+import {PACOV_ID, RELATION_ID} from '../_helpers/lookup-table'
 
 // Construct a list of front end specific UserRelation objects
 const produceUserRoles = (relations, userpacov, pacovs) => {    
     console.log("running produceUserRoles with this data:", relations, userpacov, pacovs)
     // Filter for relations of type Role
-    let filtered_relations = filterService.filterRelationsByType(relations, SET_ID.ROLE_ID)    
+    let filtered_relations = filterService.filterRelationsByType(relations, RELATION_ID.ROLE)    
     // Filter for relations containing user and allign
     filtered_relations = filterService.findRelationsToPacov(filtered_relations, userpacov)
     // Construct Userrepresentations List
@@ -23,27 +22,27 @@ const produceUserRoles = (relations, userpacov, pacovs) => {
 const produceUserMeetings = (relations, userpacov, pacovs) => {    
     console.log("running produceUserMeetings with this data:", relations, userpacov, pacovs)
     // Filter for pacovs of type Meeting
-    let meetings = filterService.filterPacovsByCategory(pacovs, SET_ID.MEETING_ID)    
+    let meetings = filterService.filterPacovsByCategory(pacovs, PACOV_ID.MEETING)    
     for (let key in meetings) {
         let meeting = meetings[key]
         // Find different Relations to Meeting PACOV        
         let meetingrelations = filterService.findRelationsToPacov(relations, meeting)
         console.log("meetingrelations", meetingrelations)
         // Isolage Request
-        let request_relation = Object.values(filterService.filterRelationsByType(meetingrelations, SET_ID.EVENT_IN_QUESTION_ID))[0]
+        let request_relation = Object.values(filterService.filterRelationsByType(meetingrelations, RELATION_ID.EVENT_IN_QUESTION))[0]
         let request = filterService.findPacovByUUID(pacovs, request_relation.pacovB)
-        let collectiveentity_relation = Object.values(filterService.filterRelationsByType(meetingrelations,SET_ID.EXECUTIVE_ENTITY_ID))[0]
+        let collectiveentity_relation = Object.values(filterService.filterRelationsByType(meetingrelations,RELATION_ID.EXECUTIVE_ENTITY))[0]
         let collectiveentity = filterService.findPacovByUUID(pacovs, collectiveentity_relation.pacovB)
-        let meeting_topic_relations = filterService.filterRelationsByType(meetingrelations, SET_ID.MEETING_TOPIC_ID)
-        let attendee_relations = filterService.filterRelationsByType(meetingrelations, SET_ID.PARTICIPANT_ID)
-//        let logger_relations = filterService.filterRelationsByType(meetingrelations, SET_ID.PARTICIPANT_ID)
-//        let runner_relations = filterService.filterRelationsByType(meetingrelations, SET_ID.PARTICIPANT_ID)
+        let meeting_topic_relations = filterService.filterRelationsByType(meetingrelations, RELATION_ID.MEETING_TOPIC)
+        let attendee_relations = filterService.filterRelationsByType(meetingrelations, RELATION_ID.PARTICIPANT)
+//        let logger_relations = filterService.filterRelationsByType(meetingrelations, RELATION_ID.PARTICIPANT)
+//        let runner_relations = filterService.filterRelationsByType(meetingrelations, RELATION_ID.PARTICIPANT)
         // Find different Relations to Request PACOV
         console.log("request-relation", request_relation)       
         let request_relations = filterService.findRelationsToPacov(relations, request)
-        let invited_relations = filterService.filterRelationsByType(request_relations, SET_ID.INVITEE_ID)
-        let inviter_relation = Object.values(filterService.filterRelationsByType(request_relations, SET_ID.INVITER_ID))[0]
-        let request_topic_relations = filterService.filterRelationsByType(request_relations, SET_ID.REQUEST_TOPIC_ID)
+        let invited_relations = filterService.filterRelationsByType(request_relations, RELATION_ID.INVITEE)
+        let inviter_relation = Object.values(filterService.filterRelationsByType(request_relations, RELATION_ID.INVITER))[0]
+        let request_topic_relations = filterService.filterRelationsByType(request_relations, RELATION_ID.REQUEST_TOPIC)
         // Construct Object
         // Add Participants
         meeting.participants = []
@@ -128,31 +127,7 @@ const produceUserMeetings = (relations, userpacov, pacovs) => {
     return meetings
 }
 
-// Construct a list of front end specific UserRelation objects
-const produceUserPartisipants = (relations, userpacov, pacovs) => {    
-    console.log("running produceUserParticipants with this data:", relations, userpacov, pacovs)
-    // Filter for pacovs of type Meeting
-    let persons = filterService.filterPacovsByCategory(pacovs, SET_ID.PERSON_ID)    
-    for (let key in persons) {
-        // Find different Relations to Meeting PACOV        
-        let personrelations = filterService.findRelationsToPacov(relations, persons[key])
-        let request_relation = Object.values(filterService.filterRelationsByType(personrelations, SET_ID.EVENT_IN_QUESTION_ID))[0]
-        let collective_entity_relation = Object.values(filterService.filterRelationsByType(personrelations,SET_ID.EXECUTIVE_ENTITY_ID))[0]
-        let meeting_topic_relations = filterService.filterRelationsByType(personrelations, SET_ID.MEETING_TOPIC_ID)
-        let participant_relations = filterService.filterRelationsByType(personrelations, SET_ID.PARTICIPANT_ID)
-        // Find different Relations to Request PACOV
-        console.log("request-relation", request_relation)       
-        let request_pacov = filterService.findPacovByUUID(pacovs, request_relation.pacovB)
-        let request_relations = filterService.findRelationsToPacov(relations, request_pacov)
-        let invited_relations = filterService.filterRelationsByType(request_relations, SET_ID.INVITEE_ID)
-        // Construct Object
-        let personobj = persons[key]
-        personobj.executive_entity = filterService.findPacovByUUID(pacovs, collective_entity_relation.pacovB)
-        persons[key] = personobj
-    }
-    return persons
-}
-export const ProductionService = {
+export const productionService = {
     produceUserRoles,
     produceUserMeetings
 }

@@ -2,7 +2,7 @@
 
 // Find PacovCategory, takes listobj, returns object
 const findPacovCategory = (categorys, categoryid) => {
-    console.log("running findPacovCategory with this data:", categoryid)
+    console.log("running findPacovCategory with this data:", categorys, categoryid)
     const pacovcategory = categorys[categoryid]
     return pacovcategory
 }

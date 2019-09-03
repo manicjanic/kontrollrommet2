@@ -73,6 +73,7 @@ class App extends Component {
                 pacovs={this.state.pacovs}
                 relations={this.state.relations}
                 userpacov={this.state.userpacov}
+                category={this.state.category}
             />}/>
         </div>
     )

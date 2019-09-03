@@ -1,5 +1,5 @@
 import {filterService} from './filter-service'
-import {ID as SET_ID, KEY} from '../_helpers/lookup-table'
+import {PACOV_ID, KEY} from '../_helpers/lookup-table'
 import {MeetingObj} from '../_models/meetingobj'
 
 
@@ -63,7 +63,7 @@ const constructRelationsListObj = (relationsdata_list) => {
 const constructParticipantsListObj = (pacovs) => {
     console.log("Running construct person obj")
     // Find Pacovs of type Person
-    const personpacovs = filterService.filterPacovsByCategory(pacovs, SET_ID.PERSON_ID)
+    const personpacovs = filterService.filterPacovsByCategory(pacovs, PACOV_ID.PERSON)
     console.log("Person Pacovs", personpacovs)
     // Construct Personobjects List
     let resultobj = personpacovs
@@ -81,7 +81,7 @@ const constructParticipantsListObj = (pacovs) => {
 const constructMeetingTopicsListObj = (pacovs) => {
     console.log("Running construct topic obj")
     // Find Pacovs of type Topic
-    const topicpacovs = filterService.filterPacovsByCategory(pacovs, SET_ID.PERSON_ID)
+    const topicpacovs = filterService.filterPacovsByCategory(pacovs, PACOV_ID.PERSON)
     console.log("Topic Pacovs", topicpacovs)
     // Construct Topicobjects List
     let resultobj = topicpacovs
@@ -99,7 +99,7 @@ const constructMeetingTopicsListObj = (pacovs) => {
 const constructMeetingsListObj = (pacovs) => {
     console.log("Running construct meeting obj")
     // Find Pacovs of type Meeting
-    const meetingpacovs = filterService.filterPacovsByCategory(pacovs, SET_ID.MEETING_ID)
+    const meetingpacovs = filterService.filterPacovsByCategory(pacovs, PACOV_ID.MEETING)
     console.log("Meeting Pacovs", meetingpacovs)
     // Construct Meetingobjects List
     let resultobj = meetingpacovs
@@ -168,14 +168,14 @@ resultlist.push(userrepresentaionobj)
 
 
 STATE
-meeting_scheme: filterService.findCategoryScheme(this.props.schemes, SET_ID.MEETING_ID),
+meeting_scheme: filterService.findCategoryScheme(this.props.schemes, PACOV_ID.MEETING),
 topics: this.getTopics(),
 persons: this.getPersons(),
 selected_meeting_uuid: "",
 
-getTopics = () => filterService.filterPacovsByCategory(this.props.pacovs, SET_ID.TOPIC_ID)
-getPersons = () => filterService.filterPacovsByCategory(this.props.pacovs, SET_ID.PERSON_ID)
-getMeetings = () => filterService.filterPacovsByCategory(this.props.pacovs, SET_ID.MEETING_ID)
+getTopics = () => filterService.filterPacovsByCategory(this.props.pacovs, PACOV_ID.TOPIC)
+getPersons = () => filterService.filterPacovsByCategory(this.props.pacovs, PACOV_ID.PERSON)
+getMeetings = () => filterService.filterPacovsByCategory(this.props.pacovs, PACOV_ID.MEETING)
 meetingobj.participants = []
 for (let participant_relation in participant_relations) {
     let participant = {

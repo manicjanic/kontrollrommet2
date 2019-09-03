@@ -39,15 +39,16 @@ const Dashboard = (props) => {
         meetingobj.participants.forEach(participant => {
             let listobj = {}
             listobj.text = participant.person_pacov.name
-            listobj.id = participant.person_pacov.uuid
+            listobj.value = participant.person_pacov.uuid
             cardobj.participants.push(listobj)
         })
         cardobj.topics = []
         const orderedtopics = meetingobj.topics.sort((a, b) => a.request_listposition - b.request_listposition)
-        orderedtopics.forEach(topic => {
+        orderedtopics.forEach((topic, i) => {
             let listobj = {}
             listobj.text = topic.request_headline
-            listobj.id = topic.request_listposition
+            listobj.position = i
+            listobj.id = topic.topic_pacov.uuid
             cardobj.topics.push(listobj)
         })
         return cardobj
