@@ -21,10 +21,10 @@ const constructPacovsListObj = (pacovsdata_list) => {
     let pacovs_listobj = {}
     pacovsdata_list.forEach((item) => {
         // Extract added data and present it flat in object
-        for (let prop in item.added_data) {
-            item[prop] = item.added_data[prop]
+        for (let prop in item.insight_data) {
+            item[prop] = item.insight_data[prop]
         }
-        delete item.added_data
+        delete item.insight_data
         // Extract specific data and present it flat
         if (item.specific_data !== null) {
             for (let prop in item.specific_data) {
@@ -42,10 +42,10 @@ const constructRelationsListObj = (relationsdata_list) => {
     let relations_listobj = {}
     relationsdata_list.forEach((item) => {
         // Extract added data and present it flat in object
-        for (let prop in item.added_data) {
-            item[prop] = item.added_data[prop]
+        for (let prop in item.insight_data) {
+            item[prop] = item.insight_data[prop]
         }
-        delete item.added_data
+        delete item.insight_data
         // Extract specific data and present it flat
         if (item.specific_data !== null) {
             for (let prop in item.specific_data) {
@@ -191,4 +191,19 @@ meetingobj.topics = []
             listposition: parseInt(topic_relations[topic_relation].idcode)
         }
         meetingobj.topics.push(topic)
+}
+
+scheme: {
+    extended_data: {
+        suggested_meetingdate: "Date",
+        meeting_type_name: "String"
+    },
+    formdata: {
+        meeting_type_choices: [
+            {meeting_type_name:"Styremøte",
+            id:"1"},
+            {meeting_type_name:"Arbeidsmøte",
+            id:"2"}
+        ]
+   }
 }

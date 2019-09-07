@@ -31,8 +31,8 @@ export default class LoaderPage extends Component {
             stateobj[element.name] = constructionService.constructListObj(resultlist[index], element.idkey) 
         })
         // Flatten added_ and specific_ data in Pacovs and Relations 
-        stateobj.pacovs = constructionService.flattenData(stateobj.pacovs, "added_data")
-        stateobj.relations = constructionService.flattenData(stateobj.relations, "added_data")
+        stateobj.pacovs = constructionService.flattenData(stateobj.pacovs, "insight_data")
+        stateobj.relations = constructionService.flattenData(stateobj.relations, "insight_data")
         stateobj.pacovs = constructionService.flattenData(stateobj.pacovs, "specific_data")
         stateobj.relations = constructionService.flattenData(stateobj.relations, "specific_data")
         // Find user_pacov and Extract for State

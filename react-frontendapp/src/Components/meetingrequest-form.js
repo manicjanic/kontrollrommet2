@@ -3,18 +3,10 @@ import Form from '../_components/Form'
 
 const MeetingRequestForm = (props) => {
 
-    const formsetupobj = {
-        inputfields: [{
-            label: "Suggested Meetingdate:",
-            type: "date",
-            options: undefined,
-            formdatakey: "suggested_meetingdate",
-            },{
-            label: "Meetingtype:",
-            type: "select",
-            options: props.meetingtypes,
-            formdatakey: "meeting_type",
-        }]
+    const makeFormsetupobj = () => {
+        let formsetupobj = {}
+        formsetupobj.inputfields = props.scheme.inputfields
+        return formsetupobj
     }
     
     return (
@@ -22,7 +14,7 @@ const MeetingRequestForm = (props) => {
             <Form
                 handleSubmit={props.handleSubmit}
                 updateValue={props.updateValue}
-                formsetupobj={formsetupobj}
+                formsetupobj={makeFormsetupobj()}
                 formdataobj={props.formdata}
             />
         </div>

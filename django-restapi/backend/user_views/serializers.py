@@ -11,14 +11,14 @@ class PACOVInsightSerializer(serializers.ModelSerializer):
     uuid = serializers.SlugRelatedField(source='pacov', slug_field='uuid', queryset=PACOV.objects.all())
     category = serializers.SlugRelatedField(source='pacov.category', slug_field='id', queryset=CoreType.objects.all())
     # Method field that builds and object with visible data, based on type and user's insight level
-    added_data = serializers.SerializerMethodField()
+    insight_data = serializers.SerializerMethodField()
     
     class Meta:
         model = PACOVInsight
-        fields = ('level', 'uuid', 'category', 'added_data')
+        fields = ('level', 'uuid', 'category', 'insight_data')
 
     #Method for making dynamic object with visible data
-    def get_added_data(self, obj):
+    def get_insight_data(self, obj):
         if obj.level == '0':
             return {
                 'name' : obj.pacov.name,
@@ -56,14 +56,14 @@ class RelationInsightSerializer(serializers.ModelSerializer):
     pacovA = serializers.SlugRelatedField(source='relation.pacovA', slug_field='uuid', read_only=True)
     pacovB = serializers.SlugRelatedField(source='relation.pacovB', slug_field='uuid', read_only=True)
     # Method field that builds and object with visible data, based on type and user's insight level
-    added_data = serializers.SerializerMethodField()
+    insight_data = serializers.SerializerMethodField()
     
     class Meta:
         model = RelationInsight
-        fields = ('level', 'uuid', 'type', 'pacovA', 'pacovB', 'added_data')
+        fields = ('level', 'uuid', 'type', 'pacovA', 'pacovB', 'insight_data')
 
     #Method for making dynamic object with visible data
-    def get_added_data(self, obj):
+    def get_insight_data(self, obj):
         # Data for Level 1
         if obj.level == '1':
             return {

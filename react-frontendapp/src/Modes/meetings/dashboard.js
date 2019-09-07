@@ -1,8 +1,5 @@
 import React from 'react';
 
-import {filterService} from '../../_services/filter-service'
-import {RELATION_ID, PACOV_ID} from '../../Hardcoded/lookup-table'
-
 import MeetingsTable from "../../Components/meetings-table"
 import MeetingCard from "../../Components/meeting-card"
 
@@ -41,6 +38,7 @@ const Dashboard = (props) => {
         let cardobj = {}
         let rowdata = props.selected_meeting_row
         let meeting = props.meetings[rowdata.id]
+        console.log("chosen meeting:", meeting)
         cardobj.headline = rowdata.text + " - " + rowdata.date
         cardobj.participants = meeting.participants.map(item => {
             return {text: item.person_pacov.name, id: item.person_pacov.uuid}

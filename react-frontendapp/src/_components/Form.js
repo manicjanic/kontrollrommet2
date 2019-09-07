@@ -12,7 +12,7 @@ const Form = (props) => {
                 inputfield={element}
                 formdataobj={props.formdataobj}
                 updateValue={props.updateValue}
-                key={i}
+                index={i}
             />)
         )    
     }    
@@ -21,14 +21,14 @@ const Form = (props) => {
         return (
             formsetupobj.buttons.map((element, i) => <ButtonElement 
                 buttondata={element}
-                key={i}
+                index={i}
             />)
         )
     }    
 
     const ButtonElement = (props) => {
         let {buttondata} = props
-        return <Button key={props.key} type={buttondata.type}>{buttondata.text}</Button>
+        return <Button key={props.index} type={buttondata.type}>{buttondata.text}</Button>
     }
 
     const FormField = (props) => {
@@ -36,7 +36,7 @@ const Form = (props) => {
         
         if (inputfield.type === "select") {
             return (
-                <div key={props.key}>
+                <div key={props.index}>
                     <BForm.Label>{inputfield.label}</BForm.Label>
                     <BForm.Control as="select"
                         placeholder={inputfield.placeholder}
@@ -45,7 +45,7 @@ const Form = (props) => {
                         onChange={props.updateValue}
                     >
                     {inputfield.options.map(element => (
-                        <option key={element.value} value={element.value}>{element.text}</option>
+                        <option key={element.id} value={element.id}>{element.text}</option>
                     ))}
                     </BForm.Control>
                 </div>
@@ -53,7 +53,7 @@ const Form = (props) => {
         }
     
         return (
-            <div key={props.key}>
+            <div key={props.index}>
                 <BForm.Label>{inputfield.label}</BForm.Label>
                 <BForm.Control
                     placeholder={inputfield.placeholder}

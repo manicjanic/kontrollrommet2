@@ -4,7 +4,7 @@ import { Container } from 'react-bootstrap'
 // Helpers and Services
 import { PrivateRoute } from '../_helpers/PrivateRoute'
 import {dataService} from '../_services/data-service'
-import {productionService} from '../_services/production-service'
+import {constructionService} from '../_services/construction-service'
 
 // Mode Components
 import Dashboard from '../Modes/meetings/dashboard'
@@ -17,6 +17,8 @@ export default class MeetingsPage extends Component {
         all_persons: {},
         all_topics: {},
         all_meetings_enhanced: {},
+        // Scheme
+        defaultscheme_meeting: {},
         // Selection status
         selected_meeting_row: undefined
     }   
@@ -27,7 +29,7 @@ export default class MeetingsPage extends Component {
         this.setState({
             all_persons: dataService.getLocal_all_persons(pacovs),
             all_topics: dataService.getLocal_all_topics(pacovs),
-            all_meetings_enhanced: productionService.makeMeetingEnhancedObjList(pacovs, relations)
+            all_meetings_enhanced: constructionService.makeEnhancedMeetingObjList(pacovs, relations)
         })
     }
 

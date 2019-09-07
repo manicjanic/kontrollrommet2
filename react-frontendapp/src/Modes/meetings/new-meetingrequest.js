@@ -7,63 +7,38 @@ import {dataService} from '../../_services/data-service'
 
 import MeetingRequestForm from '../../Components/meetingrequest-form'
 import MeetingrequestModal from '../../Components/meetingrequest-modal'
-import ParticipantsList from '../../Components/participants-list'
-import TopicsList from '../../Components/topics-list'
+import MeetingPersonsList from '../../Components/participants-list'
+import MeetingTopicsList from '../../Components/topics-list'
 
 // Layout
 const NewMeetingRequest = (props) => {
     // Set local state
     const [formdata, setFormdata] = useState({})
-    const [schemedata, setSchemedata] = useState({
-        meetingtypes: makeOptionsList()
-    })    
-    const [participants, setParticipants] = useState({
+    const [scheme, setScheme] = useState(filterService.findPacovCategory(props.category, PACOV_ID.MEETING).defaultscheme)    
+    const [persons, setPersons] = useState({
         selected: [],
-        unselected: generateParticipants()
+        unselected: makePacovsDisplayList(props.persons, "name", "uuid")
     })
     const [topics, setTopics] = useState({
         selected: [],
-        unselected: generateTopics()
+        unselected: makePacovsDisplayList(props.topics, "headline", "uuid")
     })
-    const [showmodal, setShowmodal] = useState(false);
-        
-    function makeOptionsList() {
-        let meeting_category = filterService.findPacovCategory(props.category, PACOV_ID.MEETING)
-        let options = meeting_category.defaultscheme.meeting_type_choices
-        let resultlist = options.map(element => {
-            return {text: element.meeting_type_name, value: element.value}
-        })
-        console.log("restultlist from generate options", resultlist)
-        return resultlist
-    }
+    // Display status
+    const [display_modal, setDisplay_modal] = useState(false);
 
-    function generateParticipants() {
-        let {persons} = props
+    function makePacovsDisplayList (pacovs, textkey, idkey, valuekey) {
         let resultlist = []
-        for (let key in persons) {
-            let person = persons[key]
-            let participant = {text: person.name, value: person.uuid}
-            resultlist.push(participant)   
+        for (let key in pacovs) {
+            let pacov = pacovs[key]
+            let obj = {text: pacov[textkey], id: pacov[idkey], value: pacov[valuekey]}
+            resultlist.push(obj)   
         }
-        console.log("restultlist from generate participants", resultlist)
-        return resultlist
-    }
-
-    function generateTopics() {
-        let {topics} = props
-        let resultlist = []
-        for (let key in topics) {
-            let topic = topics[key]
-            let meetingtopic = {text: topic.headline, value: topic.uuid}
-            resultlist.push(meetingtopic)   
-        }
-        console.log("restultlist from generate participants", resultlist)
-        return resultlist
+        return resultlist       
     }
 
     const moveItem = (value, action, name) => {
         let list = {}
-        if (name === "participants") {list = participants}
+        if (name === "participants") {list = persons}
         if (name === "topics") {list = topics}
         if (action === "add") {
             let selected_item = list.unselected.splice(value, 1)
@@ -73,7 +48,7 @@ const NewMeetingRequest = (props) => {
             let selected_item = list.selected.splice(value, 1)
             list.unselected.push(selected_item[0])
         }
-        if (name === "participants") {setParticipants({selected: list.selected, unselected: list.unselected})} 
+        if (name === "participants") {setPersons({selected: list.selected, unselected: list.unselected})} 
         if (name === "topics") {setTopics({selected: list.selected, unselected: list.unselected})}    
     }
 
@@ -102,37 +77,37 @@ const NewMeetingRequest = (props) => {
         console.log(response)
     }
 
-    const handleClickOnUnselectedParticipants = (e) => {
-        let position = e.target.value
-        console.log("position of clicked:", position)
-        moveItem(position, "add", "participants") 
-    }
-
-    const handleClickOnSelectedParticipants = (e) => {
-        let position = e.target.value
-        console.log("position of clicked:", position)
-        moveItem(position, "remove", "participants") 
-    }
-
-    const handleClickOnUnselectedTopics = (e) => {
-        let position = e.target.value
-        console.log("position of clicked:", position)
-        moveItem(position, "add", "topics") 
-    }
-
-    const handleClickOnSelectedTopics = (e) => {
-        let position = e.target.value
-        console.log("position of clicked:", position)
-        moveItem(position, "remove", "topics") 
+    const handleClickOnAnyList = (e) => {
+        const {value, id, className} = e.target
+        console.log("position of clicked:", className, value, id)
+        let operator = ""
+        let list = ""
+        switch (className) {
+            case "unselected-participants":
+                operator = "add"
+                list = "participants"
+                break;
+            case "selected-participants":
+                    operator = "remove"
+                    list = "participants"
+                    break;
+            case "unselected-topics":
+                    operator = "add"
+                    list = "topics"
+                    break;
+            case "selected-topics":
+                    operator = "remove"
+                    list = "topics"
+                    break; 
+            default:
+                // no option
+        }
+        moveItem(value, operator, list) 
     }
 
     const handleClickOnMakeDocument = (e) => {
         e.preventDefault();
-        setShowmodal(true)
-    }
-
-    const setModal = (status) => {
-        setShowmodal(status)
+        setDisplay_modal(true)
     }
 
     // Function for handling changes in form
@@ -147,28 +122,26 @@ const NewMeetingRequest = (props) => {
             <MeetingRequestForm
             updateValue={updateValue}
             formdata={formdata}
-            meetingtypes={schemedata.meetingtypes}
+            scheme={scheme}
             />
-            <ParticipantsList
-                unselected={participants.unselected}
-                selected={participants.selected}
-                handleClickOnSelected={handleClickOnSelectedParticipants}
-                handleClickOnUnselected={handleClickOnUnselectedParticipants}
+            <MeetingPersonsList
+                unselected={persons.unselected}
+                selected={persons.selected}
+                handleClickOnAnyList={handleClickOnAnyList}
             />
-            <TopicsList
+            <MeetingTopicsList
                 unselected={topics.unselected}
                 selected={topics.selected}
-                handleClickOnSelected={handleClickOnSelectedTopics}
-                handleClickOnUnselected={handleClickOnUnselectedTopics}
+                handleClickOnAnyList={handleClickOnAnyList}
             />
             <Button onClick={handleClickOnMakeDocument}>Make Document</Button>
             <MeetingrequestModal
                 handleSubmit={handleSubmit}
                 topics={topics.selected}
-                participants={participants.selected}
+                participants={persons.selected}
                 formdata={formdata}
-                showmodal={showmodal}
-                setModal={setModal}
+                display_modal={display_modal}
+                setDisplay_modal={setDisplay_modal}
                 />
         </div>
     )

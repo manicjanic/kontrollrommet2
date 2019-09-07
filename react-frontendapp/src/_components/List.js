@@ -5,7 +5,7 @@ const Unordered = (props) => {
     if (displayobj) {
         return (
             <ul>
-                {displayobj.map(item => <li onClick={props.handleClick} key={item.value} value={item.position} id={item.value}>
+                {displayobj.map((item, i) => <li className={props.name} onClick={props.handleClick} key={item.id} id={item.id} value={item.value? item.value : i}>
                     {item.text}
                 </li>)}
             </ul>
@@ -18,7 +18,9 @@ const Ordered = (props) => {
     const {displayobj} = props
     return (
         <ol>
-            {displayobj.map(item => <li key={item.value} value={item.position} id={item.value}>{item.text}</li>)}
+            {displayobj.map((item, i) => <li className={props.name} onClick={props.handleClick} key={item.id} id={item.id} value={item.value? item.value : i}>
+                {item.text}
+            </li>)}
         </ol>
     )
 
@@ -30,7 +32,7 @@ const Inline = (props) => {
     return (
     <ul>
         {displayobj.map((item, i) => 
-        <li style={{display: 'inline'}} key={item.value} value={item.position} id={item.value}>
+        <li style={{display: 'inline'}} className={props.name} onClick={props.handleClick} key={item.id} id={item.id} value={item.value? item.value : i}>
             {item.text}
             {i === length-1? "" : ", "} 
         </li>)}

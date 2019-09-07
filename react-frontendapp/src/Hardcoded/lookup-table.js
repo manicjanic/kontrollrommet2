@@ -37,3 +37,18 @@ Object.freeze(PACOV_ID)
 Object.freeze(RELATION_ID)
 Object.freeze(KEY)
 export {PACOV_ID, RELATION_ID, KEY}
+
+let scheme = {
+    extended_data: {
+        suggested_meetingdate: "Date",
+        meeting_type_name: "String"
+    },
+    formdata: {
+        meeting_type_choices: [
+            {meeting_type_name:"Styremøte",
+            id:"1"},
+            {meeting_type_name:"Arbeidsmøte",
+            id:"2"}
+        ]
+   }
+}

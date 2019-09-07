@@ -12,7 +12,6 @@ const getLocal_all_topics = (pacovs) => filterService.filterPacovsByCategory(pac
 const getLocal_all_meetings_enhanced = (pacovs, relations) => {
     let meetings = filterService.filterPacovsByCategory(pacovs, PACOV_ID.MEETING)
     let meetings_enhanced = constructionService.enhancePacovs(meetings, pacovs, relations)
-    console.log("meetings enhanced:", meetings_enhanced)
     return meetings_enhanced
 }
 
