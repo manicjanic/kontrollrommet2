@@ -3,7 +3,9 @@ from .models import PACOV, Relation
 
 
 class PACOVSerializer(serializers.ModelSerializer):
-
+    
+    specific_data = serializers.JSONField(binary=True)
+    
     class Meta:
         model = PACOV
         fields = ('uuid', 'name', 'category', 'started', 'ended', 'idcode', 'question', 'specific_data')

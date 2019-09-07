@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Route } from "react-router-dom";
 
-// Frontend Database
+// Frontend Database (NOT yet in use)
 import DB from './db'
-// Authorized routes with token
+// Helper routine to make Authorized routes that demand active usertoken
 import { PrivateRoute } from './_helpers/PrivateRoute';
 // Navbar
 import Navbar from './Pages/navbar'
@@ -16,7 +16,7 @@ import MeetingsPage from './Pages/meetings-page'
 
 class App extends Component {
 
-    // Defining Central State
+    // Set Central State
     state = {
         // Database
         db: new DB('pacovbase'),
@@ -29,9 +29,12 @@ class App extends Component {
         // Application status indicators
         is_loading: false,
         is_loggedin: false,
-        // Derivatives for Application use
-        userpacov: {},
+        // Derived data from Pacovs and Relations, to avid unnecessary filter and construction. May contain added data
+        // Person-Pacov belonging to user
+        user_pacov: {},
+        // Lists with expanded relations, connected to user_pacov
         user_roles: [],
+        user_ownerships: [],
         // Selection status
         selected_user_role: {}
     }
@@ -72,7 +75,7 @@ class App extends Component {
             <PrivateRoute path='/meetings' component={(props) => <MeetingsPage {...props} 
                 pacovs={this.state.pacovs}
                 relations={this.state.relations}
-                userpacov={this.state.userpacov}
+                user_pacov={this.state.user_pacov}
                 category={this.state.category}
             />}/>
         </div>
@@ -83,7 +86,7 @@ class App extends Component {
         <div>
             <Navbar 
                 is_loggedin={this.state.is_loggedin} 
-                userpacov={this.state.userpacov}
+                user_pacov={this.state.user_pacov}
                 user_roles={this.state.user_roles}
                 selected_user_role={this.state.selected_user_role}
                 alterState={this.alterState}

@@ -14,14 +14,12 @@ test_router.register(r'pacovs', base_views.PACOVView, 'pacovs')
 test_router.register(r'relations', base_views.RelationView, 'relation')     
 # USER calls
 user_router = routers.DefaultRouter()                      
-user_router.register(r'pacovs', user_views.PACOVInsightView, 'user_pacovs')     
-user_router.register(r'relations', user_views.RelationInsightView, 'user_relations')     
+user_router.register(r'pacov', user_views.PACOVInsightView, 'user_pacov')     
+user_router.register(r'relation', user_views.RelationInsightView, 'user_relation')     
 # CATALOG calls
 catalog_router = routers.DefaultRouter()
-catalog_router.register(r'pacovtype', catalog_views.CoreTypeView, 'pacovtype')     
 catalog_router.register(r'relationtype', catalog_views.CoreRelationTypeView, 'relationtype')
 catalog_router.register(r'category', catalog_views.CategoryView, 'category')     
-catalog_router.register(r'defaultscheme', catalog_views.DefaultSchemeView, 'defaultscheme')     
 # REGISTRATION calls
 # register_router = routers.DefaultRouter()
 # register_router.register(r'pacov', register_views.RegisterPacovView, 'pacov')

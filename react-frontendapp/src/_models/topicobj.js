@@ -1,6 +1,6 @@
-class TopicObj {
+class MeetingTopicObject {
     constructor() {
-        this.topic_uuid = "uuid"
+        this.topic_pacov = {}
         this.request_headline = ""
         this.request_desctiption = ""
         this.request_listposition = null

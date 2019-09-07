@@ -1,5 +1,5 @@
 import {filterService} from './filter-service'
-import {PACOV_ID, KEY} from '../_helpers/lookup-table'
+import {PACOV_ID, KEY} from '../Hardcoded/lookup-table'
 import {MeetingObj} from '../_models/meetingobj'
 
 

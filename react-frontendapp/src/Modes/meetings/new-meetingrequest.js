@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import {Button} from 'react-bootstrap'
 
 import {filterService} from '../../_services/filter-service'
-import {PACOV_ID} from '../../_helpers/lookup-table'
+import {PACOV_ID, RELATION_ID} from '../../Hardcoded/lookup-table'
+import {dataService} from '../../_services/data-service'
 
 import MeetingRequestForm from '../../Components/meetingrequest-form'
+import MeetingrequestModal from '../../Components/meetingrequest-modal'
 import ParticipantsList from '../../Components/participants-list'
 import TopicsList from '../../Components/topics-list'
 
@@ -22,6 +25,7 @@ const NewMeetingRequest = (props) => {
         selected: [],
         unselected: generateTopics()
     })
+    const [showmodal, setShowmodal] = useState(false);
         
     function makeOptionsList() {
         let meeting_category = filterService.findPacovCategory(props.category, PACOV_ID.MEETING)
@@ -73,9 +77,29 @@ const NewMeetingRequest = (props) => {
         if (name === "topics") {setTopics({selected: list.selected, unselected: list.unselected})}    
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-
+        // Construct a proper Request meeting object
+        let invite = {
+            category: PACOV_ID.REQUEST,
+            started: new Date(),
+            specific_data: JSON.stringify({})
+        }
+        // Construct a proper Request meeting object
+        let meeting = {
+            category: PACOV_ID.MEETING,
+            data: {something: formdata},
+            specific_data: JSON.stringify({
+                suggested_meetingdate: formdata.suggested_meetingdate,
+                meeting_type: formdata.meeting_type
+            })
+        }
+        console.log("Submitting", invite, meeting, formdata)
+        let invite_response = await dataService.postDataAuth("api/user/pacov/register", invite)
+        let meeting_response = await dataService.postDataAuth("api/user/pacov/register", meeting)
+        let inviter_relation = {type: RELATION_ID.INVITER, pacovA: props.user_pacov.uuid, pacovB: invite_response.uuid}
+        let response = await dataService.postDataAuth("api/user/relation/register", inviter_relation)
+        console.log(response)
     }
 
     const handleClickOnUnselectedParticipants = (e) => {
@@ -102,6 +126,15 @@ const NewMeetingRequest = (props) => {
         moveItem(position, "remove", "topics") 
     }
 
+    const handleClickOnMakeDocument = (e) => {
+        e.preventDefault();
+        setShowmodal(true)
+    }
+
+    const setModal = (status) => {
+        setShowmodal(status)
+    }
+
     // Function for handling changes in form
     const updateValue = (e) => { 
         e.persist();
@@ -113,7 +146,6 @@ const NewMeetingRequest = (props) => {
         <div>
             <MeetingRequestForm
             updateValue={updateValue}
-            handleSubmit={handleSubmit}
             formdata={formdata}
             meetingtypes={schemedata.meetingtypes}
             />
@@ -129,6 +161,15 @@ const NewMeetingRequest = (props) => {
                 handleClickOnSelected={handleClickOnSelectedTopics}
                 handleClickOnUnselected={handleClickOnUnselectedTopics}
             />
+            <Button onClick={handleClickOnMakeDocument}>Make Document</Button>
+            <MeetingrequestModal
+                handleSubmit={handleSubmit}
+                topics={topics.selected}
+                participants={participants.selected}
+                formdata={formdata}
+                showmodal={showmodal}
+                setModal={setModal}
+                />
         </div>
     )
 }

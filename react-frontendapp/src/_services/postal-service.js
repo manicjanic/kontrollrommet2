@@ -5,7 +5,8 @@ var apiBaseUrl = "http://localhost:8000/";
 export const postalService = {
     post,
     get,
-    get_auth, 
+    get_auth,
+    post_auth 
 };
 
 async function post(payload, api) {
@@ -25,6 +26,11 @@ async function get(api) {
 
 async function get_auth(api) {
     const response = await axios.get(apiBaseUrl + api, { 'headers': authHeader() });
+    return handleResponse(response);
+}
+
+async function post_auth(api, payload) {
+    const response = await axios.post(apiBaseUrl + api, payload, { 'headers': authHeader() });
     return handleResponse(response);
 }
 

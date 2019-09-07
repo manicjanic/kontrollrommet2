@@ -1,26 +1,28 @@
 // GLOBAL CONSTANTS
+// PACOV Category IDs
 const PACOV_ID = {
-    // PACOV Category IDs
-    PERSON: 5,
     MEETING: 2,
-    TOPIC: 8,
     COMPANY: 3,
+    PERSON: 5,
+    TOPIC: 8,
+    REQUEST: 10, //(Action)
+    // To be removed
     INVITE: 10, //(Action)
 }
 
 // Relation Type IDs
 const RELATION_ID = {
+    OWNERSHIP: 2,
+    ROLE: 3,
     // MEETING RELATED
     INVITER: 4, //(Expresser)
     INVITEE: 5, //(Receiver)
-    EVENT_IN_QUESTION: 7,
-    HOST: 9,
-    PARTICIPANT: 8,
     MEETING_TOPIC: 6,
+    EVENT_IN_QUESTION: 7,
+    PARTICIPANT: 8,
+    HOST: 9,
     REQUEST_TOPIC: 10,
     EXECUTIVE_ENTITY: 11,
-    ROLE: 3,
-    OWNERSHIP: 2
 } 
 
 const KEY = {

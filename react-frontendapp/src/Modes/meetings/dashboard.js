@@ -1,29 +1,36 @@
 import React from 'react';
+
+import {filterService} from '../../_services/filter-service'
+import {RELATION_ID, PACOV_ID} from '../../Hardcoded/lookup-table'
+
 import MeetingsTable from "../../Components/meetings-table"
 import MeetingCard from "../../Components/meeting-card"
+
 import {Button, Row, Col} from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 
 // Layout
 const Dashboard = (props) => {
-    
+    const {meetings} = props
     //Make derived data from props
     const makeTableData = () => {
-        const {meetings} = props
         let tableobj = []
         for (let key in meetings) {
-            let meeting = meetings[key]
-            // Constuct Listobj
             let rowobj = {}
+            let meeting = meetings[key]
+            // Find date
             let date = meeting.suggested_meetingdate? new Date(meeting.suggested_meetingdate).toLocaleDateString() : "no date specified"
-            // If no Meeting type, set generic text
-            let type = meeting.meeting_type_name? meeting.meeting_type_name : "Meeting"
-            let entity = meeting.executive_entity? ( " i " + meeting.executive_entity.name) : ""
-            rowobj.text = type + entity
-            if (meeting.status === "DRAFT") {rowobj.text += " (Draft)"}
+            // Find meeting type
+            let type = meeting.meeting_type_name? meeting.meeting_type_name : "A Meeting"
+            // Find entity
+            let entity_name = meeting.executive_entity? " i " + meeting.executive_entity.name : ""             
+            let text = type + entity_name
+            if (meeting.status === "DRAFT") {text += " (Draft)"}
+            // Make row object
+            rowobj.text = text
             rowobj.date = date
             rowobj.id = meeting.uuid
-            // Add Listobj
+            // Add to tableobj
             tableobj.push(rowobj)   
         }
         return tableobj
@@ -33,24 +40,16 @@ const Dashboard = (props) => {
     const makeMeetingCardData = () => {
         let cardobj = {}
         let rowdata = props.selected_meeting_row
-        let meetingobj = props.meetings[rowdata.id]
+        let meeting = props.meetings[rowdata.id]
         cardobj.headline = rowdata.text + " - " + rowdata.date
-        cardobj.participants = []
-        meetingobj.participants.forEach(participant => {
-            let listobj = {}
-            listobj.text = participant.person_pacov.name
-            listobj.value = participant.person_pacov.uuid
-            cardobj.participants.push(listobj)
+        cardobj.participants = meeting.participants.map(item => {
+            return {text: item.person_pacov.name, id: item.person_pacov.uuid}
         })
-        cardobj.topics = []
-        const orderedtopics = meetingobj.topics.sort((a, b) => a.request_listposition - b.request_listposition)
-        orderedtopics.forEach((topic, i) => {
-            let listobj = {}
-            listobj.text = topic.request_headline
-            listobj.position = i
-            listobj.id = topic.topic_pacov.uuid
-            cardobj.topics.push(listobj)
+        cardobj.topics = meeting.topics.map(item => {
+            return {text: item.topic_pacov.name, id: item.topic_pacov.uuid, value: item.request_listposition}
         })
+        // Sort in order
+        cardobj.topics = cardobj.topics.sort((a, b) => a.value - b.value)
         return cardobj
     }
 

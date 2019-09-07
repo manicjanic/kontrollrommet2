@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
 import {dataService} from '../_services/data-service'
 import {filterService} from '../_services/filter-service'
-import {ConstructionService} from '../_services/construction-service'
-import {productionService} from '../_services/production-service'
+import {constructionService} from '../_services/construction-service'
 
     // List over datas to get from server
     const API_REQUEST_LIST = [{
         name: "pacovs",
         idkey: "uuid",
-        url: "api/user/pacovs/"},{
+        url: "api/user/pacov/"},{
         name: "relations",
         idkey: "uuid",
-        url: "api/user/relations"},{
+        url: "api/user/relation"},{
         name: "category",
         idkey: "id",
         url: "api/catalog/category",},{
@@ -29,18 +28,18 @@ export default class LoaderPage extends Component {
         // Construct Objects for use in Frontend State 
         let stateobj = {}
         API_REQUEST_LIST.forEach((element, index) => {
-            stateobj[element.name] = ConstructionService.constructListObj(resultlist[index], element.idkey) 
+            stateobj[element.name] = constructionService.constructListObj(resultlist[index], element.idkey) 
         })
         // Flatten added_ and specific_ data in Pacovs and Relations 
-        stateobj.pacovs = ConstructionService.flattenData(stateobj.pacovs, "added_data")
-        stateobj.relations = ConstructionService.flattenData(stateobj.relations, "added_data")
-        stateobj.pacovs = ConstructionService.flattenData(stateobj.pacovs, "specific_data")
-        stateobj.relations = ConstructionService.flattenData(stateobj.relations, "specific_data")
-        // Find userpacov and Extract for State
-        stateobj.userpacov = Object.values(filterService.filterPacovsByLevel(stateobj.pacovs, "0"))[0]
+        stateobj.pacovs = constructionService.flattenData(stateobj.pacovs, "added_data")
+        stateobj.relations = constructionService.flattenData(stateobj.relations, "added_data")
+        stateobj.pacovs = constructionService.flattenData(stateobj.pacovs, "specific_data")
+        stateobj.relations = constructionService.flattenData(stateobj.relations, "specific_data")
+        // Find user_pacov and Extract for State
+        stateobj.user_pacov = Object.values(filterService.filterPacovsByLevel(stateobj.pacovs, "0"))[0]
         // Make Custom Produced Objects for State
-        const {pacovs, relations, userpacov} = stateobj
-        stateobj.user_roles = productionService.produceUserRoles(relations, userpacov, pacovs)
+        const {pacovs, relations, user_pacov} = stateobj
+        stateobj.user_roles = dataService.getLocal_user_roles_expanded(relations, user_pacov, pacovs)
         // Set selection to first on list
         stateobj.selected_user_role = Object.keys(stateobj.user_roles)[0]        
         // Set Loading to false in the end of State alteration

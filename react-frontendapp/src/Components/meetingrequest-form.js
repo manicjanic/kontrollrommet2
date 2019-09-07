@@ -8,18 +8,13 @@ const MeetingRequestForm = (props) => {
             label: "Suggested Meetingdate:",
             type: "date",
             options: undefined,
-            formdatakey: "suggeste_meetingdate",
+            formdatakey: "suggested_meetingdate",
             },{
             label: "Meetingtype:",
             type: "select",
             options: props.meetingtypes,
-            formdatakey: "meetingtype",
-        }],
-        buttons: [{
-            text: "Make Document",
-            type: "submit"
-        }],
-        layoutinfo: undefined
+            formdatakey: "meeting_type",
+        }]
     }
     
     return (

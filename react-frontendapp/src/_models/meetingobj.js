@@ -1,3 +1,30 @@
+class MeetingObject {
+    constructor() {
+        // Additional properties to add to regular meeting pacov.
+        this.request = {}
+        this.participants = []
+        this.topics = []
+        this.getStatus = () => {
+            let meetingstatus = ""
+            if (!this.request_start) {
+                meetingstatus = "DRAFT"
+            }
+            if (this.request_start) {
+                meetingstatus = "CALLED"
+            }
+            if (this.meeting_start) {
+                meetingstatus = "ONGOING"
+            }
+            if (this.meeting_end) {
+                meetingstatus = "COMPLETED"
+            }
+            return meetingstatus   
+        }
+    }
+}
+
+export default MeetingObject
+
 class MeetingObj {
     constructor() {
         this.executive_entity = "entity_uuid";
@@ -24,5 +51,3 @@ class MeetingObj {
         }
     }
 }
-
-export default MeetingObj

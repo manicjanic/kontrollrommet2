@@ -37,8 +37,8 @@ class RegisterRelationView(generics.CreateAPIView):
 #            jsonfield = serializer.data.specific_data
 
             # Save Instance of Relation
-            pacov = serializer.save()
+            relation = serializer.save()
             # Make new Instance of Insight Based on Relation
-            RelationInsight.objects.create(user=user, pacov=pacov, level="1")
+            RelationInsight.objects.create(user=user, relation=relation, level="1")
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

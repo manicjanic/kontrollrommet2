@@ -78,6 +78,7 @@ const filterRelationsByType = (relations, typeid) => {
 
 // Filter relations containing Pacov and allign so PAVOV is A
 const findRelationsToPacov = (relations, pacov) => {
+    if (relations == undefined || pacov == undefined) {return null}
     console.log("running findRelationsToPacov with this data:", relations, pacov)
     let resultobj = {}
     for (let key in relations) {

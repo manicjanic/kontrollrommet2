@@ -7,13 +7,16 @@ import Dropdown from '../_components/Dropdown'
 
 export default class Navbar extends Component {
     
-    // Make derived data from State and construct dropdown content
+    // Make content data for dropdown menu
     makeDropdownContent = () => {
         const {user_roles} = this.props
         let menuobj_list = []
         for (let key in user_roles) {
+            let user_role = user_roles[key]
             let menuobj = {}
-            menuobj.text = user_roles[key].collective_entity.name + " as " + user_roles[key].role_type_name
+            let entity_name = user_role.pacovB.name
+            let role_name = user_role.role_type_name
+            menuobj.text = entity_name + " as " + role_name
             menuobj.value = key
             menuobj_list.push(menuobj)   
         };
@@ -37,9 +40,9 @@ export default class Navbar extends Component {
     
     // JSX-Element
     renderGreeting = () => {
-        const { userpacov } = this.props
-        return (userpacov? 
-            <span>Hello, {userpacov.name}. You are currently representing</span>
+        const { user_pacov } = this.props
+        return (user_pacov? 
+            <span>Hello, {user_pacov.name}. You are currently representing</span>
             :
             <span>Hello, stranger.</span>
         )
