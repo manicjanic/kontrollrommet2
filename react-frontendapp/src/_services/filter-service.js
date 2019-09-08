@@ -1,4 +1,4 @@
-//Search Functions
+//Filter functions
 
 // Find PacovCategory, takes listobj, returns object
 const findPacovCategory = (categorys, categoryid) => {

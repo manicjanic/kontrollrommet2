@@ -49,13 +49,13 @@ const makeTopicsList = (meeting_relations, request_relations) => {
             let pacov = relation.pacovB
             let obj = {}
             if (relation.type === RELATION_ID.MEETING_TOPIC) {
-                obj.request_headline = relation.headline
-                obj.request_description = relation.description
+                obj.request_headline = relation.specific_data.headline || relation.name
+                obj.request_description = relation.specific_data.description || ""
                 obj.request_listposition = relation.idcode   
             }
             if (relation.type === RELATION_ID.REQUEST_TOPIC) {
-                obj.ongoing_headline = relation.headline
-                obj.ongoing_description = relation.description
+                obj.ongoing_headline = relation.headline || relation.name
+                obj.ongoing_description = relation.description || ""
                 obj.ongoing_listposition = relation.idcode   
             }
             // Final saving of object

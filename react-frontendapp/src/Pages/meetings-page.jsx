@@ -48,6 +48,7 @@ export default class MeetingsPage extends Component {
                 />}/>
                 <PrivateRoute exact path="/meetings/newmeetingrequest" component={(props) => <NewMeetingrequest {...props} 
                     user_pacov={this.props.user_pacov}
+                    selected_user_role={this.props.selected_user_role}
                     category={this.props.category}
                     persons={this.state.all_persons}
                     topics={this.state.all_topics}

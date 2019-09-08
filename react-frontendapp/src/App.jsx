@@ -50,7 +50,6 @@ class App extends Component {
         return this.state[state_prop]
     }
     
-
     // JSX-Element
     renderLoading = () => {
         return <div>Loading...</div>
@@ -77,6 +76,7 @@ class App extends Component {
                 relations={this.state.relations}
                 user_pacov={this.state.user_pacov}
                 category={this.state.category}
+                selected_user_role={this.state.selected_user_role}
             />}/>
         </div>
     )

@@ -33,15 +33,13 @@ export default class LoaderPage extends Component {
         // Flatten added_ and specific_ data in Pacovs and Relations 
         stateobj.pacovs = constructionService.flattenData(stateobj.pacovs, "insight_data")
         stateobj.relations = constructionService.flattenData(stateobj.relations, "insight_data")
-        stateobj.pacovs = constructionService.flattenData(stateobj.pacovs, "specific_data")
-        stateobj.relations = constructionService.flattenData(stateobj.relations, "specific_data")
         // Find user_pacov and Extract for State
         stateobj.user_pacov = Object.values(filterService.filterPacovsByLevel(stateobj.pacovs, "0"))[0]
         // Make Custom Produced Objects for State
         const {pacovs, relations, user_pacov} = stateobj
         stateobj.user_roles = dataService.getLocal_user_roles_expanded(relations, user_pacov, pacovs)
         // Set selection to first on list
-        stateobj.selected_user_role = Object.keys(stateobj.user_roles)[0]        
+        stateobj.selected_user_role = Object.values(stateobj.user_roles)[0]      
         // Set Loading to false in the end of State alteration
         stateobj.is_loading = false
         // Set State with prepared data

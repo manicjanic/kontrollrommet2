@@ -15,7 +15,7 @@ export default class Navbar extends Component {
             let user_role = user_roles[key]
             let menuobj = {}
             let entity_name = user_role.pacovB.name
-            let role_name = user_role.role_type_name
+            let role_name = user_role.specific_data.role_type_name
             menuobj.text = entity_name + " as " + role_name
             menuobj.value = key
             menuobj_list.push(menuobj)   

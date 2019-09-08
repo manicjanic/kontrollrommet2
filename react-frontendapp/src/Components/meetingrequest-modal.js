@@ -6,20 +6,23 @@ const MeetingrequestModal = (props) => {
     
     const makeMeetingCardData = () => {
         let cardobj = {}
-        cardobj.headline = props.formdata.meeting_type + " - " + props.formdata.suggested_meetingdate
+        let meeting_type = props.scheme.inputfields[1].options.find(item => item.id == props.formdata.meeting_type)
+        console.log("check", props.formdata)
+        console.log("meeting type", meeting_type)
+        let entity = props.selected_user_role.pacovB
+        cardobj.headline = meeting_type.text + " i " + entity.name + " - " + props.formdata.suggested_meetingdate
         cardobj.participants = props.participants
         cardobj.topics = props.topics
         return cardobj
     }
 
-
     const handleClick = (e) => {
         if (e.target.name === "sendrequest") {props.handleSubmit(e)}
-        props.setModal(false)
+        props.setDisplay_modal(false)
     }
     
     return (
-        <Modal show={props.showmodal} onHide={handleClick}>
+        <Modal show={props.display_modal} onHide={handleClick}>
         <Modal.Header closeButton>
           <Modal.Title>Meeting Request</Modal.Title>
         </Modal.Header>
@@ -29,10 +32,10 @@ const MeetingrequestModal = (props) => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" name="savedraft" onClick={handleClick}>
-            Close
+            Save Draft
           </Button>
           <Button variant="primary" name="sendrequest" onClick={handleClick}>
-            Save Changes
+            Send Request
           </Button>
         </Modal.Footer>
       </Modal>

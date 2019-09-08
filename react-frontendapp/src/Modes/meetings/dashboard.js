@@ -16,9 +16,9 @@ const Dashboard = (props) => {
             let rowobj = {}
             let meeting = meetings[key]
             // Find date
-            let date = meeting.suggested_meetingdate? new Date(meeting.suggested_meetingdate).toLocaleDateString() : "no date specified"
+            let date = meeting.specific_data.suggested_meetingdate? new Date(meeting.specific_data.suggested_meetingdate).toLocaleDateString() : "no date specified"
             // Find meeting type
-            let type = meeting.meeting_type_name? meeting.meeting_type_name : "A Meeting"
+            let type = meeting.specific_data.meeting_type_name? meeting.specific_data.meeting_type_name : "A Meeting"
             // Find entity
             let entity_name = meeting.executive_entity? " i " + meeting.executive_entity.name : ""             
             let text = type + entity_name
