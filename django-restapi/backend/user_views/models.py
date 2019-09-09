@@ -1,13 +1,13 @@
+import uuid as uuid_field
 from django.db import models
 from datetime import datetime
-import uuid as uuid_field
 
 from django.contrib.auth.models import User
 from pacovbase.models import PACOV, Relation
 
-#Users sight scope into PACOVs
+#User's insight into PACOVs by level
 class PACOVInsight(models.Model):
-    #Defining the different Sight Levels
+    #Defining the different insight Levels
     LEVEL = [
         ('0', 'Me'),
         ('1', 'My'),
@@ -18,11 +18,10 @@ class PACOVInsight(models.Model):
     uuid = models.UUIDField(default=uuid_field.uuid4, unique=True, editable=False)
     # Specified User
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    #The Object observed
+    #The PACOV observed
     pacov = models.ForeignKey(PACOV, on_delete=models.CASCADE)
     #Insight Level
     level = models.CharField(max_length=1, choices=LEVEL)
-    
     #Timestamps
     timestamp_created = models.DateTimeField(auto_now_add=True, editable=False)
     timestamp_updated = models.DateTimeField(auto_now=True, editable=False)
@@ -31,9 +30,9 @@ class PACOVInsight(models.Model):
         unique_together = ['user', 'pacov']
 
     def __str__(self):
-        return self.user.username + " - " + self.level + " - " + self.pacov.name
+        return self.user.username + " Insight Level " + self.level + ": " + self.pacov.name
 
-#Users sight scope into Relations
+#User's insight into Relations by level
 class RelationInsight(models.Model):
     LEVEL = [
         ('1', 'My'),
@@ -48,7 +47,7 @@ class RelationInsight(models.Model):
     #The Object observed
     relation = models.ForeignKey(Relation, on_delete=models.CASCADE)
     #Insight Level
-    level = models.CharField(max_length=1, choices=LEVEL, blank=True)
+    level = models.CharField(max_length=1, choices=LEVEL)
     
     #Timestamps
     timestamp_created = models.DateTimeField(auto_now_add=True, editable=False)
@@ -58,5 +57,5 @@ class RelationInsight(models.Model):
         unique_together = ['user', 'relation']
 
     def __str__(self):
-        return self.user.username + " Level " + self.level + " " + self.relation.name
+        return self.user.username + " Insight Level " + self.level + ": " + self.relation.name
 

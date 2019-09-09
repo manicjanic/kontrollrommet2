@@ -6,8 +6,12 @@ from user import views as user
 from pacovbase import views as base_views
 from catalog import views as catalog_views 
 from user_views import views as user_views
-from user_views import register_views as register_views
+from user_views import register_views
 
+# CATALOG calls
+catalog_router = routers.DefaultRouter()
+catalog_router.register(r'relationtype', catalog_views.CoreRelationTypeView, 'relationtype')
+catalog_router.register(r'category', catalog_views.CategoryView, 'category')     
 # FULL CALLS FOR TESTING PURPOSES ONLY
 test_router = routers.DefaultRouter()
 test_router.register(r'pacovs', base_views.PACOVView, 'pacovs')     
@@ -16,21 +20,17 @@ test_router.register(r'relations', base_views.RelationView, 'relation')
 user_router = routers.DefaultRouter()                      
 user_router.register(r'pacov', user_views.PACOVInsightView, 'user_pacov')     
 user_router.register(r'relation', user_views.RelationInsightView, 'user_relation')     
-# CATALOG calls
-catalog_router = routers.DefaultRouter()
-catalog_router.register(r'relationtype', catalog_views.CoreRelationTypeView, 'relationtype')
-catalog_router.register(r'category', catalog_views.CategoryView, 'category')     
 # REGISTRATION calls
 # register_router = routers.DefaultRouter()
 # register_router.register(r'pacov', register_views.RegisterPacovView, 'pacov')
 
 urlpatterns = [
-    #Full Calls FOR TESTING
-    path('api/', include(test_router.urls)), 
     #Django Admin calls
     path('admin/', admin.site.urls), 
     #Catalog calls
     path('api/catalog/', include(catalog_router.urls)),
+    #Full Calls FOR TESTING
+    path('api/', include(test_router.urls)), 
     #API USER calls
     path('api/user/', include(user_router.urls)),
     # REGISTRATION calls
