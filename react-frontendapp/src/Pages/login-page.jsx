@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
 import {Container} from 'react-bootstrap'
 import {Alert} from 'react-bootstrap'
-
 import {dataService} from '../_services/data-service'
-
 import LoginForm from '../Components/login-form'
 
 export default class LoginPage extends Component {
-
     state = {
         formdata: {},
         error: false,
@@ -38,15 +35,15 @@ export default class LoginPage extends Component {
             errormessage: errormessage, 
             error: true,
             formdata: {username: "", password: ""}
-        })     
-
+        })
     }
 
     // Function for handling changes in form
     updateValue = (e) => {
-        let formdata = this.state.formdata
-        formdata[e.target.name] = e.target.value
-        this.setState({formdata: formdata})    
+        const {name, value} = e.target
+        const newformdata = {...this.state.formdata}
+        newformdata[name] = value
+        this.setState({formdata: newformdata})    
     }
     
     // JSX-Element
@@ -76,7 +73,7 @@ export default class LoginPage extends Component {
         return (
             <div>
                 <Container className="loginpage-content"> 
-                    {this.renderBypass()}   
+                    {this.renderLoginForm()}   
                     {this.state.error? this.renderAlertMessage() : ""} 
                 </Container>
             </div>
@@ -86,3 +83,4 @@ export default class LoginPage extends Component {
 
 // Activate login
 //                     {this.renderLoginForm()}                    
+//                      {this.renderBypass()}                        

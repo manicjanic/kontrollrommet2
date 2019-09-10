@@ -23,7 +23,7 @@ const LoginForm = (props) => {
     }
 
     return (
-        <div>
+        <div id="login-form">
             <Form
                 handleSubmit={props.handleSubmit}
                 updateValue={props.updateValue}

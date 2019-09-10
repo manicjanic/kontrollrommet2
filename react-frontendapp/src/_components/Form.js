@@ -12,7 +12,7 @@ const Form = (props) => {
                 inputfield={element}
                 formdataobj={props.formdataobj}
                 updateValue={props.updateValue}
-                index={i}
+                key={i}
             />)
         )    
     }    
@@ -21,14 +21,14 @@ const Form = (props) => {
         return (
             formsetupobj.buttons.map((element, i) => <ButtonElement 
                 buttondata={element}
-                index={i}
+                key={i}
             />)
         )
     }    
 
     const ButtonElement = (props) => {
         let {buttondata} = props
-        return <Button key={props.index} type={buttondata.type}>{buttondata.text}</Button>
+        return <Button type={buttondata.type}>{buttondata.text}</Button>
     }
 
     const FormField = (props) => {
@@ -36,9 +36,10 @@ const Form = (props) => {
         
         if (inputfield.type === "select") {
             return (
-                <div key={props.index}>
+                <div>
                     <BForm.Label>{inputfield.label}</BForm.Label>
                     <BForm.Control as="select"
+                        id={inputfield.formdatakey}
                         placeholder={inputfield.placeholder}
                         name={inputfield.formdatakey}
                         value={props.formdataobj[inputfield.formdatakey] || ""}
@@ -53,13 +54,14 @@ const Form = (props) => {
         }
     
         return (
-            <div key={props.index}>
+            <div>
                 <BForm.Label>{inputfield.label}</BForm.Label>
                 <BForm.Control
+                    id={inputfield.formdatakey}
                     placeholder={inputfield.placeholder}
                     type={inputfield.type}
                     name={inputfield.formdatakey}
-                    value={props.formdataobj[inputfield.formdatakey] || ""}
+                    value={props.formdataobj[inputfield.formdatakey]}
                     onChange={props.updateValue}
                 />
             </div>
@@ -68,7 +70,7 @@ const Form = (props) => {
         
     return (
         <div>
-            <BForm onSubmit={handleSubmit}>
+            <BForm onSubmit={handleSubmit} name="standard-form">
                 {formsetupobj.inputfields? renderInputFields() : ""}
                 {formsetupobj.buttons? renderButtons() : ""}
             </BForm>

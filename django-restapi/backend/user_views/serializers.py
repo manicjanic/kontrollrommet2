@@ -27,7 +27,6 @@ class PACOVInsightSerializer(serializers.ModelSerializer):
                 'idcode' : obj.pacov.idcode,
                 'question' : obj.pacov.question,
                 'specific_data': obj.pacov.specific_data
-
             }
         elif obj.level == '1':
             return {

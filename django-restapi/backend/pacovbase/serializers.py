@@ -1,15 +1,13 @@
 from rest_framework import serializers
 from .models import PACOV, Relation
 
-
 class PACOVSerializer(serializers.ModelSerializer):
-    
     specific_data = serializers.JSONField(binary=True)
     
     class Meta:
         model = PACOV
         fields = ('uuid', 'name', 'category', 'started', 'ended', 'idcode', 'question', 'specific_data')
-        read_only_fields = ('uuid', 'name')
+        read_only_fields = ('uuid',)
 
     def create(self, validated_data):
         # Routine for Generating name, based on specific data and type
