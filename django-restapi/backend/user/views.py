@@ -29,7 +29,7 @@ class UserLoginView(APIView):
         else:
             if user and (not is_tokened):
                 print("User has no Token")
-                return Response({"Found no Token"}, status.HTTP_401_UNAUTHORIZED)
+                return Response("Found no Token", status.HTTP_401_UNAUTHORIZED)
             else:
                 print("Wrong credentials")
-                return Response({"Wrong Credentials"}, status.HTTP_400_BAD_REQUEST)
+                return Response({"errortext": "Wrong Credentials"}, status.HTTP_400_BAD_REQUEST)

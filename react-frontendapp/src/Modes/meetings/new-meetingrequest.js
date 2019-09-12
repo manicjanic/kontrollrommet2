@@ -1,16 +1,18 @@
+// React Modules
 import React, { useState } from 'react';
+// React Bootstrap elements
 import {Button} from 'react-bootstrap'
-
+// Services and constants
 import {filterService} from '../../_services/filter-service'
-import {PACOV_ID, RELATION_ID} from '../../Hardcoded/lookup-table'
 import {dataService} from '../../_services/data-service'
-
+import {PACOV_ID, RELATION_ID} from '../../Hardcoded/lookup-table'
+// App specific components
 import MeetingRequestForm from '../../Components/meetingrequest-form'
 import MeetingrequestModal from '../../Components/meetingrequest-modal'
 import MeetingPersonsList from '../../Components/participants-list'
 import MeetingTopicsList from '../../Components/topics-list'
 
-// Layout
+// New Meeting Request Mode Component
 const NewMeetingRequest = (props) => {
     // Set local state
     const [formdata, setFormdata] = useState({})

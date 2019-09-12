@@ -1,10 +1,11 @@
+// React Modules
 import React from 'react';
-
-import MeetingsTable from "../../Components/meetings-table"
-import MeetingCard from "../../Components/meeting-card"
-
+// React Bootstrap Elements
 import {Button, Row, Col} from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
+// Specific Components
+import MeetingsTable from "../../Components/meetings-table"
+import MeetingCard from "../../Components/meeting-card"
 
 // Layout
 const Dashboard = (props) => {

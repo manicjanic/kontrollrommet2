@@ -1,17 +1,18 @@
-import React, { Component } from 'react';
-import { Container } from 'react-bootstrap'
-
+// React Modules
+import React, {Component} from 'react';
+// React Bootstrap Elements
+import {Container} from 'react-bootstrap'
 // Helpers and Services
-import { PrivateRoute } from '../_helpers/PrivateRoute'
+import {PrivateRoute} from '../_helpers/PrivateRoute'
 import {dataService} from '../_services/data-service'
 import {constructionService} from '../_services/construction-service'
-
 // Mode Components
 import Dashboard from '../Modes/meetings/dashboard'
 import NewMeetingrequest from '../Modes/meetings/new-meetingrequest'
 
+// Meeting Page Component
 export default class MeetingsPage extends Component {
-    // Set Page State
+    // Page State
     state = {
         // Collections of specific Pacovs by Category. Used in the Meeting Page
         all_persons: {},

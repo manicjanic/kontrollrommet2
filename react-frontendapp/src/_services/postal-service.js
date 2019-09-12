@@ -13,10 +13,7 @@ async function post(payload, api) {
     try {
         const response = await axios.post(apiBaseUrl + api, payload);
         return handleResponse(response);
-    } catch(error) {
-        return handleError(error)
-    }
-    
+    } catch(error) {return handleError(error)} 
 }
 
 async function get(api) {
@@ -35,14 +32,14 @@ async function post_auth(api, payload) {
 }
 
 function handleError(error) {
-    console.log("Error", error)    
+    console.log("Error", error.response)    
     const {data, status} = error.response
     const responseobj = {error: true, data: data, status: status}
     return responseobj
 }
 function handleResponse(response) {
+    console.log("Response", response)    
     const {data, status} = response
     const responseobj = {error: false, data: data, status: status}
-    console.log("Responseobj", responseobj)
     return responseobj
 }

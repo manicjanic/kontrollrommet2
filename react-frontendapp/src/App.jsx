@@ -1,11 +1,11 @@
+// React Modules
 import React, { Component } from 'react';
 import { Route } from "react-router-dom";
-
 // Frontend Database (NOT yet in use)
 import DB from './db'
 // Helper routine to make Authorized routes that demand active usertoken
 import { PrivateRoute } from './_helpers/PrivateRoute';
-// Navbar
+// Navbar Component
 import Navbar from './Pages/navbar'
 // Page Components
 import HomePage from './Pages/home-page'
@@ -14,40 +14,32 @@ import LogoutPage from './Pages/logout-page'
 import LoaderPage from './Pages/loader-page'
 import MeetingsPage from './Pages/meetings-page'
 
+// Main App Component
 class App extends Component {
 
-    // Set Central State
+    // Central State
     state = {
         // Database
         db: new DB('pacovbase'),
-        // Catalog Elements
+        // Pacovs and Relations
         category: {},
         relationtype: {},
-        // Pacovs and Relations
         pacovs: {},
         relations: {},
-        // Application status indicators
-        is_loading: false,
-        is_loggedin: false,
-        // Derived data from Pacovs and Relations, to avid unnecessary filter and construction. May contain added data
-        // Person-Pacov belonging to user
+        // User filtered Pacovs and Relations
         user_pacov: {},
-        // Lists with expanded relations, connected to user_pacov
         user_roles: [],
         user_ownerships: [],
-        // Selection status
-        selected_user_role: {}
+        // Globan status
+        is_loading: false,
+        is_loggedin: false,
+        // Global Selections
+        selected_user_role: {},
     }
 
-    // Callback function to manipulate state
-    // stateobj = state object to be set
+    // Callback function to alter state
     alterState = (stateobj) => {
         this.setState(stateobj)
-    }
-
-    // Callback function to get state value
-    getState = (state_prop) => {
-        return this.state[state_prop]
     }
     
     // JSX-Element
@@ -62,7 +54,7 @@ class App extends Component {
             <Route exact path='/' component={(props) => <HomePage {...props}
                 is_loggedin={this.state.is_loggedin}
             />}/>
-            <Route exact path='/login' component={(props) => <LoginPage {...props}
+            <Route path='/login' component={(props) => <LoginPage {...props}
                 alterState={this.alterState}
             />}/>
             <Route exact path='/logout' component={(props) => <LogoutPage {...props}

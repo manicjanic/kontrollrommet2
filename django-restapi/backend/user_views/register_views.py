@@ -11,21 +11,23 @@ from .models import PACOVInsight, RelationInsight
 #View of for register new PACOV, by User
 class RegisterPacovView(generics.CreateAPIView):       
     serializer_class = RegisterPacovSerializer                    
-
-    # Overrides perform save to make many=true dynamic. Means api point can accept single og list of objects to create.
-    def perform_create(self, serializer):
-        serializer = self.get_serializer(data=self.request.data, many=isinstance(self.request.data,list), context={'request': self.request})
-        serializer.is_valid()
-        serializer.save()
-        
+    
+    # Overrides create method to make many=true dynamic. Api can accept single or list of objects to create.
+    def create(self, request, *args, **kwargs):
+            serializer = self.get_serializer(data=request.data, many=isinstance(request.data,list))
+            serializer.is_valid(raise_exception=True)
+            self.perform_create(serializer)
+            headers = self.get_success_headers(serializer.data)
+            return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)        
 
 #View for register new Relation, by User
 class RegisterRelationView(generics.CreateAPIView):       
     serializer_class = RegisterRelationSerializer             
 
-    # Overrides perform save to make many=true dynamic. Means api point can accept single og list of objects to create.
-    def perform_create(self, serializer):
-        serializer = self.get_serializer(data=self.request.data, many=isinstance(self.request.data,list), context={'request': self.request})
-        serializer.is_valid()
-        serializer.save()
-
+    # Overrides create method to make many=true dynamic. Api can accept single or list of objects to create.
+    def create(self, request, *args, **kwargs):
+            serializer = self.get_serializer(data=request.data, many=isinstance(request.data,list))
+            serializer.is_valid(raise_exception=True)
+            self.perform_create(serializer)
+            headers = self.get_success_headers(serializer.data)
+            return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)        

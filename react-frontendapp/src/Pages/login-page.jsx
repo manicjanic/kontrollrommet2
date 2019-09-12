@@ -1,65 +1,58 @@
+// React Modules
 import React, { Component } from 'react';
-import {Container} from 'react-bootstrap'
-import {Alert} from 'react-bootstrap'
+import { Route } from "react-router-dom";
+// React Bootstrap elements
+import {Container, Alert, Button} from 'react-bootstrap'
+import { LinkContainer } from 'react-router-bootstrap'
+// Helpers and Services
 import {dataService} from '../_services/data-service'
+// Mode Components
+import NewUserMode from "../Modes/login/new-user";
+// App Specific Components
 import LoginForm from '../Components/login-form'
 
-export default class LoginPage extends Component {
+// Login Page Component
+export default class LoginPage extends Component { 
+    // Page State
     state = {
-        formdata: {},
-        error: false,
-        errormessage: undefined
+        // Page Status
+        is_errror: false,
+        error_message: ""
     }
-
-    // Async Login rutine, returns responseobj
-    attemptLogin = async (e) => {
-        e.preventDefault();
-        const {username, password} = this.state.formdata
+    
+    // Async rutine for Login Attempt, returns responseobj
+    attemptLogin = async (formdata) => {
+        const {username, password} = formdata
         // Call dataservice to process login data
         const responseobj = await dataService.postLogin(username, password)
-        let errormessage = ""
-        //If successfull response
+        // Handle Bad Response
+        if (responseobj.error) {
+            this.setState({
+                is_error: true,
+                error_message: responseobj.data.errortext, 
+            })
+        }
+        //Handle successful response
         if (!responseobj.error) {
             localStorage.setItem('userobj', JSON.stringify(responseobj.data));
             this.props.alterState({is_loggedin: true})
             this.props.history.push('/loader')
         }
-        // Handle Bad Response
-        if (responseobj.error) {
-            console.log("error in login", responseobj.status, responseobj.data[0])
-            if (responseobj.data[0] === "Wrong Credentials") {
-                errormessage = "Feil brukernavn/passord"
-            }
-        }
-        this.setState({
-            errormessage: errormessage, 
-            error: true,
-            formdata: {username: "", password: ""}
-        })
-    }
-
-    // Function for handling changes in form
-    updateValue = (e) => {
-        const {name, value} = e.target
-        const newformdata = {...this.state.formdata}
-        newformdata[name] = value
-        this.setState({formdata: newformdata})    
     }
     
     // JSX-Element
-    renderLoginForm = () => (
-        <LoginForm 
-            handleSubmit={this.attemptLogin}
-            updateValue={this.updateValue}
-            formdata={this.state.formdata}
-        />
+    renderLoginForm = () => <LoginForm handleSubmit={this.attemptLogin}/>
+
+    // JSX-Element
+    renderAlertMessage = () => <Alert variant="danger">{this.state.error_message}</Alert>
+
+    // JSX-Element
+    renderCreateUserButton = () => (
+        <LinkContainer to="/login/createuser">
+            <Button variant="success">Create New User</Button>
+        </LinkContainer>
     )
-
-    // Layout element, active on prop
-    renderAlertMessage = () => {
-        return <Alert variant="danger">{this.state.errormessage}</Alert>
-    }
-
+    
     // BYPASS FOR TESTING ONLY! //
     renderBypass = () => {
         console.log("Doing bypass of login...")
@@ -68,16 +61,23 @@ export default class LoginPage extends Component {
         return ""
     }
 
-    // NB! RUNNING ON BYPASS    
     render() {
         return (
-            <div>
-                <Container className="loginpage-content"> 
-                    {this.renderLoginForm()}   
-                    {this.state.error? this.renderAlertMessage() : ""} 
-                </Container>
-            </div>
-        );
+            <Container className="login-container">
+                <Route exact path="/login" component={() => (
+                    <div className="login-mode">
+                        {this.renderLoginForm()}   
+                        {this.state.is_error? this.renderAlertMessage() : ""}
+                        {this.renderCreateUserButton()}                     
+                    </div>
+                )}/>
+                <Route exact path="/login/createuser" component={(props) => (
+                    <div>
+                        <NewUserMode className="newuser-mode" {...props}/>
+                    </div>
+                )}/>
+            </Container>
+    );
     }
 }
 
