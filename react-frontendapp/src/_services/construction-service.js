@@ -147,12 +147,14 @@ const enhancePacovs = (unenhanceds, pacovs, relations) => {
 
 // Expand PacovA and B in a Relation to be full objects
 const expandPacovsInRelations = (pacovs, relations) => {
-    console.log("running expandPacovsInRelation with this data:", pacovs, relations)
+    console.log("running expandPacovsInRelation with this data:", pacovs, JSON.parse(JSON.stringify(relations)))
     let resultobj = {}
     for (let key in relations) {
         let relation = relations[key]
-        relation.pacovA = filterService.findPacovByUUID(pacovs, relation.pacovA)
-        relation.pacovB = filterService.findPacovByUUID(pacovs, relation.pacovB)
+        if (typeof relation.pacovA === "string" && typeof relation.pacovB === "string") {
+            relation.pacovA = filterService.findPacovByUUID(pacovs, relation.pacovA)
+            relation.pacovB = filterService.findPacovByUUID(pacovs, relation.pacovB)    
+        }
         resultobj[key] = relation
     }
     return resultobj

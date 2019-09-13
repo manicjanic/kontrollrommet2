@@ -7,7 +7,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 // Helpers and Services
 import {dataService} from '../_services/data-service'
 // Mode Components
-import NewUserMode from "../Modes/login/new-user";
+import NewUserMode from "../Modes/login/new-user-mode";
 // App Specific Components
 import LoginForm from '../Components/login-form'
 

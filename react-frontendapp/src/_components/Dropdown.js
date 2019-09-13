@@ -1,32 +1,32 @@
+// React Modules
 import React from 'react';
 
-// Dropdown menu element
-// takes Props: Menuobjlist, selected, handleSelection(), 
+// Dropdown Standard Component
 const Dropdown = (props) => {
-    const {menuobjlist} = props                    
+    // Gather Props
+    const {menuobj, selected, handleSelection} = props                    
     
-    if (menuobjlist.length) {
+    // JSX-Element
+    const renderMenuItems = () => {
         return (
-            <div>
-                <select value={props.selected.value} onChange={props.handleSelection}>
-                        <DropdownList menuobjlist={menuobjlist}/>
-                </select>
-            </div>
+            menuobj.menuitems.map(menuitem => {
+                return(
+                    <option value={menuitem.value} key={menuitem.value}>
+                        {menuitem.text}
+                    </option>
+                )
+            })
         )
     }
-    return ""
-}
 
-// List element
-const DropdownList = (props) => {
-    const dropdown = props.menuobjlist.map(menuitem => {
-        return(
-            <option value={menuitem.value} key={menuitem.value}>
-                {menuitem.text}
-            </option>
-        )
-    })
-    return dropdown
+    return (
+        <div>
+            <select value={selected.value} onChange={handleSelection}>
+                    {menuobj.menuitems? renderMenuItems() : ""}
+            </select>
+        </div>
+    )
+
 }
 
 export default Dropdown;

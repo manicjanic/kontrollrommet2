@@ -1,34 +1,20 @@
+// React Modules
 import React, { Component } from 'react';
+// React Bootstrap Elements
 import { Navbar as BootNavbar} from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
-
+// Specific Components
 import NavbarMenu from '../Components/navbar-menu'
-import Dropdown from '../_components/Dropdown'
+import NavbarDropdown from "../Components/navbar-dropdown";
 
+// Navbar Page Component
 export default class Navbar extends Component {
     
-    // Make content data for dropdown menu
-    makeDropdownContent = () => {
-        const {user_roles} = this.props
-        let menuobj_list = []
-        for (let key in user_roles) {
-            let user_role = user_roles[key]
-            let menuobj = {}
-            let entity_name = user_role.pacovB.name
-            let role_name = user_role.specific_data.role_type_name
-            menuobj.text = entity_name + " as " + role_name
-            menuobj.value = key
-            menuobj_list.push(menuobj)   
-        };
-        return menuobj_list
-    }
-
     // Callback for handling changes in Dropdown
     changeDropdownSelection = (e) => {
-        console.log("props in change selection", this.props.user_roles)
         let value = e.target.value
-        let selected = this.props.user_roles[value]
-        this.props.alterState({selected_user_role: selected}) 
+        let selected_user_role = this.props.user_roles[value]
+        this.props.alterState({selected_user_role: selected_user_role}) 
     }
 
     // JSX-Element
@@ -48,27 +34,27 @@ export default class Navbar extends Component {
         )
     }
 
+    // JSX-Element
     renderMenu = () => {
         return <NavbarMenu is_loggedin={this.props.is_loggedin}/>
     }
     
+    // JSX-Element
     renderDropdown = () => {
-        let menuobjlist = this.makeDropdownContent()
-        return (menuobjlist.length? 
-            <Dropdown 
-                menuobjlist={this.makeDropdownContent()}
-                selected={this.props.selected_user_role}
+        return (
+            <NavbarDropdown
+                selected_user_role={this.props.selected_user_role}
                 handleSelection={this.changeDropdownSelection}
-            /> 
-            :
-            ""
-        )
+                user_roles={this.props.user_roles}
+                pacovs={this.props.pacovs}
+            />)
     }
+
     render() {
         const { is_loggedin } = this.props
         return (
             <div>
-                <BootNavbar bg="light" expand="lg">
+                <BootNavbar bg="light" expand="lg" className="main-navbar">
                     {this.renderLogo()}
                     {this.renderMenu()}
                     <span>
@@ -76,7 +62,7 @@ export default class Navbar extends Component {
                             {is_loggedin? this.renderGreeting() : ""}
                         </div>
                         <div>
-                            {this.renderDropdown()}
+                            {Object.keys(this.props.user_roles).length? this.renderDropdown() : ""}
                         </div>
                     </span>
                 </BootNavbar>

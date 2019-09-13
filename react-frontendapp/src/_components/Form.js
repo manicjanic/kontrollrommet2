@@ -38,7 +38,7 @@ const Form = (props) => {
         )    
     }    
     
-    // JSX-Elemen
+    // JSX-Element
     const renderButtons = (props) => {
         return (
             formsetupobj.buttons.map((element, i) => 
@@ -91,7 +91,7 @@ const FormField = (props) => {
                 required={inputfield.required}
                 placeholder={inputfield.placeholder}
                 name={inputfield.formdatakey}
-                value={formdata[inputfield.formdatakey]}
+                value={formdata[inputfield.formdatakey] || ""}
                 onChange={updateValue}
             />
         </div>

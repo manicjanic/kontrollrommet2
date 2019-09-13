@@ -1,10 +1,10 @@
 // React Modules
 import React, { Component } from 'react';
 import { Route } from "react-router-dom";
+// Helpers and Services
+import { PrivateRoute } from './_helpers/PrivateRoute';
 // Frontend Database (NOT yet in use)
 import DB from './db'
-// Helper routine to make Authorized routes that demand active usertoken
-import { PrivateRoute } from './_helpers/PrivateRoute';
 // Navbar Component
 import Navbar from './Pages/navbar'
 // Page Components
@@ -28,8 +28,8 @@ class App extends Component {
         relations: {},
         // User filtered Pacovs and Relations
         user_pacov: {},
-        user_roles: [],
-        user_ownerships: [],
+        user_roles: {},
+        user_ownerships: {},
         // Globan status
         is_loading: false,
         is_loggedin: false,
@@ -39,6 +39,7 @@ class App extends Component {
 
     // Callback function to alter state
     alterState = (stateobj) => {
+        console.log("Altering State with this object", JSON.parse(JSON.stringify(stateobj)))
         this.setState(stateobj)
     }
     
@@ -77,7 +78,8 @@ class App extends Component {
     renderNavbar = () => (
         <div>
             <Navbar 
-                is_loggedin={this.state.is_loggedin} 
+                is_loggedin={this.state.is_loggedin}
+                pacovs={this.state.pacovs} 
                 user_pacov={this.state.user_pacov}
                 user_roles={this.state.user_roles}
                 selected_user_role={this.state.selected_user_role}
@@ -87,6 +89,7 @@ class App extends Component {
     )
 
     render() {
+        // Grab State
         const { is_loading } = this.state
         return (
             <div>

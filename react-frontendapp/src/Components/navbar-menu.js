@@ -1,34 +1,35 @@
+// React Modules
 import React, { useState, useEffect } from 'react';
 import { LinkContainer } from 'react-router-bootstrap'
-import {Nav} from 'react-bootstrap'
 
+import {Nav} from 'react-bootstrap'
 import {cssModifier} from '../_helpers/css-modifier'
 
+// Static data for Menu
+const MENU = [ 
+    {text: "DashboardMode", path: "/dashboard" },
+    {text: "Meetings", path: "/meetings"},
+    {text: "Login", path: "/login"},
+    {text: "Logout", path: "/logout"},   
+]
+
+// Preset for Menu status
+const MENUSTATUS_LOGGEDOUT = [
+    "disabled",
+    "disabled",
+    "enabled",
+    "hidden"
+]
+
+// Preset for Menu status
+const MENUSTATUS_LOGGEDIN = [
+    "enabled", 
+    "enabled",                 
+    "hidden", 
+    "enabled"
+]
+
 const NavbarMenu = (props) => {
-
-    // Static data for Menu
-    const MENU = [ 
-        {text: "Dashboard", path: "/dashboard" },
-        {text: "Meetings", path: "/meetings"},
-        {text: "Login", path: "/login"},
-        {text: "Logout", path: "/logout"},   
-    ]
-
-    // Preset for Menu status
-    const MENUSTATUS_LOGGEDOUT = [
-        "disabled",
-        "disabled",
-        "enabled",
-        "hidden"
-    ]
-
-    // Preset for Menu status
-    const MENUSTATUS_LOGGEDIN = [
-        "enabled", 
-        "enabled",                 
-        "hidden", 
-        "enabled"
-    ]
 
     // Defining state. Selected = id from selected in selection menu
     const [menustatus, setMenustatus] = useState(MENUSTATUS_LOGGEDOUT)

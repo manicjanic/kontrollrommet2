@@ -13,7 +13,7 @@ import MeetingPersonsList from '../../Components/participants-list'
 import MeetingTopicsList from '../../Components/topics-list'
 
 // New Meeting Request Mode Component
-const NewMeetingRequest = (props) => {
+const NewMeetingRequestMode = (props) => {
     // Set local state
     const [formdata, setFormdata] = useState({})
     const [scheme, setScheme] = useState(filterService.findPacovCategory(props.category, PACOV_ID.MEETING).defaultscheme)    
@@ -201,4 +201,4 @@ const NewMeetingRequest = (props) => {
     )
 }
 
-export default NewMeetingRequest
+export default NewMeetingRequestMode
