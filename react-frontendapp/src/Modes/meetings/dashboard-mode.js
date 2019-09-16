@@ -16,7 +16,8 @@ export default class DashboardMode extends Component {
                 <Row>
                     <Col>
                         <MeetingsTable 
-                            meetings={this.props.meetings} 
+                            meetings={this.props.meetings}
+                            selected_meeting_row={this.props.selected_meeting_row}
                             changeMeetingSelection={this.props.changeMeetingSelection}
                         />
                     </Col>
@@ -25,6 +26,7 @@ export default class DashboardMode extends Component {
                             <MeetingCard
                                 meetings={this.props.meetings} 
                                 is_selected={this.props.selected_meeting_row_uuid ? true : false}
+                                selected_meeting_row={this.props.selected_meeting_row}
                             />
                         :
                             ""

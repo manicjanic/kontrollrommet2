@@ -1,61 +1,82 @@
 // React Modules
-import React, { useState } from 'react';
+import React, { Component } from 'react';
 // React Bootstrap elements
 import {Button} from 'react-bootstrap'
-// Services and constants
-import {filterService} from '../../_services/filter-service'
+// Helpers and Services
 import {dataService} from '../../_services/data-service'
 import {PACOV_ID, RELATION_ID} from '../../Hardcoded/lookup-table'
-// App specific components
+// Specific components
 import MeetingRequestForm from '../../Components/meetingrequest-form'
-import MeetingrequestModal from '../../Components/meetingrequest-modal'
-import MeetingPersonsList from '../../Components/participants-list'
+import MeetingRequestModal from '../../Components/meetingrequest-modal'
+import ParticipantsList from '../../Components/participants-list'
 import MeetingTopicsList from '../../Components/topics-list'
 
 // New Meeting Request Mode Component
-const NewMeetingRequestMode = (props) => {
-    // Set local state
-    const [formdata, setFormdata] = useState({})
-    const [scheme, setScheme] = useState(filterService.findPacovCategory(props.category, PACOV_ID.MEETING).defaultscheme)    
-    const [persons, setPersons] = useState({
-        selected: [],
-        unselected: makePacovsDisplayList(props.persons, "name", "uuid")
-    })
-    const [topics, setTopics] = useState({
-        selected: [],
-        unselected: makePacovsDisplayList(props.topics, "name", "uuid", "idcode")
-    })
-    // Display status
-    const [display_modal, setDisplay_modal] = useState(false);
-
-    function makePacovsDisplayList (pacovs, textkey, idkey, valuekey) {
-        let resultlist = []
-        for (let key in pacovs) {
-            let pacov = pacovs[key]
-            let obj = {text: pacov[textkey], id: pacov[idkey], value: pacov[valuekey]}
-            resultlist.push(obj)   
-        }
-        return resultlist       
+export default class NewMeetingRequestMode extends Component {
+    // Mode State
+    state = {
+        //Meeting Pacov being made
+        new_meeting: {},
+        //Mode Status
+        display_modal: false,
     }
 
-    const moveItem = (value, action, name) => {
-        let list = {}
-        if (name === "participants") {list = persons}
-        if (name === "topics") {list = topics}
-        if (action === "add") {
-            let selected_item = list.unselected.splice(value, 1)
-            list.selected.push(selected_item[0])
+    // Universal Event Handler for Mode Level clicks
+    handleModeLevelClicks = (e) => {
+        const {id, value} = e.target
+        switch (id) {
+            case ("makedocument-button"):
+                this.openModal()
+                break;
+            case ("submit-button"):
+                this.attemptCreateNewMeeting()
+                break;
+            default:
+                // no option
         }
-        if (action === "remove") {
-            let selected_item = list.selected.splice(value, 1)
-            list.unselected.push(selected_item[0])
-        }
-        if (name === "participants") {setPersons({selected: list.selected, unselected: list.unselected})} 
-        if (name === "topics") {setTopics({selected: list.selected, unselected: list.unselected})}    
+
     }
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    // Universal Event Handler for Child Component Event
+    handleChildLevelEvent = (componentevent) => {
+        const {componentid, action, data} = componentevent
+        console.log("Receiving event" ,componentid, action, data)
+        switch (componentid) {
+            case ("meetingrequest-form"):
+                switch (action) {
+                    case ("store-data"):
+                        this.storeFormData(data)
+                        break;
+                    default:
+                    // no action
+                }
+                break;
+            case ("meetingrequest-modal"):
+                switch (action) {
+                    case ("submit-data"):
+                        this.attemptCreateNewMeeting(data)
+                        break;
+                    default:
+                    // no action
+                }
+                break;    
+            default:
+                // no option
+        }
+    }
+    
+    // Routine for Opening Modal
+    openModal(){
+        this.setState({display_modal: true})
+    }
+
+    storeFormData(data) {
+        let new_meeting = {}
+        
+    }
+
+    // Routine for Attempt Create New Pacov Cascade, Meeting
+    attemptCreateNewMeeting = async (formdata, selections) => {
         // Construct a proper Request object
         let request = {
             category: PACOV_ID.REQUEST,
@@ -84,11 +105,11 @@ const NewMeetingRequestMode = (props) => {
         sendlist.push(request_event_relation)
         let inviter_relation = {
             type: RELATION_ID.INVITER, 
-            pacovA: props.user_pacov.uuid, 
+            pacovA: this.props.user_pacov.uuid, 
             pacovB: request_response.uuid
         }
         sendlist.push(inviter_relation)
-        persons.selected.forEach(person => {
+        selections.persons.forEach(person => {
             let request_relation = {
                 type: RELATION_ID.INVITEE,
                 pacovA: request_response.uuid,
@@ -102,7 +123,7 @@ const NewMeetingRequestMode = (props) => {
             sendlist.push(request_relation)
             sendlist.push(event_relation)
         })
-        topics.selected.forEach(topic => {
+        selections.topics.forEach(topic => {
             let request_relation = {
                 type: RELATION_ID.REQUEST_TOPIC,
                 pacovA: request_response.uuid,
@@ -122,83 +143,47 @@ const NewMeetingRequestMode = (props) => {
         console.log(response)
     }
 
-    const handleClickOnAnyList = (e) => {
-        const {value, id, className} = e.target
-        console.log("position of clicked:", className, value, id)
-        let operator = ""
-        let list = ""
-        switch (className) {
-            case "unselected-participants":
-                operator = "add"
-                list = "participants"
-                break;
-            case "selected-participants":
-                    operator = "remove"
-                    list = "participants"
-                    break;
-            case "unselected-topics":
-                    operator = "add"
-                    list = "topics"
-                    break;
-            case "selected-topics":
-                    operator = "remove"
-                    list = "topics"
-                    break; 
-            default:
-                // no option
-        }
-        moveItem(value, operator, list) 
-    }
+    // JSX-Element
+    renderMeetingRequestForm = () => (
+        <MeetingRequestForm 
+            meeting_category={this.props.meeting_category}
+            handleEvent={this.handleChildLevelEvent}
+        />   
+    )
 
-    const handleClickOnMakeDocument = (e) => {
-        e.preventDefault();
-        setDisplay_modal(true)
-    }
+    // JSX-Element
+    renderParticipantsList = () => (
+        <ParticipantsList 
+            all_persons={this.props.all_persons}
+        />   
+    )
 
-    // Function for handling changes in form
-    const updateValue = (e) => { 
-        e.persist();
-        const value = e.target.value
-        setFormdata(prevState => ({...prevState, [e.target.name]: value})) 
-    }
-    
-    const renderMeetingRequestModal = () => {
+    // JSX-Element
+    renderMeetingTopicsList = () => (
+        <MeetingTopicsList 
+            all_topics={this.props.all_topics}
+        />   
+    )
+
+    // JSX-Element
+    renderMeetingRequestModal = () => (
+        <MeetingRequestModal/>   
+    )
+
+    // JSX-Element
+    renderMakeDocumentButton = () => (
+        <Button id="makedocument-button" onClick={this.handleClickOnMakeDocument}>Make Document</Button>
+        )
+ 
+    render() {
         return (
-            <MeetingrequestModal
-                handleSubmit={handleSubmit}
-                topics={topics.selected}
-                participants={persons.selected}
-                formdata={formdata}
-                display_modal={display_modal}
-                setDisplay_modal={setDisplay_modal}
-                scheme={scheme}
-                selected_user_role={props.selected_user_role}
-            />
+            <div>
+                {this.renderMeetingRequestForm()}
+                {this.renderParticipantsList}
+                {this.renderMeetingTopicsList()}
+                {this.renderMakeDocumentButton()}
+                {this.state.display_modal? this.renderMeetingRequestModal() : ""}
+            </div>
         )
     }
-
-    return (
-        <div>
-            <MeetingRequestForm
-                updateValue={updateValue}
-                formdata={formdata}
-                scheme={scheme}
-            />
-            <MeetingPersonsList
-                unselected={persons.unselected}
-                selected={persons.selected}
-                handleClickOnAnyList={handleClickOnAnyList}
-            />
-            <MeetingTopicsList
-                unselected={topics.unselected}
-                selected={topics.selected}
-                handleClickOnAnyList={handleClickOnAnyList}
-            />
-            <Button onClick={handleClickOnMakeDocument}>Make Document</Button>
-            
-            {display_modal? renderMeetingRequestModal() : ""}
-        </div>
-    )
 }
-
-export default NewMeetingRequestMode

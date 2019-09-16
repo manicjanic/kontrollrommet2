@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import Form from '../_components/Form'
 
+// Login Form Component
 const LoginForm = (props) => {    
     // Component state
     const [formdata, setFormdata] = useState({})
@@ -15,13 +16,17 @@ const LoginForm = (props) => {
     
     // Handle Submit form
     const handleSubmit =  () => {
-        props.handleSubmit(formdata)
+        props.handleEvent({
+            componentid: "login-form",
+            action: "submit-data",
+            data: formdata
+        })
     }
-    
-    // Construction for formsetupobj
+
+    // Construct formsetupobj
     let formsetupobj = {
+        id: "login-form",
         validation: true,
-        formname: "login-form",
         inputfields: [{
             label: "Username:",
             type: "text",

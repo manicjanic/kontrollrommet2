@@ -64,14 +64,17 @@ const findRelationsByLevel = (relations, level) => {
     return resultobj
 }
 
-// Filter Relations by type, takes listobj, returns listobj
-const filterRelationsByType = (relations, typeid) => {
+// Filter Relations by type, takes listobj, returns listobj or single object
+const filterRelationsByType = (relations, typeid, single=false) => {
     console.log("running filterRelationsByType with this data:", relations, typeid)
     let resultobj = {}
     for (let relation in relations) {
         if (relations[relation].type === typeid) {
             resultobj[relation] = relations[relation]
         }
+    }
+    if (single) {
+        resultobj = Object.values(resultobj)[0]
     }
     return resultobj
 }

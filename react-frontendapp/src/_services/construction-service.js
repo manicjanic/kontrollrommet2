@@ -131,7 +131,7 @@ const flattenData = (listobj, nestkey) => {
     return resultobj
 }
 
-// Add an extra prop called relations to Pacov, containing all relations in expanded form.
+// Add an extra prop called relations to Pacov, containing all its known relations, in expanded form.
 const enhancePacovs = (unenhanceds, pacovs, relations) => {
     console.log("running enhancePacovs with this data:", unenhanceds, pacovs, relations)
     let resultobj = {}

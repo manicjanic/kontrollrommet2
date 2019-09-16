@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 // React Bootstrap Elements
 import {Form as BForm, Button} from 'react-bootstrap'
 
-//Form Standard Component
+//Standard Component: Form
 const Form = (props) => {
     // Gather Props
     const {formsetupobj, formdata, updateValue, handleButtonClick, handleSubmit} = props   
@@ -11,8 +11,8 @@ const Form = (props) => {
     const [validated, setValidated] = useState(false);
     
     // Check Validity
-    const onSubmit = e => {
-        const form = e.currentTarget;
+    const onSubmit = (e) => {
+        const form = e.currentTarget
         if (form.checkValidity() === false && formsetupobj.validation === true) {
           e.preventDefault();
           e.stopPropagation();
@@ -22,38 +22,34 @@ const Form = (props) => {
             e.preventDefault();
             handleSubmit()
           }
-      };
+    }
 
     // JSX-Element
-    const renderInputFields = () => {
-        return (
-            formsetupobj.inputfields.map((element, i) => 
-                <FormField 
-                    inputfield={element}
-                    formdata={formdata}
-                    updateValue={updateValue}
-                    key={i}
-                />
-            )
-        )    
-    }    
+    const renderInputFields = () => (
+        formsetupobj.inputfields.map((element, i) => 
+            <FormField 
+                key={i}
+                inputfield={element}
+                formdata={formdata}
+                updateValue={updateValue}
+            />
+        )
+    )        
     
     // JSX-Element
-    const renderButtons = (props) => {
-        return (
-            formsetupobj.buttons.map((element, i) => 
-                <ButtonElement 
-                    buttondata={element}
-                    key={i}
-                    handleButtonClick={handleButtonClick}
-                />
-            )
+    const renderButtons = () => (
+        formsetupobj.buttons.map((element, i) => 
+            <ButtonElement 
+                key={i}
+                buttondata={element}
+                handleButtonClick={handleButtonClick}
+            />
         )
-    }    
+    )
         
     return (
         <div>
-            <BForm noValidate validated={validated} onSubmit={onSubmit} name={formsetupobj.formname}>
+            <BForm noValidate validated={validated} onSubmit={onSubmit} id={formsetupobj.id}>
                 {formsetupobj.inputfields? renderInputFields() : ""}
                 {formsetupobj.buttons? renderButtons() : ""}
             </BForm>
@@ -63,6 +59,7 @@ const Form = (props) => {
 
 // FormField Element
 const FormField = (props) => {
+    // Gather Props
     let {inputfield, formdata, updateValue} = props
     
     if (inputfield.type === "select") {
@@ -100,8 +97,17 @@ const FormField = (props) => {
 
 // Button Element
 const ButtonElement = (props) => {
+    // Gather Props
     let {buttondata, handleButtonClick} = props
-    return <Button type={buttondata.type} name={buttondata.name} onClick={handleButtonClick}>{buttondata.text}</Button>
+    
+    return (
+        <Button 
+            type={buttondata.type}
+            name={buttondata.name}
+            onClick={handleButtonClick}
+        >
+        {buttondata.text}
+        </Button>)
 }
 
 export default Form;

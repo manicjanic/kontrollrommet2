@@ -1,6 +1,10 @@
+// React Modules
 import React from 'react';
+// React Bootstrap Table Module
 import {BootstrapTable as Table} from '../_components/Table'
-
+// Helpers and Services
+import { filterService } from "../_services/filter-service";
+import {PACOV_ID, RELATION_ID} from '../Hardcoded/lookup-table'
 // Static data for display
 const COLUMNS = [{
     dataField: 'text',
@@ -10,17 +14,18 @@ const COLUMNS = [{
     text: 'Dato'
 }]
 
-
+// Meetings Table Specific Component
 const MeetingsTable = (props) => {  
     // Gather Props
     const {meetings} = props
-    // Make Table Object
+    
+    // Define Table Object
     const tableobj = {
         columns: COLUMNS,
         rows: makeTableRows()
     }
 
-    //Make derived data from props
+    //Make display data from Enhanced Meeting Pacovs
    function makeTableRows() {
         let tablerows = []
         for (let key in meetings) {
@@ -30,7 +35,8 @@ const MeetingsTable = (props) => {
             // Find meeting type
             let type = meeting.specific_data.meeting_type_name? meeting.specific_data.meeting_type_name : "A Meeting"
             // Find entity
-            let entity_name = meeting.executive_entity? " i " + meeting.executive_entity.name : ""             
+            let entity = filterService.filterRelationsByType(meeting.relations, RELATION_ID.EXECUTIVE_ENTITY, true)
+            let entity_name = entity? entity.pacovB.name : ""
             let text = type + entity_name
             if (meeting.status === "DRAFT") {text += " (Draft)"}
             // Make row object
@@ -48,7 +54,7 @@ const MeetingsTable = (props) => {
     // Set up     
     const rowEvents = {
         onClick: (e, row, rowIndex) => {
-            console.log(`clicked on row with index:`, row)
+            console.log("clicked on row", row)
             props.changeMeetingSelection(row)
         }
     }

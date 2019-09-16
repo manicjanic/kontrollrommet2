@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import Form from '../_components/Form'
 
+// User Form Specific Component
 const UserForm = (props) => {    
     // Component state
     const [formdata, setFormdata] = useState({})

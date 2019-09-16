@@ -14,7 +14,7 @@ import LogoutPage from './Pages/logout-page'
 import LoaderPage from './Pages/loader-page'
 import MeetingsPage from './Pages/meetings-page'
 
-// Main App Component
+// Application Main Component
 class App extends Component {
 
     // Central State
@@ -65,10 +65,10 @@ class App extends Component {
                 alterState={this.alterState}
             />}/>
             <PrivateRoute path='/meetings' component={(props) => <MeetingsPage {...props} 
+                category={this.state.category}
                 pacovs={this.state.pacovs}
                 relations={this.state.relations}
                 user_pacov={this.state.user_pacov}
-                category={this.state.category}
                 selected_user_role={this.state.selected_user_role}
             />}/>
         </div>
@@ -89,7 +89,7 @@ class App extends Component {
     )
 
     render() {
-        // Grab State
+        // Get State
         const { is_loading } = this.state
         return (
             <div>

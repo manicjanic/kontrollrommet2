@@ -2,7 +2,7 @@ import React from 'react';
 import {Modal, Button} from 'react-bootstrap';
 import MeetingCard from './meeting-card'
 
-const MeetingrequestModal = (props) => {
+const MeetingRequestModal = (props) => {
     
     const makeMeetingCardData = () => {
         let cardobj = {}
@@ -42,4 +42,4 @@ const MeetingrequestModal = (props) => {
     )
 }
 
-export default MeetingrequestModal
+export default MeetingRequestModal
