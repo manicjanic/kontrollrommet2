@@ -9,7 +9,7 @@ import MeetingCard from "../../Components/meeting-card"
 
 // Dashboard Mode Component
 export default class DashboardMode extends Component {
-
+    
     render () {
         return (
             <div>

@@ -1,4 +1,4 @@
-class MeetingParticipantObject {
+class ParticipantObject {
     constructor() {
         this.person_pacov = {}
         this.requester = ""
@@ -13,3 +13,5 @@ class MeetingParticipantObject {
         this.reported = ""
     }
 }
+
+export default ParticipantObject

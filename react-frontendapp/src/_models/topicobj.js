@@ -1,4 +1,4 @@
-class MeetingTopicObject {
+class TopicObject {
     constructor() {
         this.topic_pacov = {}
         this.request_headline = ""
@@ -12,3 +12,5 @@ class MeetingTopicObject {
         this.reported_listposition = null
     }
 }
+
+export default TopicObject

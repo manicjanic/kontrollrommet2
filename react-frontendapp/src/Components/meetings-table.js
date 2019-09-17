@@ -31,12 +31,12 @@ const MeetingsTable = (props) => {
         for (let key in meetings) {
             let meeting = meetings[key]
             // Find date
-            let date = meeting.specific_data.suggested_meetingdate? new Date(meeting.specific_data.suggested_meetingdate).toLocaleDateString() : "no date specified"
+            let date = meeting.specific_data.suggested_meeting_date? new Date(meeting.specific_data.suggested_meeting_date).toLocaleDateString() : "no date specified"
             // Find meeting type
             let type = meeting.specific_data.meeting_type_name? meeting.specific_data.meeting_type_name : "A Meeting"
             // Find entity
             let entity = filterService.filterRelationsByType(meeting.relations, RELATION_ID.EXECUTIVE_ENTITY, true)
-            let entity_name = entity? entity.pacovB.name : ""
+            let entity_name = entity? " i " + entity.pacovB.name : ""
             let text = type + entity_name
             if (meeting.status === "DRAFT") {text += " (Draft)"}
             // Make row object

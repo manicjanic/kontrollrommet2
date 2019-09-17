@@ -74,7 +74,7 @@ const filterRelationsByType = (relations, typeid, single=false) => {
         }
     }
     if (single) {
-        resultobj = Object.values(resultobj)[0]
+        resultobj = Object.values(resultobj)[0] || null
     }
     return resultobj
 }
@@ -98,6 +98,14 @@ const findRelationsToPacov = (relations, pacov) => {
     return resultobj
 }
 
+const mergeRelations = (sourcelist) => {
+    let resultobj = {}
+    sourcelist.forEach(item => {
+        resultobj = Object.assign(resultobj, item)
+    })
+    return resultobj
+}
+
 export const filterService = {
     findPacovCategory,
     findRelationType,
@@ -108,4 +116,5 @@ export const filterService = {
     filterRelationsByType,
     findRelationsByLevel,
     findRelationsToPacov,
+    mergeRelations
 }

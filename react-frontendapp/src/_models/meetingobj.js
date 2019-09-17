@@ -1,7 +1,6 @@
 class MeetingObject {
     constructor() {
         // Additional properties to add to regular meeting pacov.
-        this.request = {}
         this.participants = []
         this.topics = []
         this.getStatus = () => {

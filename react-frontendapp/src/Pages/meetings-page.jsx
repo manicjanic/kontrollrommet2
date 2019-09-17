@@ -21,6 +21,7 @@ export default class MeetingsPage extends Component {
         meeting_category: {},
         // Page Specific constructed objects
         all_meetings_enhanced: {},
+        all_requests_enhanced: {},
         // Page Specific Selection status
         selected_meeting_row: undefined,
     }   
@@ -31,10 +32,35 @@ export default class MeetingsPage extends Component {
     // Set Page State based on props from Central State
     setInitialState() {
         let {pacovs, relations, category} = this.props
+        let all_meetings = filterService.filterPacovsByCategory(pacovs, PACOV_ID.MEETING)
+        let all_requests = filterService.filterPacovsByCategory(pacovs, PACOV_ID.REQUEST)
+        let all_meetings_enhanced = constructionService.enhancePacovs(all_meetings, pacovs, relations)
+        let all_requests_enhanced = constructionService.enhancePacovs(all_requests, pacovs, relations)
+        for (let key in all_meetings_enhanced) {
+            let meeting = all_meetings_enhanced[key]
+            all_meetings_enhanced[key].participants = constructionService.makeParticipantsList(meeting.relations)
+            all_meetings_enhanced[key].topics = constructionService.makeTopicsList(meeting.relations)
+        }
+        for (let key in all_requests_enhanced) {
+            let request = all_requests_enhanced[key]
+            all_requests_enhanced[key].participants = constructionService.makeParticipantsList(request.relations)
+            all_requests_enhanced[key].topics = constructionService.makeTopicsList(request.relations)
+        }
+        // Collect all relevant relations
+
+//        let meeting_participants_relations = filterService.filterRelationsByType(relations, RELATION_ID.PARTICIPANT)
+//        let request_receivers_relations = filterService.filterRelationsByType(relations, RELATION_ID.INVITEE)
+//        let request_expresser_relations = filterService.filterRelationsByType(relations, RELATION_ID.INVITER)
+//        // Merge relations into one listobject
+//        let sourcelist = [meeting_participants_relations, request_receivers_relations, request_expresser_relations]
+//        let relations_merged = filterService.mergeRelations(sourcelist)
+//
+//        all_meetings_enhanced.participants = constructionService.makeParticipantsList(all_meetings_enhanced.relations)
         this.setState({
             all_persons: filterService.filterPacovsByCategory(pacovs, PACOV_ID.PERSON),
             all_topics: filterService.filterPacovsByCategory(pacovs, PACOV_ID.TOPIC),
-            all_meetings_enhanced: constructionService.makeEnhancedMeetingObjList(pacovs, relations),
+            all_meetings_enhanced: all_meetings_enhanced,
+            all_requests_enhanced: all_requests_enhanced,
             meeting_category: filterService.findPacovCategory(category, PACOV_ID.MEETING)
         })
     }
