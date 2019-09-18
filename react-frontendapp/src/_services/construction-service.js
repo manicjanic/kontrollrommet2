@@ -1,14 +1,15 @@
 import { filterService } from "../_services/filter-service";
 import {PACOV_ID, RELATION_ID} from '../Hardcoded/lookup-table'
+// Object Models
 import MeetingObject from '../_models/meetingobj'
 import ParticipantObject from "../_models/participantobj";
 import TopicObject from "../_models/topicobj";
 
-const makeParticipantsList = (relations) => {
-    console.log("running makeParticipantsList with this data:", relations)    
+const makeParticipantsList = (enhanced_relations) => {
+    console.log("running makeParticipantsList with this data:", enhanced_relations)    
     let participants = {}
-    for (let key in relations) {
-        let relation = relations[key]
+    for (let key in enhanced_relations) {
+        let relation = enhanced_relations[key]
         if (relation.pacovB.category === PACOV_ID.PERSON) {
             let participant = new ParticipantObject()
             let person_pacov = relation.pacovB
@@ -38,11 +39,11 @@ const makeParticipantsList = (relations) => {
     return Object.values(participants)
 }
 
-const makeTopicsList = (relations) => {
-    console.log("running makeTopicsList with this data:", relations)    
+const makeTopicsList = (enhanced_relations) => {
+    console.log("running makeTopicsList with this data:", enhanced_relations)    
     let topics = {}
-    for (let key in relations) {
-        let relation = relations[key]
+    for (let key in enhanced_relations) {
+        let relation = enhanced_relations[key]
         if (relation.pacovB.category === PACOV_ID.TOPIC) {
             let topic = new TopicObject()
             let topic_pacov = relation.pacovB
@@ -69,74 +70,6 @@ const makeTopicsList = (relations) => {
     }
     return Object.values(topics)
 }
-//const makeParticipantsList = (meeting_relations, request_relations) => {
-//    let meeting_participants_relations = filterService.filterRelationsByType(meeting_relations, RELATION_ID.PARTICIPANT)
-//    let request_receivers_relations = filterService.filterRelationsByType(request_relations, RELATION_ID.INVITEE)
-//    let request_expresser_relations = filterService.filterRelationsByType(request_relations, RELATION_ID.INVITER)
-//    let participants = {}
-//    let relationarray = [meeting_participants_relations, request_receivers_relations, request_expresser_relations]
-//    relationarray.forEach(listobj => {
-//        for (let key in listobj) {
-//            let relation = listobj[key]
-//            let pacov = relation.pacovB
-//            let obj = {}
-//            if (relation.type === RELATION_ID.PARTICIPANT) {
-//                obj.attender = relation.start
-//                obj.attended = relation.end    
-//            }
-//            if (relation.type === RELATION_ID.INVITEE) {
-//                obj.responder = relation.start
-//                obj.responded = relation.end    
-//            }
-//            if (relation.type === RELATION_ID.INVITER) {
-//                obj.requester = relation.start
-//                obj.requested = relation.end    
-//            }
-//            // Final saving of object
-//            if (participants.hasOwnProperty(pacov.uuid)) {
-//                participants[pacov.uuid] = Object.assign(participants[pacov.uuid], obj)
-//            }
-//            else {
-//                obj.person_pacov = pacov
-//                participants[pacov.uuid] = obj
-//            }
-//        } 
-//    })
-//    return Object.values(participants)
-//}
-
-//const makeTopicsList = (meeting_relations, request_relations) => {
-//    let meeting_topics_relations = filterService.filterRelationsByType(meeting_relations, RELATION_ID.MEETING_TOPIC)
-//    let request_topics_relations = filterService.filterRelationsByType(request_relations, RELATION_ID.REQUEST_TOPIC)
-//    let topics = {}
-//    let relationarray = [meeting_topics_relations, request_topics_relations]
-//    relationarray.forEach(listobj => {
-//        for (let key in listobj) {
-//            let relation = listobj[key]
-//            let pacov = relation.pacovB
-//            let obj = {}
-//            if (relation.type === RELATION_ID.MEETING_TOPIC) {
-//                obj.request_headline = relation.specific_data.headline || relation.name
-//                obj.request_description = relation.specific_data.description || ""
-//                obj.request_listposition = relation.idcode   
-//            }
-//            if (relation.type === RELATION_ID.REQUEST_TOPIC) {
-//                obj.ongoing_headline = relation.headline || relation.name
-//                obj.ongoing_description = relation.description || ""
-//                obj.ongoing_listposition = relation.idcode   
-//            }
-//            // Final saving of object
-//            if (topics.hasOwnProperty(pacov.uuid)) {
-//                topics[pacov.uuid] = Object.assign(topics[pacov.uuid], obj)
-//            }
-//            else {
-//                obj.topic_pacov = pacov
-//                topics[pacov.uuid] = obj
-//            }
-//        } 
-//    })
-//    return Object.values(topics)
-//}
 
 // Construct enhanced meeting objects, with data about request and other stuff
 const enhanceMeetings = (meetings, pacovs, relations) => {

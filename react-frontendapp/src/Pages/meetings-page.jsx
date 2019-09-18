@@ -46,16 +46,6 @@ export default class MeetingsPage extends Component {
             all_requests_enhanced[key].participants = constructionService.makeParticipantsList(request.relations)
             all_requests_enhanced[key].topics = constructionService.makeTopicsList(request.relations)
         }
-        // Collect all relevant relations
-
-//        let meeting_participants_relations = filterService.filterRelationsByType(relations, RELATION_ID.PARTICIPANT)
-//        let request_receivers_relations = filterService.filterRelationsByType(relations, RELATION_ID.INVITEE)
-//        let request_expresser_relations = filterService.filterRelationsByType(relations, RELATION_ID.INVITER)
-//        // Merge relations into one listobject
-//        let sourcelist = [meeting_participants_relations, request_receivers_relations, request_expresser_relations]
-//        let relations_merged = filterService.mergeRelations(sourcelist)
-//
-//        all_meetings_enhanced.participants = constructionService.makeParticipantsList(all_meetings_enhanced.relations)
         this.setState({
             all_persons: filterService.filterPacovsByCategory(pacovs, PACOV_ID.PERSON),
             all_topics: filterService.filterPacovsByCategory(pacovs, PACOV_ID.TOPIC),
