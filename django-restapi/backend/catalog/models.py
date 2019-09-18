@@ -24,7 +24,8 @@ class CoreRelationType(models.Model):
     name = models.CharField(max_length=50)
     coretypeA = models.ForeignKey(CoreType, related_name='coretypeA', on_delete=models.CASCADE)
     coretypeB = models.ForeignKey(CoreType, related_name='coretypeB', on_delete=models.CASCADE)
-    defaultscheme = models.ForeignKey('DefaultScheme', related_name='corerelation_related', on_delete=models.CASCADE, blank=True, null=True)
+    specific_data_schema = JSONField(blank=True, null=True, default=dict)
+    schema = models.ForeignKey('Schema', related_name='corerelation_related', on_delete=models.CASCADE, blank=True, null=True)
     description= models.TextField(blank=True, null=True)
 
     def __str__(self):
@@ -34,16 +35,16 @@ class CoreRelationType(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=50)
     coretype = models.ForeignKey(CoreType, on_delete=models.CASCADE)
-    defaultscheme = models.ForeignKey('DefaultScheme', related_name='category_related', on_delete=models.CASCADE, blank=True, null=True)
+    schema = models.ForeignKey('Schema', related_name='category_related', on_delete=models.CASCADE, blank=True, null=True)
+    specific_data_schema = JSONField(blank=True, null=True, default=dict)
     description= models.TextField(blank=True, null=True)
 
     def __str__(self):
         return str(self.coretype) + "/" + self.name
 
 # Default Schemes for all types
-class DefaultScheme(models.Model):
-    scheme = JSONField(blank=True, null=True, default=dict)
+class Schema(models.Model):
+    specific_data_schema = JSONField(blank=True, null=True, default=dict)
 
     def __str__(self):
-        return str(self.scheme)
-
+        return str(self.specific_data_schema)

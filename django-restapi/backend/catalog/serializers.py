@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import CoreType, Category, CoreRelationType, DefaultScheme
+from .models import CoreType, Category, CoreRelationType, Schema
 
 class CoreTypeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -8,21 +8,21 @@ class CoreTypeSerializer(serializers.ModelSerializer):
         fields = ('__all__')
 
 class CoreRelationTypeSerializer(serializers.ModelSerializer):
-    defaultscheme = serializers.SlugRelatedField(many=False, read_only=True, slug_field='scheme')
+    schema = serializers.SlugRelatedField(many=False, read_only=True, slug_field='specific_data_schema')
     class Meta:
         model = CoreRelationType
         fields = ( '__all__' )
 
 class CategorySerializer(serializers.ModelSerializer):
-    defaultscheme = serializers.SlugRelatedField(many=False, read_only=True, slug_field='scheme')
+    #schema = serializers.SlugRelatedField(many=False, read_only=True, slug_field='specific_data_schema')
 
     class Meta:
         model = Category
-        fields = ('id', 'name', 'defaultscheme')
+        fields = ('__all__')
 
-class DefaultSchemeSerializer(serializers.ModelSerializer):
-    scheme = serializers.JSONField()
+class SchemaSerializer(serializers.ModelSerializer):
+    specific_data_schema = serializers.JSONField()
     class Meta:
-        model = DefaultScheme
-        fields = ('id', 'scheme', 'category_related', 'corerelation_related' )
+        model = Schema
+        fields = ('id', 'specific_data_schema', 'category_related', 'corerelation_related' )
 

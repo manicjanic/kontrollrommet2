@@ -7,7 +7,7 @@ import {cssModifier} from '../_helpers/css-modifier'
 
 // Static data for Menu
 const MENU = [ 
-    {text: "DashboardMode", path: "/dashboard" },
+    {text: "Dashboard", path: "/dashboard" },
     {text: "Meetings", path: "/meetings"},
     {text: "Login", path: "/login"},
     {text: "Logout", path: "/logout"},   

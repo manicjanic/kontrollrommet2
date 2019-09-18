@@ -1,7 +1,7 @@
 from rest_framework import viewsets         
 
-from .serializers import CoreTypeSerializer, CategorySerializer, CoreRelationTypeSerializer, DefaultSchemeSerializer
-from .models import CoreType, Category, CoreRelationType, DefaultScheme
+from .serializers import CoreTypeSerializer, CategorySerializer, CoreRelationTypeSerializer, SchemaSerializer
+from .models import CoreType, Category, CoreRelationType, Schema
 
 class CoreTypeView(viewsets.ReadOnlyModelViewSet):
     serializer_class = CoreTypeSerializer          
@@ -15,6 +15,6 @@ class CategoryView(viewsets.ReadOnlyModelViewSet):
     serializer_class = CategorySerializer          
     queryset = Category.objects.all()              
 
-class DefaultSchemeView(viewsets.ReadOnlyModelViewSet):
-    serializer_class = DefaultSchemeSerializer   
-    queryset = DefaultScheme.objects.all()              
+class SchemaView(viewsets.ReadOnlyModelViewSet):
+    serializer_class = SchemaSerializer   
+    queryset = Schema.objects.all()              
