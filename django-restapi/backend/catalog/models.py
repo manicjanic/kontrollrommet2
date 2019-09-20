@@ -25,7 +25,6 @@ class CoreRelationType(models.Model):
     coretypeA = models.ForeignKey(CoreType, related_name='coretypeA', on_delete=models.CASCADE)
     coretypeB = models.ForeignKey(CoreType, related_name='coretypeB', on_delete=models.CASCADE)
     specific_data_schema = JSONField(blank=True, null=True, default=dict)
-    schema = models.ForeignKey('Schema', related_name='corerelation_related', on_delete=models.CASCADE, blank=True, null=True)
     description= models.TextField(blank=True, null=True)
 
     def __str__(self):
@@ -35,7 +34,6 @@ class CoreRelationType(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=50)
     coretype = models.ForeignKey(CoreType, on_delete=models.CASCADE)
-    schema = models.ForeignKey('Schema', related_name='category_related', on_delete=models.CASCADE, blank=True, null=True)
     specific_data_schema = JSONField(blank=True, null=True, default=dict)
     description= models.TextField(blank=True, null=True)
 

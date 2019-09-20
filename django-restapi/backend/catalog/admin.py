@@ -11,7 +11,7 @@ class CoreRelationTypeAdmin(admin.ModelAdmin):
     ordering = ['name']
 
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'coretype', 'specific_data_schema', 'schema')    
+    list_display = ('name', 'coretype', 'specific_data_schema')    
     ordering = ['coretype', 'name']
 
 class SchemaAdmin(admin.ModelAdmin):
